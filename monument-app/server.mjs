@@ -447,6 +447,14 @@ function resolvePublicPath(pathname) {
     return path.join(publicDir, "intake.html");
   }
 
+  if (pathname === "/thuis" || pathname === "/thuis.html") {
+    return path.join(publicDir, "thuis.html");
+  }
+
+  if (pathname === "/login" || pathname === "/login.html") {
+    return path.join(publicDir, "login.html");
+  }
+
   if (pathname === "/glasisolatie-demo" || pathname === "/glasisolatie-demo.html") {
     return path.join(publicDir, "glasisolatie-demo.html");
   }

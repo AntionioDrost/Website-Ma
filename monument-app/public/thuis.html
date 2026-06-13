@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monument Gids | Thuis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="app-body app-shell-page">
+  <main class="app-shell app-shell-redesign">
+    <aside class="app-sidebar app-sidebar-redesign">
+      <div class="app-sidebar-inner">
+        <a class="app-sidebar-brand" href="/">
+          <span class="app-sidebar-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.75 10.5 12 4.75l7.25 5.75v8.75a1 1 0 0 1-1 1h-3.5v-5.25h-5.5V20h-3.5a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
+            </svg>
+          </span>
+          <span>Monument Gids</span>
+        </a>
+
+        <nav class="app-sidebar-nav" aria-label="Submenu">
+          <a class="app-sidebar-link is-active" href="/thuis" aria-current="page">
+            <span class="material-symbols-outlined">home</span>
+            Thuis
+          </a>
+          <a class="app-sidebar-link" href="/intake">
+            <span class="material-symbols-outlined">chat</span>
+            Intakechat
+          </a>
+          <a class="app-sidebar-link" href="/glasisolatie-demo">
+            <span class="app-window-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="4.5" y="4.5" width="15" height="15" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M12 4.5v15M4.5 12h15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                <path d="M7.75 7.75h2.25M14 7.75h2.25M7.75 14h2.25M14 14h2.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Glaswizard
+          </a>
+        </nav>
+
+        <div class="app-sidebar-compact">
+          <p class="app-sidebar-label">Vandaag</p>
+          <strong id="thuis-sidebar-focus">Kies je volgende stap</strong>
+          <small id="thuis-sidebar-note">Ga verder waar je was of start een nieuwe route.</small>
+        </div>
+      </div>
+    </aside>
+
+    <section class="app-main app-main-redesign">
+      <header class="app-main-header app-main-header-home">
+        <div>
+          <h1 id="thuis-greeting">Welkom thuis</h1>
+          <p class="app-home-lead">Wat zullen we vandaag gaan doen?</p>
+        </div>
+      </header>
+
+      <section class="app-home-hero">
+        <article class="app-home-hero-panel">
+          <div class="app-home-hero-copy">
+            <p class="app-kicker">Ga verder waar je gebleven bent</p>
+            <h2 id="thuis-primary-title">Pak je laatste route weer op</h2>
+            <p id="thuis-primary-copy" class="card-text">Je laatste voortgang verschijnt hier zodra je aan een route bent begonnen.</p>
+          </div>
+          <div class="app-home-hero-actions">
+            <a class="button button-primary" id="thuis-primary-action" href="/intake">
+              <span class="material-symbols-outlined">arrow_forward</span>
+              Open intakechat
+            </a>
+            <a class="button button-ghost" id="thuis-secondary-action" href="/glasisolatie-demo">
+              <span class="app-window-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <rect x="4.5" y="4.5" width="15" height="15" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                  <path d="M12 4.5v15M4.5 12h15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                  <path d="M7.75 7.75h2.25M14 7.75h2.25M7.75 14h2.25M14 14h2.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </span>
+              Open glaswizard
+            </a>
+          </div>
+        </article>
+
+        <aside class="app-home-status-panel">
+          <p class="app-kicker">Vandaag</p>
+          <h3>Wat staat klaar</h3>
+          <div class="app-home-status-list" id="thuis-status-list"></div>
+        </aside>
+      </section>
+
+      <section class="app-home-sections">
+        <article class="app-home-section-block">
+          <div class="section-header">
+            <h3 class="card-title">Kies een route</h3>
+          </div>
+          <div class="app-home-action-grid">
+            <a class="app-home-action-card" href="/intake">
+              <span class="material-symbols-outlined">chat</span>
+              <strong>Start met intakechat</strong>
+              <span>Voor als je nog wilt verkennen wat past.</span>
+            </a>
+            <a class="app-home-action-card" href="/glasisolatie-demo">
+              <span class="app-window-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <rect x="4.5" y="4.5" width="15" height="15" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                  <path d="M12 4.5v15M4.5 12h15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                  <path d="M7.75 7.75h2.25M14 7.75h2.25M7.75 14h2.25M14 14h2.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <strong>Start met glaswizard</strong>
+              <span>Voor een concreet glasisolatiedossier.</span>
+            </a>
+          </div>
+        </article>
+
+        <article class="app-home-section-block">
+          <div class="section-header">
+            <h3 class="card-title">Handig om alvast klaar te leggen</h3>
+          </div>
+          <div class="app-home-essentials">
+            <div class="stack-item">
+              <span class="material-symbols-outlined">home_work</span>
+              <span>Adres en monumentstatus</span>
+            </div>
+            <div class="stack-item">
+              <span class="material-symbols-outlined">imagesmode</span>
+              <span>Foto's van gevel, vensters of details</span>
+            </div>
+            <div class="stack-item">
+              <span class="material-symbols-outlined">description</span>
+              <span>Schetsen, offertes of bestaande tekeningen</span>
+            </div>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script src="/thuis.js" type="module"></script>
+</body>
+</html>

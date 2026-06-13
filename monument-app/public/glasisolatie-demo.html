@@ -3,679 +3,559 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monumentenverkenner | Glasisolatie Demo Zeist</title>
+  <title>Monument Gids | Glaswizard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/glasisolatie-demo.css" />
 </head>
-<body class="app-body">
-  <header class="app-topbar">
-    <div class="brand">
-      <div class="brand-mark">
-        <span class="material-symbols-outlined">glass</span>
-      </div>
-      <div>
-        <p class="eyebrow">Demo-subpagina</p>
-        <h1>Glasisolatie in Zeist</h1>
-      </div>
-    </div>
-    <div class="topbar-actions">
-      <a class="button button-ghost" href="/">
-        <span class="material-symbols-outlined">arrow_back</span>
-        Homescreen
-      </a>
-      <a class="button button-secondary" href="/intake">
-        <span class="material-symbols-outlined">chat</span>
-        Naar intake
-      </a>
-      <button class="button button-primary" id="export-dossier" type="button">
-        <span class="material-symbols-outlined">print</span>
-        Exporteer dossier
-      </button>
-    </div>
-  </header>
+<body class="app-body app-shell-page">
+  <main class="app-shell app-shell-redesign">
+    <aside class="app-sidebar app-sidebar-redesign">
+      <div class="app-sidebar-inner">
+        <a class="app-sidebar-brand" href="/">
+          <span class="app-sidebar-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.75 10.5 12 4.75l7.25 5.75v8.75a1 1 0 0 1-1 1h-3.5v-5.25h-5.5V20h-3.5a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
+            </svg>
+          </span>
+          <span>Monument Gids</span>
+        </a>
 
-  <main class="glass-shell">
-    <section class="glass-hero panel">
-      <div class="glass-hero-copy">
-        <p class="eyebrow">Monumentenregeling Zeist 2025</p>
-        <h2>Bereid het glasformulier stap voor stap online voor.</h2>
-        <p class="lead">
-          Deze demo helpt bewoners en eigenaren van monumenten en panden in beschermd gezicht in Zeist om
-          glasisolatie rustig en volledig voor te bereiden. Je kunt tussendoor stoppen, lokaal opslaan en later op dit
-          apparaat verdergaan.
-        </p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#geschiktheidscheck">
-            <span class="material-symbols-outlined">arrow_downward</span>
-            Start de demo
+        <nav class="app-sidebar-nav" aria-label="Submenu">
+          <a class="app-sidebar-link" href="/thuis">
+            <span class="material-symbols-outlined">home</span>
+            Thuis
           </a>
-          <button class="button button-secondary" id="save-progress" type="button">
-            <span class="material-symbols-outlined">save</span>
-            Opslaan en later verder
+          <a class="app-sidebar-link" href="/intake">
+            <span class="material-symbols-outlined">chat</span>
+            Intakechat
+          </a>
+          <a class="app-sidebar-link is-active" href="/glasisolatie-demo" aria-current="page">
+            <span class="app-window-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="4.5" y="4.5" width="15" height="15" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M12 4.5v15M4.5 12h15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                <path d="M7.75 7.75h2.25M14 7.75h2.25M7.75 14h2.25M14 14h2.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Glaswizard
+          </a>
+        </nav>
+
+        <div class="app-sidebar-status">
+          <p class="app-sidebar-label">Route</p>
+          <div class="app-sidebar-compact">
+            <span class="stage-pill" id="demo-stage">Geschiktheidscheck</span>
+            <strong id="route-chip">Route nog niet gekozen</strong>
+            <small id="save-status">Nog niet opgeslagen</small>
+          </div>
+        </div>
+
+        <div class="app-sidebar-footer">
+          <button class="button button-primary" id="export-dossier" type="button">
+            <span class="material-symbols-outlined">print</span>
+            Exporteer
           </button>
         </div>
       </div>
-      <div class="glass-hero-card">
-        <div class="glass-hero-badge">Wat deze demo doet</div>
-        <div class="glass-hero-list">
-          <div>
-            <span class="material-symbols-outlined">fact_check</span>
-            <strong>Doelgroepcheck</strong>
-            <p>Controle op Zeist, monumentstatus en glasisolatie.</p>
-          </div>
-          <div>
-            <span class="material-symbols-outlined">domain_verification</span>
-            <strong>Volledige voorbereiding</strong>
-            <p>Foto’s, vensters, ventilatie, sponning en oplossingsrichting in één route.</p>
-          </div>
-          <div>
-            <span class="material-symbols-outlined">menu_book</span>
-            <strong>Hulp uit Een warme jas</strong>
-            <p>Bronbeelden en uitleg bij de momenten waar bewoners meestal vastlopen.</p>
-          </div>
+    </aside>
+
+    <section class="app-main app-main-redesign">
+      <header class="app-main-header">
+        <div>
+          <h1>Werk het glasdossier rustig uit</h1>
+          <p class="app-page-lead">Eén onderdeel tegelijk, met ruimte om terug te gaan, aan te vullen en later verder te werken.</p>
         </div>
-        <p class="glass-hero-note">
-          Let op: dit vervangt de formele aanvraag in het Omgevingsloket niet. Het helpt je wel om vollediger en
-          rustiger voor te bereiden.
-        </p>
-      </div>
-    </section>
+        <div class="app-main-actions">
+          <button class="button button-secondary" id="save-progress" type="button">
+            <span class="material-symbols-outlined">save</span>
+            Opslaan
+          </button>
+        </div>
+      </header>
 
-    <section class="glass-grid">
-      <aside class="glass-sidebar">
-        <div class="glass-sticky">
-          <article class="panel glass-status-card">
-            <p class="eyebrow">Voortgang</p>
-            <h3 class="card-title">Je dossier groeit mee.</h3>
-            <div class="glass-status-line">
-              <span class="stage-pill" id="demo-stage">Geschiktheidscheck</span>
-              <span class="glass-save-meta" id="save-status">Nog niet opgeslagen</span>
+      <section class="app-main-grid app-main-grid-wizard app-main-grid-wizard-redesign">
+        <div class="glass-main-stack">
+          <article class="glass-check-surface glass-inline-surface" id="geschiktheidscheck">
+            <div class="glass-panel-head">
+              <div>
+                <h2>Past dit dossier hier?</h2>
+                <p class="glass-panel-lead">Met deze korte check weet je meteen of dit de juiste route is.</p>
+              </div>
             </div>
-            <div class="progress-track glass-progress">
-              <span id="demo-progress-bar"></span>
+            <div class="glass-check-grid">
+              <label class="glass-field">
+                <span>Ligt het pand in Zeist?</span>
+                <select name="inZeist" data-eligibility>
+                  <option value="">Kies</option>
+                  <option value="ja">Ja</option>
+                  <option value="nee">Nee</option>
+                </select>
+              </label>
+              <label class="glass-field">
+                <span>Bescherming</span>
+                <select name="heritageScope" data-eligibility>
+                  <option value="">Kies</option>
+                  <option value="rijksmonument">Rijksmonument</option>
+                  <option value="gemeentelijk-monument">Gemeentelijk monument</option>
+                  <option value="beschermd-gezicht">Beschermd gezicht</option>
+                  <option value="anders">Anders</option>
+                </select>
+              </label>
+              <label class="glass-field">
+                <span>Glasisolatie?</span>
+                <select name="measureScope" data-eligibility>
+                  <option value="">Kies</option>
+                  <option value="ja">Ja</option>
+                  <option value="nee">Nee</option>
+                </select>
+              </label>
             </div>
-            <div class="progress-meta">
-              <strong id="demo-progress-text">0 / 6 stappen voltooid</strong>
-              <span id="route-chip">Route nog niet gekozen</span>
+            <div class="glass-eligibility-result" id="eligibility-result">
+              <p class="card-text">Controleer eerst deze drie punten.</p>
             </div>
-            <div class="glass-step-list" id="step-list"></div>
           </article>
 
-          <article class="panel glass-status-card">
-            <div class="section-header">
-              <p class="eyebrow">Checklist</p>
-              <h3 class="card-title">Wat nog ontbreekt</h3>
+          <article class="glass-wizard-panel glass-inline-surface" id="wizard-panel">
+            <div class="glass-panel-head">
+              <div>
+                <h2>Stap voor stap</h2>
+                <p class="glass-panel-lead">Je hoeft niet alles in één keer te doen. De wizard onthoudt wat al rond is.</p>
+              </div>
+              <span class="glass-step-tag" id="step-counter">Stap 1 van 6</span>
             </div>
-            <div class="stack-list" id="missing-list"></div>
-          </article>
 
-          <article class="panel glass-status-card">
-            <div class="section-header">
-              <p class="eyebrow">Bijlagen</p>
-              <h3 class="card-title">Wat je klaar moet hebben</h3>
+            <div class="glass-wizard-progress" aria-label="Voortgang glasdossier">
+              <div class="glass-progress-head">
+                <div>
+                  <strong id="progress-title">Pand en aanvrager</strong>
+                  <p id="progress-subtitle">Steeds staat één segment centraal.</p>
+                </div>
+                <div class="glass-progress-meta">
+                  <span class="glass-progress-count" id="progress-count-text">0 / 6 klaar</span>
+                </div>
+              </div>
+              <div class="glass-progress-track">
+                <span id="demo-progress-bar"></span>
+              </div>
+              <div class="glass-step-list" id="step-list" role="navigation" aria-label="Stapnavigatie"></div>
             </div>
-            <div class="check-list" id="attachment-list"></div>
-          </article>
 
-          <article class="panel glass-source-panel">
-            <div class="section-header">
-              <p class="eyebrow">Bronhulp</p>
-              <h3 class="card-title">Waarom dit werkt</h3>
+            <div class="glass-step-status">
+              <div class="glass-step-alert" id="step-alert" hidden></div>
+              <div class="glass-step-prefill" id="step-prefill" hidden></div>
             </div>
-            <p class="card-text">
-              De route volgt het Zeister glasformulier, de toelichting, het RCE-afwegingskader voor vensterisolatie en
-              relevante hulp uit <em>Een warme jas voor oude huizen</em>.
-            </p>
+
+            <form id="glass-demo-form" novalidate>
+              <div class="glass-step-stage" id="step-stage">
+                <section class="glass-step-panel is-active" data-step-panel="project">
+                  <div class="glass-step-copy">
+                    <h3>Pand en aanvrager</h3>
+                    <p>We leggen eerst vast om welk pand het gaat en wie het dossier voorbereidt.</p>
+                  </div>
+                  <div class="glass-field-grid two-up">
+                    <label class="glass-field">
+                      <span>Naam aanvrager</span>
+                      <input type="text" name="applicantName" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Eigenaar</span>
+                      <input type="text" name="ownerName" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Adres</span>
+                      <input type="text" name="propertyAddress" placeholder="Straat, huisnummer, postcode, plaats" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Monumentstatus</span>
+                      <select name="monumentType">
+                        <option value="">Kies</option>
+                        <option value="rijksmonument">Rijksmonument</option>
+                        <option value="gemeentelijk-monument">Gemeentelijk monument</option>
+                        <option value="beschermd-gezicht">Beschermd gezicht</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Telefoon</span>
+                      <input type="tel" name="phoneNumber" />
+                    </label>
+                    <label class="glass-field">
+                      <span>E-mail</span>
+                      <input type="email" name="emailAddress" />
+                    </label>
+                  </div>
+                  <div class="glass-inline-actions">
+                    <button class="button button-ghost" id="load-demo-house-profile" type="button">
+                      <span class="material-symbols-outlined">home_storage</span>
+                      Demo-huisdossier
+                    </button>
+                  </div>
+                </section>
+
+                <section class="glass-step-panel" data-step-panel="windows">
+                  <div class="glass-step-copy">
+                    <h3>Vensters</h3>
+                    <p>Hier kijk je alleen naar de gevel, de vensters en het beeldmateriaal dat je al hebt.</p>
+                  </div>
+                  <div class="glass-field-grid two-up">
+                    <label class="glass-field">
+                      <span>Gevel</span>
+                      <select name="facade">
+                        <option value="">Kies</option>
+                        <option value="voorgevel">Voorgevel</option>
+                        <option value="linkerzijgevel">Linkerzijgevel</option>
+                        <option value="rechterzijgevel">Rechterzijgevel</option>
+                        <option value="achtergevel">Achtergevel</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Windrichting</span>
+                      <select name="windDirection">
+                        <option value="">Kies</option>
+                        <option value="noord">Noord</option>
+                        <option value="oost">Oost</option>
+                        <option value="zuid">Zuid</option>
+                        <option value="west">West</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Aantal</span>
+                      <input type="number" min="1" name="windowCount" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Bijzonderheden</span>
+                      <input type="text" name="windowCharacter" placeholder="Bijvoorbeeld roeden of luiken" />
+                    </label>
+                  </div>
+                  <div class="glass-upload-grid">
+                    <label class="glass-upload">
+                      <span>Overzichtsfoto</span>
+                      <input type="file" name="facadePhoto" accept="image/*" />
+                      <small class="file-meta" data-file-meta="facadePhoto">Nog geen bestand gekozen</small>
+                    </label>
+                    <label class="glass-check">
+                      <input type="checkbox" name="facadePhotoReady" />
+                      <span>Foto staat klaar</span>
+                    </label>
+                  </div>
+                </section>
+
+                <section class="glass-step-panel" data-step-panel="condition">
+                  <div class="glass-step-copy">
+                    <h3>Bestaande toestand</h3>
+                    <p>Beschrijf kort hoe het venster nu functioneert en wat je al ziet aan tocht, ventilatie en staat.</p>
+                  </div>
+                  <div class="glass-field-grid two-up">
+                    <label class="glass-field">
+                      <span>Openen</span>
+                      <select name="openingTypeCurrent">
+                        <option value="">Kies</option>
+                        <option value="schuivend">Schuivend</option>
+                        <option value="draaiend">Draaiend</option>
+                        <option value="vast">Vast</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Tochtwering</span>
+                      <select name="draughtCurrent">
+                        <option value="">Kies</option>
+                        <option value="geen">Geen</option>
+                        <option value="slecht">Matig</option>
+                        <option value="aanwezig">Aanwezig</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Ventilatie</span>
+                      <select name="ventilationCurrent">
+                        <option value="">Kies</option>
+                        <option value="voldoende">Voldoende</option>
+                        <option value="onvoldoende">Onvoldoende</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Verbetering ventilatie</span>
+                      <select name="ventilationPlan">
+                        <option value="">Kies</option>
+                        <option value="ja">Ja</option>
+                        <option value="nee">Nee</option>
+                        <option value="nog-onbekend">Nog onbekend</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Technische staat</span>
+                      <textarea name="technicalState" rows="3"></textarea>
+                    </label>
+                    <label class="glass-field">
+                      <span>Luiken of sporen</span>
+                      <textarea name="shutterState" rows="3"></textarea>
+                    </label>
+                  </div>
+                  <div class="glass-upload-grid">
+                    <label class="glass-upload">
+                      <span>Buitenfoto's</span>
+                      <input type="file" name="outsidePhotos" accept="image/*" multiple />
+                      <small class="file-meta" data-file-meta="outsidePhotos">Nog geen bestand gekozen</small>
+                    </label>
+                    <label class="glass-upload">
+                      <span>Binnenfoto's</span>
+                      <input type="file" name="insidePhotos" accept="image/*" multiple />
+                      <small class="file-meta" data-file-meta="insidePhotos">Nog geen bestand gekozen</small>
+                    </label>
+                    <label class="glass-check">
+                      <input type="checkbox" name="outsidePhotosReady" />
+                      <span>Buitenfoto's klaar</span>
+                    </label>
+                    <label class="glass-check">
+                      <input type="checkbox" name="insidePhotosReady" />
+                      <span>Binnenfoto's klaar</span>
+                    </label>
+                  </div>
+                </section>
+
+                <section class="glass-step-panel" data-step-panel="choice">
+                  <div class="glass-step-copy">
+                    <h3>Glas en route</h3>
+                    <p>Nu kies je de richting die de technische uitwerking verder bepaalt.</p>
+                  </div>
+                  <div class="glass-field-grid two-up">
+                    <label class="glass-field">
+                      <span>Huidig glas</span>
+                      <select name="glassTypeCurrent">
+                        <option value="">Kies</option>
+                        <option value="enkel-glas">Enkel glas</option>
+                        <option value="getrokken-glas">Getrokken glas</option>
+                        <option value="glas-in-lood">Glas-in-lood</option>
+                        <option value="dubbel-glas">Dubbelglas</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Route</span>
+                      <select name="routeChoice" id="route-choice">
+                        <option value="">Kies</option>
+                        <option value="replace">Glas vervangen</option>
+                        <option value="secondary">Achterzetramen</option>
+                      </select>
+                    </label>
+                    <label class="glass-field glass-field-wide">
+                      <span>Hoofddoel</span>
+                      <textarea name="mainGoal" rows="3"></textarea>
+                    </label>
+                  </div>
+                </section>
+
+                <section class="glass-step-panel" data-step-panel="replace">
+                  <div class="glass-step-copy">
+                    <h3>Techniek glas vervangen</h3>
+                    <p>Alleen de technische uitwerking voor glasvervanging blijft hier in beeld.</p>
+                  </div>
+                  <div class="glass-field-grid three-up">
+                    <label class="glass-field">
+                      <span>Glasbreedte</span>
+                      <input type="number" min="0" name="glassWidth" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Glashoogte</span>
+                      <input type="number" min="0" name="glassHeight" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Roedebreedte</span>
+                      <input type="number" min="0" name="muntinWidth" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Maat T</span>
+                      <input type="number" min="0" name="measureT" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Maat R</span>
+                      <input type="number" min="0" name="measureR" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Maat P</span>
+                      <input type="number" min="0" name="measureP" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Maat B</span>
+                      <input type="number" min="0" name="measureB" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Maat S</span>
+                      <input type="number" min="0" name="measureS" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Diepte D</span>
+                      <input type="number" min="0" name="measureD" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Uitfrezen</span>
+                      <select name="millingPossible">
+                        <option value="">Kies</option>
+                        <option value="ja">Ja</option>
+                        <option value="nee">Nee</option>
+                        <option value="nog-onbekend">Nog onbekend</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Technische optie</span>
+                      <select name="technicalOption">
+                        <option value="">Kies</option>
+                        <option value="gelaagd">Isolerend enkel glas</option>
+                        <option value="dun-dubbel">Dun dubbelglas</option>
+                        <option value="vacuum">Vacuumglas</option>
+                        <option value="folie">Raamfolie</option>
+                        <option value="nog-open">Nog open</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Gekozen verbetering</span>
+                      <input type="text" name="chosenGlassUpgrade" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Openen nieuw</span>
+                      <select name="openingTypeNew">
+                        <option value="">Kies</option>
+                        <option value="wel-open">Blijft openend</option>
+                        <option value="niet-open">Niet meer openend</option>
+                      </select>
+                    </label>
+                    <label class="glass-field glass-field-wide">
+                      <span>Nieuwe tochtwering</span>
+                      <textarea name="draughtNew" rows="3"></textarea>
+                    </label>
+                    <label class="glass-field glass-field-wide">
+                      <span>Offerte of uitvoerder</span>
+                      <textarea name="quoteInfo" rows="3"></textarea>
+                    </label>
+                  </div>
+                  <div class="glass-upload-grid">
+                    <label class="glass-upload">
+                      <span>Schets bestaand</span>
+                      <input type="file" name="existingSketch" accept="image/*,.pdf" />
+                      <small class="file-meta" data-file-meta="existingSketch">Nog geen bestand gekozen</small>
+                    </label>
+                    <label class="glass-upload">
+                      <span>Schets nieuw</span>
+                      <input type="file" name="newSketch" accept="image/*,.pdf" />
+                      <small class="file-meta" data-file-meta="newSketch">Nog geen bestand gekozen</small>
+                    </label>
+                    <label class="glass-check">
+                      <input type="checkbox" name="existingSketchReady" />
+                      <span>Schets bestaand klaar</span>
+                    </label>
+                    <label class="glass-check">
+                      <input type="checkbox" name="newSketchReady" />
+                      <span>Schets nieuw klaar</span>
+                    </label>
+                  </div>
+                </section>
+
+                <section class="glass-step-panel" data-step-panel="secondary">
+                  <div class="glass-step-copy">
+                    <h3>Techniek achterzetramen</h3>
+                    <p>Werk alleen de onderdelen uit die nodig zijn voor een route met achterzetramen.</p>
+                  </div>
+                  <div class="glass-field-grid two-up">
+                    <label class="glass-field">
+                      <span>Plaatsing</span>
+                      <select name="secondaryPlacement">
+                        <option value="">Kies</option>
+                        <option value="op-raamhout">Op raamhout</option>
+                        <option value="in-kozijn">In kozijn</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Type</span>
+                      <select name="secondaryType">
+                        <option value="">Kies</option>
+                        <option value="kaderloos-hardglas">Kaderloos hardglas</option>
+                        <option value="aluminium-enkel">Aluminium enkel</option>
+                        <option value="aluminium-dubbel">Aluminium dubbel</option>
+                        <option value="aluminium-vacuum">Aluminium vacuüm</option>
+                        <option value="hout-enkel">Hout enkel</option>
+                        <option value="hout-dubbel">Hout dubbel</option>
+                        <option value="hout-vacuum">Hout vacuüm</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Openen</span>
+                      <input type="text" name="secondaryOpening" />
+                    </label>
+                    <label class="glass-field">
+                      <span>Luchtspouw</span>
+                      <textarea name="secondaryVentilation" rows="3"></textarea>
+                    </label>
+                    <label class="glass-field">
+                      <span>Tochtwering nieuw</span>
+                      <textarea name="secondaryDraught" rows="3"></textarea>
+                    </label>
+                    <label class="glass-field">
+                      <span>Offerte of uitvoerder</span>
+                      <textarea name="secondaryQuote" rows="3"></textarea>
+                    </label>
+                  </div>
+                </section>
+
+                <section class="glass-step-panel" data-step-panel="review">
+                  <div class="glass-step-copy">
+                    <h3>Controle</h3>
+                    <p>Bekijk wat er al klaar is en welke punten nog aandacht vragen.</p>
+                  </div>
+                  <div class="glass-review-grid">
+                    <article class="glass-review-card">
+                      <p class="app-kicker">Samenvatting</p>
+                      <div id="review-summary" class="glass-summary-list"></div>
+                    </article>
+                    <article class="glass-review-card">
+                      <p class="app-kicker">Open punten</p>
+                      <div id="review-missing" class="glass-summary-list"></div>
+                    </article>
+                  </div>
+                </section>
+              </div>
+            </form>
+
+            <div class="glass-wizard-actions">
+              <button class="button button-ghost" id="prev-step" type="button">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Vorige
+              </button>
+              <div class="glass-nav-note" id="nav-note">Controleer eerst de startvoorwaarden.</div>
+              <button class="button button-primary" id="next-step" type="button">
+                Volgende
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
           </article>
         </div>
-      </aside>
 
-      <section class="glass-main">
-        <article class="panel glass-panel" id="geschiktheidscheck">
-          <div class="glass-section-head">
-            <div>
-              <p class="eyebrow">Stap 0</p>
-              <h3 class="card-title">Past jouw situatie in deze demo?</h3>
+        <aside class="app-rail">
+          <article class="app-side-sheet">
+            <div class="app-side-sheet-block glass-status-card">
+              <div class="section-header">
+                <h3 class="card-title">Voorinvulling</h3>
+              </div>
+              <div class="glass-house-card" id="house-profile-card">
+                Nog geen huisprofiel geladen. Gebruik een demo-huisdossier of vul een bekend demo-adres in.
+              </div>
             </div>
-            <span class="glass-step-tag">Startpunt</span>
-          </div>
-          <div class="glass-field-grid two-up">
-            <label class="glass-field">
-              <span>Ligt het pand in Zeist?</span>
-              <select name="inZeist" data-eligibility>
-                <option value="">Kies een antwoord</option>
-                <option value="ja">Ja, in gemeente Zeist</option>
-                <option value="nee">Nee, ergens anders</option>
-              </select>
-            </label>
-            <label class="glass-field">
-              <span>Wat voor bescherming speelt hier?</span>
-              <select name="heritageScope" data-eligibility>
-                <option value="">Kies een type</option>
-                <option value="rijksmonument">Rijksmonument</option>
-                <option value="gemeentelijk-monument">Gemeentelijk monument</option>
-                <option value="beschermd-gezicht">Beschermd dorps- of stadsgezicht</option>
-                <option value="anders">Geen van deze opties</option>
-              </select>
-            </label>
-            <label class="glass-field">
-              <span>Gaat deze aanvraag over glasisolatie?</span>
-              <select name="measureScope" data-eligibility>
-                <option value="">Kies een antwoord</option>
-                <option value="ja">Ja, glasisolatie</option>
-                <option value="nee">Nee, een andere maatregel</option>
-              </select>
-            </label>
-          </div>
-          <div class="glass-eligibility-result" id="eligibility-result">
-            <p class="card-text">
-              Beantwoord eerst deze drie vragen. Daarna laat de demo zien of je direct door kunt naar de
-              voorbereidingsroute.
-            </p>
-          </div>
-        </article>
 
-        <article class="panel glass-panel glass-prep-panel" id="voorbereiding">
-          <div class="glass-section-head">
-            <div>
-              <p class="eyebrow">Vooraf</p>
-              <h3 class="card-title">Leg dit alvast klaar</h3>
+            <div class="app-side-sheet-block glass-status-card">
+              <div class="section-header">
+                <h3 class="card-title">Open punten</h3>
+              </div>
+              <div class="stack-list" id="missing-list"></div>
             </div>
-            <span class="glass-step-tag">Voorbereiding</span>
-          </div>
-          <div class="glass-prep-grid">
-            <div class="glass-prep-card">
-              <span class="material-symbols-outlined">home_work</span>
-              <strong>Pandgegevens</strong>
-              <p>Adres, monumentstatus, contactgegevens en indien bekend het monumentnummer.</p>
+
+            <div class="app-side-sheet-block glass-status-card">
+              <div class="section-header">
+                <h3 class="card-title">Bijlagen</h3>
+              </div>
+              <div class="check-list" id="attachment-list"></div>
             </div>
-            <div class="glass-prep-card">
-              <span class="material-symbols-outlined">imagesmode</span>
-              <strong>Foto’s</strong>
-              <p>Minimaal een overzichtsfoto per gevel, plus detailfoto’s buiten en binnen per venster.</p>
-            </div>
-            <div class="glass-prep-card">
-              <span class="material-symbols-outlined">straighten</span>
-              <strong>Maten</strong>
-              <p>Glasmaat, sponningmaten, roedebreedte en waar nodig een eenvoudige schets.</p>
-            </div>
-            <div class="glass-prep-card">
-              <span class="material-symbols-outlined">description</span>
-              <strong>Onderbouwing</strong>
-              <p>Eventuele historische informatie, ventilatie-aanpak en een offerte als die er al is.</p>
-            </div>
-          </div>
-          <div class="glass-callout">
-            <span class="material-symbols-outlined">lightbulb</span>
-            <div>
-              <strong>Praktische tip</strong>
-              <p>
-                In <em>Een warme jas</em> wordt benadrukt dat isolatieglas vaak slim is te combineren met periodiek
-                schilderwerk en dat ventilatie altijd moet meekomen met kierdichting of glasisolatie.
-              </p>
-            </div>
-          </div>
-        </article>
-
-        <article class="panel glass-panel glass-wizard-panel" id="wizard-panel">
-          <div class="glass-section-head">
-            <div>
-              <p class="eyebrow">Wizard</p>
-              <h3 class="card-title">Vul het glasdossier stap voor stap in</h3>
-            </div>
-            <span class="glass-step-tag" id="step-counter">Stap 1 van 6</span>
-          </div>
-
-          <form id="glass-demo-form" novalidate>
-            <section class="glass-step-panel is-active" data-step-panel="project">
-              <div class="glass-step-copy">
-                <h4>1. Pand en aanvrager</h4>
-                <p>We starten met de basis van het pand en van de aanvrager. Dat geeft meteen houvast voor de rest van het dossier.</p>
-              </div>
-              <div class="glass-field-grid two-up">
-                <label class="glass-field">
-                  <span>Naam aanvrager</span>
-                  <input type="text" name="applicantName" />
-                </label>
-                <label class="glass-field">
-                  <span>Naam eigenaar als dat iemand anders is</span>
-                  <input type="text" name="ownerName" />
-                </label>
-                <label class="glass-field">
-                  <span>Adres van het pand</span>
-                  <input type="text" name="propertyAddress" placeholder="Straat, huisnummer, postcode, plaats" />
-                </label>
-                <label class="glass-field">
-                  <span>Monumentstatus</span>
-                  <select name="monumentType">
-                    <option value="">Kies een status</option>
-                    <option value="rijksmonument">Rijksmonument</option>
-                    <option value="gemeentelijk-monument">Gemeentelijk monument</option>
-                    <option value="beschermd-gezicht">Beschermd gezicht</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Telefoonnummer</span>
-                  <input type="tel" name="phoneNumber" />
-                </label>
-                <label class="glass-field">
-                  <span>E-mailadres</span>
-                  <input type="email" name="emailAddress" />
-                </label>
-              </div>
-              <details class="glass-help">
-                <summary>Waarom we dit vragen</summary>
-                <p>Deze basis komt rechtstreeks terug in het glasformulier en voorkomt dat foto’s, metingen en offerte later los raken van het pand of de aanvrager.</p>
-              </details>
-            </section>
-
-            <section class="glass-step-panel" data-step-panel="windows">
-              <div class="glass-step-copy">
-                <h4>2. Om welke vensters gaat het?</h4>
-                <p>Hier leg je vast waar de ingreep precies speelt. Dat maakt het voor de gemeente en adviseurs veel makkelijker om je situatie te volgen.</p>
-              </div>
-              <div class="glass-field-grid two-up">
-                <label class="glass-field">
-                  <span>Gevel</span>
-                  <select name="facade">
-                    <option value="">Kies een gevel</option>
-                    <option value="voorgevel">Voorgevel</option>
-                    <option value="linkerzijgevel">Linkerzijgevel</option>
-                    <option value="rechterzijgevel">Rechterzijgevel</option>
-                    <option value="achtergevel">Achtergevel</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Windrichting</span>
-                  <select name="windDirection">
-                    <option value="">Kies een richting</option>
-                    <option value="noord">Noord</option>
-                    <option value="oost">Oost</option>
-                    <option value="zuid">Zuid</option>
-                    <option value="west">West</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Aantal identieke vensters</span>
-                  <input type="number" min="1" name="windowCount" />
-                </label>
-                <label class="glass-field">
-                  <span>Wat maakt deze vensters bijzonder?</span>
-                  <input type="text" name="windowCharacter" placeholder="Bijvoorbeeld roeden, glas-in-lood, luiken" />
-                </label>
-              </div>
-              <div class="glass-upload-grid">
-                <label class="glass-upload">
-                  <span>Overzichtsfoto gevel</span>
-                  <input type="file" name="facadePhoto" accept="image/*" />
-                  <small class="file-meta" data-file-meta="facadePhoto">Nog geen bestand gekozen</small>
-                </label>
-                <label class="glass-check">
-                  <input type="checkbox" name="facadePhotoReady" />
-                  <span>Ik heb de juiste overzichtsfoto toegevoegd of klaarstaan.</span>
-                </label>
-              </div>
-              <details class="glass-help">
-                <summary>Waarom we dit vragen</summary>
-                <p>De toelichting bij het glasformulier vraagt om minimaal één overzichtsfoto per gevel en duidelijke markering van de relevante vensters.</p>
-              </details>
-            </section>
-
-            <section class="glass-step-panel" data-step-panel="condition">
-              <div class="glass-step-copy">
-                <h4>3. Bestaande toestand</h4>
-                <p>Deze stap verzamelt de staat van het venster, de ventilatie en de bestaande details. Dat voorkomt dat glasisolatie los wordt bekeken van onderhoud en comfort.</p>
-              </div>
-              <div class="glass-field-grid two-up">
-                <label class="glass-field">
-                  <span>Hoe opent het bestaande raam?</span>
-                  <select name="openingTypeCurrent">
-                    <option value="">Kies een type</option>
-                    <option value="schuivend">Schuivend raam</option>
-                    <option value="draaiend">Draaiend raam</option>
-                    <option value="vast">Vast raam</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Huidige tochtwering</span>
-                  <select name="draughtCurrent">
-                    <option value="">Kies een situatie</option>
-                    <option value="geen">Geen tochtwering</option>
-                    <option value="slecht">Slecht functionerende tochtwering</option>
-                    <option value="aanwezig">Wel tochtwering aanwezig</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Ventilatie in deze ruimte</span>
-                  <select name="ventilationCurrent">
-                    <option value="">Kies een situatie</option>
-                    <option value="voldoende">Voldoende ventilatie aanwezig</option>
-                    <option value="onvoldoende">Onvoldoende ventilatie aanwezig</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Wordt ventilatie tegelijk verbeterd?</span>
-                  <select name="ventilationPlan">
-                    <option value="">Kies een antwoord</option>
-                    <option value="ja">Ja</option>
-                    <option value="nee">Nee</option>
-                    <option value="nog-onbekend">Nog niet bekend</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Technische staat kozijn, raam en schilderwerk</span>
-                  <textarea name="technicalState" rows="3" placeholder="Bijvoorbeeld goed, onderhoud nodig, lokaal houtrot, schilderwerk aan beurt"></textarea>
-                </label>
-                <label class="glass-field">
-                  <span>Luiken of sporen van luiken</span>
-                  <textarea name="shutterState" rows="3" placeholder="Bijvoorbeeld buitenluiken aanwezig, luikduimen nog zichtbaar, geen luiken"></textarea>
-                </label>
-              </div>
-              <div class="glass-upload-grid">
-                <label class="glass-upload">
-                  <span>Foto’s buiten</span>
-                  <input type="file" name="outsidePhotos" accept="image/*" multiple />
-                  <small class="file-meta" data-file-meta="outsidePhotos">Nog geen bestand gekozen</small>
-                </label>
-                <label class="glass-upload">
-                  <span>Detailfoto’s binnen</span>
-                  <input type="file" name="insidePhotos" accept="image/*" multiple />
-                  <small class="file-meta" data-file-meta="insidePhotos">Nog geen bestand gekozen</small>
-                </label>
-                <label class="glass-check">
-                  <input type="checkbox" name="outsidePhotosReady" />
-                  <span>Ik heb de buitenfoto’s toegevoegd of voorbereid.</span>
-                </label>
-                <label class="glass-check">
-                  <input type="checkbox" name="insidePhotosReady" />
-                  <span>Ik heb de binnenfoto’s toegevoegd of voorbereid.</span>
-                </label>
-              </div>
-              <div class="glass-callout subtle">
-                <span class="material-symbols-outlined">air</span>
-                <div>
-                  <strong>Ventilatie hoort erbij</strong>
-                  <p>In de bronstukken is ventilatie geen bijzaak. Kierdichting of extra glas zonder ventilatie-aanpak geeft vaak comfort- en vochtproblemen.</p>
-                </div>
-              </div>
-            </section>
-
-            <section class="glass-step-panel" data-step-panel="choice">
-              <div class="glass-step-copy">
-                <h4>4. Huidig glas en oplossingsrichting</h4>
-                <p>Hier bepaal je of je het bestaande glas wilt vervangen of dat je richting achterzetramen gaat. Dat is de belangrijkste afslag in deze demo.</p>
-              </div>
-              <div class="glass-field-grid two-up">
-                <label class="glass-field">
-                  <span>Soort glas dat er nu zit</span>
-                  <select name="glassTypeCurrent">
-                    <option value="">Kies een type</option>
-                    <option value="enkel-glas">Enkel glas</option>
-                    <option value="getrokken-glas">Getrokken glas aanwezig</option>
-                    <option value="glas-in-lood">Glas-in-lood aanwezig</option>
-                    <option value="dubbel-glas">Dun of regulier dubbelglas aanwezig</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Wat wil je onderzoeken?</span>
-                  <select name="routeChoice" id="route-choice">
-                    <option value="">Kies een route</option>
-                    <option value="replace">Bestaand glas vervangen</option>
-                    <option value="secondary">Achterzetramen plaatsen</option>
-                  </select>
-                </label>
-                <label class="glass-field glass-field-wide">
-                  <span>Wat is je hoofdreden?</span>
-                  <textarea name="mainGoal" rows="3" placeholder="Bijvoorbeeld comfort, minder tocht, energiebesparing, behoud van het venster"></textarea>
-                </label>
-              </div>
-              <div class="glass-reference-strip">
-                <article class="glass-reference-card">
-                  <img src="/assets/warme-jas/page-142-img-1.jpg" alt="Achterzetbeglazing voor een historisch venster uit Een warme jas" loading="lazy" />
-                  <div>
-                    <strong>Achterzetbeglazing</strong>
-                    <p>Een route die het historische venster vaak beter intact laat en toch veel comfort kan geven.</p>
-                    <small>Bronbeeld: Een warme jas, detailbladen achterzetramen</small>
-                  </div>
-                </article>
-                <article class="glass-reference-card">
-                  <img src="/assets/warme-jas/page-146-img-0.jpg" alt="Venster met luiken uit Een warme jas" loading="lazy" />
-                  <div>
-                    <strong>Gevelbeeld en luiken</strong>
-                    <p>Het venster is onderdeel van het totaalbeeld. Luiken, roeden en profileringen tellen daarom mee in de keuze.</p>
-                    <small>Bronbeeld: Een warme jas, vensterbeeld met luiken</small>
-                  </div>
-                </article>
-              </div>
-            </section>
-
-            <section class="glass-step-panel" data-step-panel="replace">
-              <div class="glass-step-copy">
-                <h4>5. Technische uitwerking bij glas vervangen</h4>
-                <p>Deze route volgt de maatvoering en afwegingen uit het glasformulier. Vul in wat je al weet; onbekende technische details kunnen zichtbaar open blijven staan.</p>
-              </div>
-              <div class="glass-measure-card">
-                <div>
-                  <strong>Meethulp sponning</strong>
-                  <p>T = totale dikte raamhout, R = afstand tot glas, P = plat deel, B = sponninghoogte, S = stopverfdiepte.</p>
-                </div>
-                <div class="measurement-diagram" aria-hidden="true">
-                  <span class="measure-label measure-t">T</span>
-                  <span class="measure-label measure-r">R</span>
-                  <span class="measure-label measure-p">P</span>
-                  <span class="measure-label measure-b">B</span>
-                  <span class="measure-label measure-s">S</span>
-                </div>
-              </div>
-              <div class="glass-field-grid three-up">
-                <label class="glass-field">
-                  <span>Glasbreedte (mm)</span>
-                  <input type="number" min="0" name="glassWidth" />
-                </label>
-                <label class="glass-field">
-                  <span>Glashoogte (mm)</span>
-                  <input type="number" min="0" name="glassHeight" />
-                </label>
-                <label class="glass-field">
-                  <span>Roedebreedte (mm)</span>
-                  <input type="number" min="0" name="muntinWidth" />
-                </label>
-                <label class="glass-field">
-                  <span>T Totale dikte raamhout</span>
-                  <input type="number" min="0" name="measureT" />
-                </label>
-                <label class="glass-field">
-                  <span>R Afstand tot glas</span>
-                  <input type="number" min="0" name="measureR" />
-                </label>
-                <label class="glass-field">
-                  <span>P Plat deel</span>
-                  <input type="number" min="0" name="measureP" />
-                </label>
-                <label class="glass-field">
-                  <span>B Sponninghoogte</span>
-                  <input type="number" min="0" name="measureB" />
-                </label>
-                <label class="glass-field">
-                  <span>S Stopverfdiepte</span>
-                  <input type="number" min="0" name="measureS" />
-                </label>
-                <label class="glass-field">
-                  <span>Diepte sponning D</span>
-                  <input type="number" min="0" name="measureD" />
-                </label>
-                <label class="glass-field">
-                  <span>Is uitfrezen mogelijk?</span>
-                  <select name="millingPossible">
-                    <option value="">Kies een antwoord</option>
-                    <option value="ja">Ja</option>
-                    <option value="nee">Nee</option>
-                    <option value="nog-onbekend">Nog niet zeker</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Technisch haalbare optie</span>
-                  <select name="technicalOption">
-                    <option value="">Kies een optie</option>
-                    <option value="gelaagd">Isolerend enkel glas (gelaagd)</option>
-                    <option value="dun-dubbel">Dun dubbel isolatieglas</option>
-                    <option value="vacuum">Vacuümglas</option>
-                    <option value="folie">Isolerende raamfolie</option>
-                    <option value="nog-open">Nog open</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Gekozen verbetering</span>
-                  <input type="text" name="chosenGlassUpgrade" placeholder="Type glas, dikte, Ug-waarde" />
-                </label>
-                <label class="glass-field">
-                  <span>Openen in nieuwe situatie</span>
-                  <select name="openingTypeNew">
-                    <option value="">Kies een antwoord</option>
-                    <option value="wel-open">Venster blijft openend</option>
-                    <option value="niet-open">Venster wordt niet meer openend</option>
-                  </select>
-                </label>
-                <label class="glass-field glass-field-wide">
-                  <span>Nieuwe tochtwering of aandachtspunten</span>
-                  <textarea name="draughtNew" rows="3" placeholder="Beschrijf wat verandert aan tochtwering, schilderwerk of hang- en sluitwerk"></textarea>
-                </label>
-                <label class="glass-field glass-field-wide">
-                  <span>Offerte of uitvoerder</span>
-                  <textarea name="quoteInfo" rows="3" placeholder="Naam bedrijf, datum offerte, eventuele meldcodes of opmerkingen"></textarea>
-                </label>
-              </div>
-              <div class="glass-upload-grid">
-                <label class="glass-upload">
-                  <span>Schets bestaande sponning</span>
-                  <input type="file" name="existingSketch" accept="image/*,.pdf" />
-                  <small class="file-meta" data-file-meta="existingSketch">Nog geen bestand gekozen</small>
-                </label>
-                <label class="glass-upload">
-                  <span>Schets nieuwe sponning</span>
-                  <input type="file" name="newSketch" accept="image/*,.pdf" />
-                  <small class="file-meta" data-file-meta="newSketch">Nog geen bestand gekozen</small>
-                </label>
-                <label class="glass-check">
-                  <input type="checkbox" name="existingSketchReady" />
-                  <span>Ik heb de schets van de bestaande situatie toegevoegd of voorbereid.</span>
-                </label>
-                <label class="glass-check">
-                  <input type="checkbox" name="newSketchReady" />
-                  <span>Ik heb de schets van de nieuwe situatie toegevoegd of voorbereid.</span>
-                </label>
-              </div>
-              <details class="glass-help">
-                <summary>Waar let het RCE-kader op?</summary>
-                <p>Historisch glas of bijzondere glasvormen vragen meer terughoudendheid. Later vlakglas biedt vaker ruimte voor vervanging, zolang profiel, stopverfrand en gevelbeeld geloofwaardig blijven.</p>
-              </details>
-            </section>
-
-            <section class="glass-step-panel" data-step-panel="secondary">
-              <div class="glass-step-copy">
-                <h4>5. Technische uitwerking bij achterzetramen</h4>
-                <p>Deze route houdt het bestaande venster centraal en werkt de nieuwe binnenlaag uit. Vooral plaatsing, ventilatie van de spouw en openen zijn hier belangrijk.</p>
-              </div>
-              <div class="glass-field-grid two-up">
-                <label class="glass-field">
-                  <span>Plaats van het achterzetraam</span>
-                  <select name="secondaryPlacement">
-                    <option value="">Kies een plaatsing</option>
-                    <option value="op-raamhout">Op het raamhout binnen</option>
-                    <option value="in-kozijn">Op of in het kozijn binnen</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Type achterzetraam</span>
-                  <select name="secondaryType">
-                    <option value="">Kies een type</option>
-                    <option value="kaderloos-hardglas">Kaderloos hardglas</option>
-                    <option value="aluminium-enkel">Aluminium kader met enkel glas</option>
-                    <option value="aluminium-dubbel">Aluminium kader met dubbel isolatieglas</option>
-                    <option value="aluminium-vacuum">Aluminium kader met vacuümglas</option>
-                    <option value="hout-enkel">Houten raam met enkel glas</option>
-                    <option value="hout-dubbel">Houten raam met dubbel isolatieglas</option>
-                    <option value="hout-vacuum">Houten kader met vacuümglas</option>
-                  </select>
-                </label>
-                <label class="glass-field">
-                  <span>Indeling en manier van openen</span>
-                  <input type="text" name="secondaryOpening" placeholder="Bijvoorbeeld schuivend, draairaam, vast deel" />
-                </label>
-                <label class="glass-field">
-                  <span>Ventilatie van de luchtspouw</span>
-                  <textarea name="secondaryVentilation" rows="3" placeholder="Hoe wordt de luchtspouw tussen bestaand raam en achterzetraam gerealiseerd?"></textarea>
-                </label>
-                <label class="glass-field">
-                  <span>Tochtwering in de nieuwe situatie</span>
-                  <textarea name="secondaryDraught" rows="3" placeholder="Beschrijf hoe tochtwering wordt verbeterd"></textarea>
-                </label>
-                <label class="glass-field">
-                  <span>Offerte of uitvoerder</span>
-                  <textarea name="secondaryQuote" rows="3" placeholder="Naam bedrijf, datum offerte, opmerkingen"></textarea>
-                </label>
-              </div>
-              <div class="glass-reference-strip">
-                <article class="glass-reference-card">
-                  <img src="/assets/warme-jas/page-142-img-0.jpg" alt="Monteren van achterzetbeglazing uit Een warme jas" loading="lazy" />
-                  <div>
-                    <strong>Bestaand venster behouden</strong>
-                    <p>Achterzetramen kunnen veel comfort geven zonder het buitenbeeld van het venster direct te wijzigen.</p>
-                    <small>Bronbeeld: Een warme jas, plaatsing achterzetbeglazing</small>
-                  </div>
-                </article>
-                <article class="glass-reference-card">
-                  <img src="/assets/warme-jas/page-142-img-2.jpg" alt="Horizontaal schuivend achterzetraam uit Een warme jas" loading="lazy" />
-                  <div>
-                    <strong>Openen en luchtdichting</strong>
-                    <p>De manier van openen en de luchtdichting van het achterzetraam bepalen sterk hoe bruikbaar de oplossing straks voelt.</p>
-                    <small>Bronbeeld: Een warme jas, schuivend achterzetraam</small>
-                  </div>
-                </article>
-              </div>
-            </section>
-
-            <section class="glass-step-panel" data-step-panel="review">
-              <div class="glass-step-copy">
-                <h4>6. Controle en dossier</h4>
-                <p>Hier zie je wat al compleet is en wat nog aandacht vraagt. De export hieronder maakt een printvriendelijk conceptdossier van je huidige invulling.</p>
-              </div>
-              <div class="glass-review-grid">
-                <article class="glass-review-card">
-                  <p class="eyebrow">Samenvatting</p>
-                  <div id="review-summary" class="glass-summary-list"></div>
-                </article>
-                <article class="glass-review-card">
-                  <p class="eyebrow">Open punten</p>
-                  <div id="review-missing" class="glass-summary-list"></div>
-                </article>
-              </div>
-              <div class="glass-callout">
-                <span class="material-symbols-outlined">inventory_2</span>
-                <div>
-                  <strong>Wat je export krijgt</strong>
-                  <p>Een printvriendelijke dossierweergave met je antwoorden, je gekozen route en een lijst van stukken die nog toegevoegd of gecontroleerd moeten worden.</p>
-                </div>
-              </div>
-            </section>
-          </form>
-
-          <div class="glass-wizard-actions">
-            <button class="button button-ghost" id="prev-step" type="button">
-              <span class="material-symbols-outlined">arrow_back</span>
-              Vorige stap
-            </button>
-            <div class="glass-nav-note" id="nav-note">Beantwoord eerst de geschiktheidscheck om de wizard te activeren.</div>
-            <button class="button button-primary" id="next-step" type="button">
-              Volgende stap
-              <span class="material-symbols-outlined">arrow_forward</span>
-            </button>
-          </div>
-        </article>
+          </article>
+        </aside>
       </section>
     </section>
   </main>

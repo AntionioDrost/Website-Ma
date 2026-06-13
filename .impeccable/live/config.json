@@ -1,0 +1,11 @@
+{
+  "files": [
+    "monument-app/public/**/*.html"
+  ],
+  "exclude": [
+    "stitch-export/**/*.html"
+  ],
+  "insertBefore": "</body>",
+  "commentSyntax": "html",
+  "cspChecked": true
+}

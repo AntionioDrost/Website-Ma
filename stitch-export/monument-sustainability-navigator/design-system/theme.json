@@ -1,0 +1,131 @@
+﻿{
+    "bodyFont":  "PUBLIC_SANS",
+    "bodyFontFamily":  "Public Sans",
+    "colorMode":  "LIGHT",
+    "colorVariant":  "FIDELITY",
+    "customColor":  "#1b3022",
+    "designMd":  "---\nname: Heritage Preservation System\ncolors:\n  surface: \u0027#fcf9f8\u0027\n  surface-dim: \u0027#dcd9d9\u0027\n  surface-bright: \u0027#fcf9f8\u0027\n  surface-container-lowest: \u0027#ffffff\u0027\n  surface-container-low: \u0027#f6f3f2\u0027\n  surface-container: \u0027#f0eded\u0027\n  surface-container-high: \u0027#eae7e7\u0027\n  surface-container-highest: \u0027#e4e2e1\u0027\n  on-surface: \u0027#1b1c1c\u0027\n  on-surface-variant: \u0027#434843\u0027\n  inverse-surface: \u0027#303030\u0027\n  inverse-on-surface: \u0027#f3f0f0\u0027\n  outline: \u0027#737973\u0027\n  outline-variant: \u0027#c3c8c1\u0027\n  surface-tint: \u0027#4d6453\u0027\n  primary: \u0027#061b0e\u0027\n  on-primary: \u0027#ffffff\u0027\n  primary-container: \u0027#1b3022\u0027\n  on-primary-container: \u0027#819986\u0027\n  inverse-primary: \u0027#b4cdb8\u0027\n  secondary: \u0027#8e4e1e\u0027\n  on-secondary: \u0027#ffffff\u0027\n  secondary-container: \u0027#ffab73\u0027\n  on-secondary-container: \u0027#793d0d\u0027\n  tertiary: \u0027#171815\u0027\n  on-tertiary: \u0027#ffffff\u0027\n  tertiary-container: \u0027#2c2c29\u0027\n  on-tertiary-container: \u0027#95938f\u0027\n  error: \u0027#ba1a1a\u0027\n  on-error: \u0027#ffffff\u0027\n  error-container: \u0027#ffdad6\u0027\n  on-error-container: \u0027#93000a\u0027\n  primary-fixed: \u0027#d0e9d4\u0027\n  primary-fixed-dim: \u0027#b4cdb8\u0027\n  on-primary-fixed: \u0027#0b2013\u0027\n  on-primary-fixed-variant: \u0027#364c3c\u0027\n  secondary-fixed: \u0027#ffdbc7\u0027\n  secondary-fixed-dim: \u0027#ffb688\u0027\n  on-secondary-fixed: \u0027#311300\u0027\n  on-secondary-fixed-variant: \u0027#713707\u0027\n  tertiary-fixed: \u0027#e5e2dd\u0027\n  tertiary-fixed-dim: \u0027#c9c6c2\u0027\n  on-tertiary-fixed: \u0027#1c1c19\u0027\n  on-tertiary-fixed-variant: \u0027#474743\u0027\n  background: \u0027#fcf9f8\u0027\n  on-background: \u0027#1b1c1c\u0027\n  surface-variant: \u0027#e4e2e1\u0027\ntypography:\n  display-lg:\n    fontFamily: Playfair Display\n    fontSize: 48px\n    fontWeight: \u0027700\u0027\n    lineHeight: 56px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Playfair Display\n    fontSize: 32px\n    fontWeight: \u0027600\u0027\n    lineHeight: 40px\n  headline-lg-mobile:\n    fontFamily: Playfair Display\n    fontSize: 28px\n    fontWeight: \u0027600\u0027\n    lineHeight: 36px\n  headline-md:\n    fontFamily: Playfair Display\n    fontSize: 24px\n    fontWeight: \u0027600\u0027\n    lineHeight: 32px\n  body-lg:\n    fontFamily: Public Sans\n    fontSize: 18px\n    fontWeight: \u0027400\u0027\n    lineHeight: 28px\n  body-md:\n    fontFamily: Public Sans\n    fontSize: 16px\n    fontWeight: \u0027400\u0027\n    lineHeight: 24px\n  label-md:\n    fontFamily: Public Sans\n    fontSize: 14px\n    fontWeight: \u0027600\u0027\n    lineHeight: 20px\n    letterSpacing: 0.05em\n  caption:\n    fontFamily: Public Sans\n    fontSize: 12px\n    fontWeight: \u0027400\u0027\n    lineHeight: 16px\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  base: 8px\n  xs: 4px\n  sm: 12px\n  md: 24px\n  lg: 48px\n  xl: 80px\n  gutter: 24px\n  margin-mobile: 16px\n  margin-desktop: 64px\n---\n\n## Brand \u0026 Style\nThe design system is built upon the concept of \"Timeless Stewardship.\" It bridges the gap between historical preservation and modern environmental responsibility. The aesthetic is **Sophisticated Editorial**, drawing inspiration from architectural monographs and museum signage. It avoids the fleeting trends of typical SaaS platforms in favor of a grounded, authoritative, and unburdening experience for monument owners and government officials.\n\nThe target audience consists of property owners, architects, and civic advisors who require clarity and expertise. The UI must feel as stable and intentional as the masonry it describes, using ample whitespace (breathing room) and a structural grid that mirrors architectural blueprints.\n\n## Colors\nThe palette is rooted in natural, architectural materials.\n- **Primary (Forest Green):** Represents sustainability and growth. Used for key actions and deep headers.\n- **Secondary (Muted Bronze):** Used sparingly for accents, highlights, and specialized calls-to-action to evoke quality and craftsmanship.\n- **Surface (Stone \u0026 Parchment):** The foundation of the UI. `Stone` is used for containers and sidebars, while `Parchment` serves as the primary page background to reduce eye strain and provide a premium feel.\n- **Text (Charcoal):** High-contrast but softer than pure black to maintain an editorial warmth.\n- **Status Colors:** Muted versions of green, orange, and red, ensuring they sit harmoniously within the heritage palette without appearing jarring.\n\n## Typography\nThe typographic scale emphasizes hierarchy and readability. \n- **Headings:** `Playfair Display` provides an authoritative, historical character. Use for page titles, section headers, and featured quotes.\n- **UI \u0026 Body:** `Public Sans` is chosen for its institutional clarity and excellent legibility in data-heavy contexts. It remains neutral to let the serif headings shine.\n- **Dutch Language Note:** Ensure all copy uses B1-level Dutch (clear, everyday language). For example, use \"Verduurzaming\" instead of overly technical jargon where possible. \n- **Labels:** Small labels and status indicators use increased letter spacing and uppercase weight to differentiate from body text.\n\n## Layout \u0026 Spacing\nThe layout follows a **Fixed Grid** philosophy for content-heavy pages to maintain an editorial feel, while utilizing a **Split-Screen Utility** for interactive tools (e.g., a map on the left, data on the right).\n\n- **Desktop:** 12-column grid with a 1200px max-width container. 64px outer margins provide a \"gallery\" feel.\n- **Mobile:** 4-column grid with 16px margins. \n- **Vertical Rhythm:** Use the `lg` (48px) spacing unit to separate major sections and `md` (24px) for internal component spacing.\n- **Architectural Accents:** Apply a subtle 24px grid pattern (0.05 opacity Forest Green) to the background of header sections or empty states to mimic blueprint paper.\n\n## Elevation \u0026 Depth\nThis design system avoids heavy drop shadows, opting instead for **Tonal Layers** and **Low-Contrast Outlines**.\n- **Base Layer:** Parchment (#FCFAFA).\n- **Secondary Layer:** Stone (#F5F2ED) used for cards and navigation sidebars.\n- **Borders:** 1px solid borders in a slightly darker stone tint (#E5E0D8) define boundaries without adding visual weight.\n- **Depth:** When elevation is required (e.g., a modal or an active card), use a single, extremely diffused ambient shadow: `0px 4px 20px rgba(27, 48, 34, 0.08)`. This shadow is tinted with the primary Forest Green to keep the palette cohesive.\n\n## Shapes\nShapes are **Soft** but disciplined. \n- **Standard Radius:** 4px (0.25rem) for buttons, inputs, and small chips. This keeps the look professional and architectural rather than \"bubbly.\"\n- **Large Radius:** 8px (0.5rem) for main content cards and expandable panels. \n- **Interactive Elements:** Buttons should never be fully rounded (pill-shaped) to maintain the serious, civic-tech aesthetic.\n\n## Components\n- **Buttons:** Primary buttons are solid Forest Green with White text. Secondary buttons use a Forest Green border with Stone background. High-action buttons (e.g., \"Start Advies\") can use the Bronze accent color.\n- **Smart Checklist Cards:** Used for sustainability steps. Features a leading icon, a Bold Forest Green title, and a status chip. When \"Complete,\" the card background shifts to a very light green tint.\n- **Status Chips:** Small, rectangular labels with rounded corners (4px). Use high-contrast text on muted backgrounds (e.g., Dark Green text on light mint background).\n- **Expandable Panels:** Used for technical details. Use a \"plus/minus\" toggle on the far right. The header remains Stone, and the expanded content reveals the Parchment background.\n- **Input Fields:** Minimalist with a 1px Stone border. Focus state is a 2px Forest Green bottom-border to mimic a signature line or architectural annotation.\n- **Split-Screen Utility:** A 50/50 or 40/60 vertical split. The left side is typically used for visual context (photos of the monument or maps), while the right side handles scrollable form data or checklists.",
+    "font":  "PLAYFAIR_DISPLAY",
+    "headlineFont":  "PLAYFAIR_DISPLAY",
+    "headlineFontFamily":  "Playfair Display",
+    "labelFont":  "PUBLIC_SANS",
+    "labelFontFamily":  "Public Sans",
+    "namedColors":  {
+                        "background":  "#fcf9f8",
+                        "error":  "#ba1a1a",
+                        "error_container":  "#ffdad6",
+                        "inverse_on_surface":  "#f3f0f0",
+                        "inverse_primary":  "#b4cdb8",
+                        "inverse_surface":  "#303030",
+                        "on_background":  "#1b1c1c",
+                        "on_error":  "#ffffff",
+                        "on_error_container":  "#93000a",
+                        "on_primary":  "#ffffff",
+                        "on_primary_container":  "#819986",
+                        "on_primary_fixed":  "#0b2013",
+                        "on_primary_fixed_variant":  "#364c3c",
+                        "on_secondary":  "#ffffff",
+                        "on_secondary_container":  "#793d0d",
+                        "on_secondary_fixed":  "#311300",
+                        "on_secondary_fixed_variant":  "#713707",
+                        "on_surface":  "#1b1c1c",
+                        "on_surface_variant":  "#434843",
+                        "on_tertiary":  "#ffffff",
+                        "on_tertiary_container":  "#95938f",
+                        "on_tertiary_fixed":  "#1c1c19",
+                        "on_tertiary_fixed_variant":  "#474743",
+                        "outline":  "#737973",
+                        "outline_variant":  "#c3c8c1",
+                        "primary":  "#061b0e",
+                        "primary_container":  "#1b3022",
+                        "primary_fixed":  "#d0e9d4",
+                        "primary_fixed_dim":  "#b4cdb8",
+                        "secondary":  "#8e4e1e",
+                        "secondary_container":  "#ffab73",
+                        "secondary_fixed":  "#ffdbc7",
+                        "secondary_fixed_dim":  "#ffb688",
+                        "surface":  "#fcf9f8",
+                        "surface_bright":  "#fcf9f8",
+                        "surface_container":  "#f0eded",
+                        "surface_container_high":  "#eae7e7",
+                        "surface_container_highest":  "#e4e2e1",
+                        "surface_container_low":  "#f6f3f2",
+                        "surface_container_lowest":  "#ffffff",
+                        "surface_dim":  "#dcd9d9",
+                        "surface_tint":  "#4d6453",
+                        "surface_variant":  "#e4e2e1",
+                        "tertiary":  "#171815",
+                        "tertiary_container":  "#2c2c29",
+                        "tertiary_fixed":  "#e5e2dd",
+                        "tertiary_fixed_dim":  "#c9c6c2"
+                    },
+    "overrideNeutralColor":  "#2d2d2d",
+    "overridePrimaryColor":  "#1b3022",
+    "overrideSecondaryColor":  "#b36b39",
+    "overrideTertiaryColor":  "#f5f2ed",
+    "roundness":  "ROUND_FOUR",
+    "spacing":  {
+                    "base":  "8px",
+                    "gutter":  "24px",
+                    "lg":  "48px",
+                    "margin-desktop":  "64px",
+                    "margin-mobile":  "16px",
+                    "md":  "24px",
+                    "sm":  "12px",
+                    "xl":  "80px",
+                    "xs":  "4px"
+                },
+    "spacingScale":  2,
+    "typography":  {
+                       "body-lg":  {
+                                       "fontFamily":  "Public Sans",
+                                       "fontSize":  "18px",
+                                       "fontWeight":  "400",
+                                       "lineHeight":  "28px"
+                                   },
+                       "body-md":  {
+                                       "fontFamily":  "Public Sans",
+                                       "fontSize":  "16px",
+                                       "fontWeight":  "400",
+                                       "lineHeight":  "24px"
+                                   },
+                       "caption":  {
+                                       "fontFamily":  "Public Sans",
+                                       "fontSize":  "12px",
+                                       "fontWeight":  "400",
+                                       "lineHeight":  "16px"
+                                   },
+                       "display-lg":  {
+                                          "fontFamily":  "Playfair Display",
+                                          "fontSize":  "48px",
+                                          "fontWeight":  "700",
+                                          "letterSpacing":  "-0.02em",
+                                          "lineHeight":  "56px"
+                                      },
+                       "headline-lg":  {
+                                           "fontFamily":  "Playfair Display",
+                                           "fontSize":  "32px",
+                                           "fontWeight":  "600",
+                                           "lineHeight":  "40px"
+                                       },
+                       "headline-lg-mobile":  {
+                                                  "fontFamily":  "Playfair Display",
+                                                  "fontSize":  "28px",
+                                                  "fontWeight":  "600",
+                                                  "lineHeight":  "36px"
+                                              },
+                       "headline-md":  {
+                                           "fontFamily":  "Playfair Display",
+                                           "fontSize":  "24px",
+                                           "fontWeight":  "600",
+                                           "lineHeight":  "32px"
+                                       },
+                       "label-md":  {
+                                        "fontFamily":  "Public Sans",
+                                        "fontSize":  "14px",
+                                        "fontWeight":  "600",
+                                        "letterSpacing":  "0.05em",
+                                        "lineHeight":  "20px"
+                                    }
+                   }
+}

@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-13T19:15:00+02:00",
+  "title": "Design System: Monument Gids",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Clear Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#111111", "#2e2e2e", "#4f4f4f", "#757575", "#9c9c9c", "#c4c4c4", "#e8e8e8", "#ffffff"]
+      },
+      "card-cream": {
+        "role": "neutral",
+        "displayName": "Guidance Cream",
+        "canonical": "#fefaef",
+        "tonalRamp": ["#272018", "#4b4132", "#6f6250", "#938570", "#b8aa92", "#ddd0b7", "#f3e9da", "#fefaef"]
+      },
+      "hero-glow": {
+        "role": "neutral",
+        "displayName": "Hero Glow",
+        "canonical": "rgba(232, 225, 207, 0.72)",
+        "tonalRamp": ["#2a241b", "#4f4738", "#756a56", "#9c8f77", "#c3b59a", "#ddd0b9", "#ece4d5", "#f8f4ea"]
+      },
+      "forest": {
+        "role": "primary",
+        "displayName": "Steady Forest",
+        "canonical": "#173828",
+        "tonalRamp": ["#09110c", "#102119", "#173828", "#24533d", "#356f53", "#5c9276", "#96bfaa", "#dcebe4"]
+      },
+      "forest-deep": {
+        "role": "primary",
+        "displayName": "Deep Forest",
+        "canonical": "#0b1f15",
+        "tonalRamp": ["#040907", "#07110c", "#0b1f15", "#143325", "#224a37", "#447360", "#83a798", "#d4e2dc"]
+      },
+      "sage-wash": {
+        "role": "secondary",
+        "displayName": "Sage Wash",
+        "canonical": "#d7e4d5",
+        "tonalRamp": ["#1a2319", "#334233", "#4f6450", "#6d846e", "#8fa490", "#b3c4b3", "#d7e4d5", "#f4f8f4"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Primary Ink",
+        "canonical": "#111111",
+        "tonalRamp": ["#111111", "#232323", "#3a3a3a", "#555555", "#737373", "#9a9a9a", "#cdcdcd", "#f5f5f5"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero reassurance statements."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section anchors and major support headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Cards and grouped guidance blocks."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Readable explanatory guidance."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Navigation, buttons, and compact UI labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-support",
+        "value": "0 14px 36px rgba(11, 31, 21, 0.08)",
+        "purpose": "Quiet panel depth in authenticated surfaces."
+      },
+      {
+        "name": "deep-support",
+        "value": "0 28px 56px rgba(11, 31, 21, 0.12)",
+        "purpose": "Stronger workspace emphasis only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-home-scribble",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Single confident draw for the hero reassurance mark."
+      },
+      {
+        "name": "duration-home-scribble",
+        "value": "1.3s",
+        "purpose": "One-time entrance timing for the hero line."
+      }
+    ],
+    "breakpoints": [
+      { "name": "desktop-collapse", "value": "1100px" },
+      { "name": "nav-simplify", "value": "820px" },
+      { "name": "mobile", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main commitment action used for login and forward movement.",
+      "html": "<button class=\"ds-btn-primary\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"5.5\" y=\"10.5\" width=\"13\" height=\"9\" rx=\"2.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"></rect><path d=\"M8.5 10.5V8.75A3.5 3.5 0 0 1 12 5.25a3.5 3.5 0 0 1 3.5 3.5v1.75\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-width=\"1.8\"></path></svg><span>Inloggen</span></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:180px;padding:14px 22px;border:1px solid var(--forest, #173828);border-radius:10px;background:var(--forest, #173828);color:#fff;font:600 1rem \"DM Sans\",sans-serif;transition:background-color .2s ease,transform .2s ease;}.ds-btn-primary svg{width:18px;height:18px;}.ds-btn-primary:hover{background:var(--forest-deep, #0b1f15);transform:translateY(-1px);}.ds-btn-primary:focus-visible{outline:2px solid rgba(23,56,40,.35);outline-offset:3px;}"
+    },
+    {
+      "name": "Topbar Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet topbar action used on large screens only.",
+      "html": "<button class=\"ds-btn-secondary\">Inloggen</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border:1px solid rgba(17,17,17,.12);border-radius:14px;background:#fff;color:#111;font:600 .95rem \"DM Sans\",sans-serif;transition:transform .2s ease,border-color .2s ease;}.ds-btn-secondary:hover{transform:translateY(-1px);border-color:rgba(17,17,17,.2);}.ds-btn-secondary:focus-visible{outline:2px solid rgba(23,56,40,.24);outline-offset:3px;}"
+    },
+    {
+      "name": "Guidance Card",
+      "kind": "card",
+      "refersTo": "card-default",
+      "description": "Primary explanation card used across the homepage guidance grid.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-icon\">✓</div><h3>Vergunning goed geregeld</h3><p>We helpen je de juiste aanvraag voor te bereiden en compleet in te dienen.</p><a href=\"#\">Meer over vergunningen →</a></article>",
+      "css": ".ds-card{padding:22px;border:1px solid rgba(17,17,17,.12);border-radius:14px;background:var(--paper-card, #fefaef);color:#111;font-family:\"DM Sans\",sans-serif;}.ds-card-icon{display:grid;place-items:center;width:32px;height:32px;color:rgba(17,17,17,.78);font-size:1.15rem;}.ds-card h3{margin:14px 0 0;font-size:1.5rem;line-height:1.1;letter-spacing:-.04em;font-weight:700;}.ds-card p{margin:12px 0 0;font-size:.94rem;line-height:1.62;color:rgba(17,17,17,.7);}.ds-card a{display:inline-flex;align-items:center;gap:6px;margin-top:18px;color:#4c6b57;font-size:.85rem;font-weight:500;text-decoration:none;}.ds-card a:hover{color:#111;}"
+    },
+    {
+      "name": "Wide Trust Card",
+      "kind": "card",
+      "refersTo": "card-default",
+      "description": "Single-row trust statement tying the product back to the user's situation.",
+      "html": "<article class=\"ds-wide-card\"><div class=\"ds-wide-icon\">○</div><div class=\"ds-wide-copy\"><h3>Gemaakt voor jouw situatie</h3><p>Onafhankelijk, begrijpelijk en met respect voor jouw huis en de regels.</p></div><a href=\"#\">Meer over ons →</a></article>",
+      "css": ".ds-wide-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;padding:18px 22px;border:1px solid rgba(17,17,17,.12);border-radius:14px;background:var(--paper-card, #fefaef);font-family:\"DM Sans\",sans-serif;}.ds-wide-icon{display:grid;place-items:center;width:32px;height:32px;color:rgba(17,17,17,.78);}.ds-wide-copy h3{margin:0;font-size:1.25rem;line-height:1.1;letter-spacing:-.04em;font-weight:700;color:#111;}.ds-wide-copy p{margin:12px 0 0;font-size:.94rem;line-height:1.62;color:rgba(17,17,17,.7);}.ds-wide-card a{display:inline-flex;align-items:center;gap:6px;color:#4c6b57;font-size:.85rem;font-weight:500;text-decoration:none;}.ds-wide-card a:hover{color:#111;}"
+    },
+    {
+      "name": "Centered Navigation",
+      "kind": "nav",
+      "refersTo": "button-secondary",
+      "description": "Public topbar navigation with centered link rhythm and a separate action button.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">Hoe het werkt</a><a href=\"#\">Over ons</a><a href=\"#\">Voor wie</a><a href=\"#\">Veelgestelde vragen</a></nav>",
+      "css": ".ds-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:28px;font-family:\"DM Sans\",sans-serif;}.ds-nav a{color:rgba(17,17,17,.78);font-size:.85rem;font-weight:500;text-decoration:none;transition:color .2s ease;}.ds-nav a:hover,.ds-nav a:focus-visible{color:#111;outline:none;}"
+    },
+    {
+      "name": "Hero Reassurance Mark",
+      "kind": "custom",
+      "refersTo": "card-default",
+      "description": "The single animated SVG underline tucked under the hero promise.",
+      "html": "<div class=\"ds-scribble-wrap\"><span class=\"ds-scribble-label\">Zonder stress.</span><svg class=\"ds-scribble\" viewBox=\"0 0 706.6 145.6\" aria-hidden=\"true\"><path d=\"M1.5,10.5C101.5,6.3,207.8,3.2,319.7,1.6c0,0,140.2-2,321.4,14.6,23.3,2.1,64,6.2,64,10.5,0,3.4-25.7,5.8-73.7,8.9-124.7,8.1-164.7,6.1-240.5,13.8-57.4,5.8-121,15.8-120.6,21.1.1,1.4,5,2.1,69.6,6.5,29.7,2,59.3,5.4,89.1,7.3,25.6,1.6,39.1,2,39.7,5.7.8,5.3-26.2,13.8-38.1,17-28.3,7.7-63.2,14.6-63.2,14.6-7.3,1.4-13.7,2.6-14.2,5.7-.8,5.1,15.8,11.9,30.4,17\"></path></svg></div>",
+      "css": ".ds-scribble-wrap{position:relative;display:inline-block;padding-bottom:.62em;font-family:\"DM Sans\",sans-serif;}.ds-scribble-label{font-size:4rem;line-height:1.02;font-weight:700;letter-spacing:-.06em;color:#111;}.ds-scribble{position:absolute;left:1%;bottom:-.62em;width:94%;height:auto;overflow:visible;pointer-events:none;}.ds-scribble path{fill:none;stroke:rgba(17,17,17,.92);stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:1;stroke-dashoffset:1;animation:ds-scribble-draw 1.3s cubic-bezier(.22,1,.36,1) .45s forwards;}@keyframes ds-scribble-draw{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calm Permit Guide",
+    "overview": "This system is built to lower stress before it asks anything from the user. The interface should feel like a capable person sitting beside a monument owner, quietly translating a complicated permit landscape into clear next steps. It is warm without becoming soft-focus, structured without becoming official, and confident without sounding municipal.\n\nThe homepage proves that balance through a restrained palette, large direct typography, generous white space, cream information cards, and a single human gesture in the hand-drawn underline beneath \"Zonder stress.\" The hero is intentionally frameless. It sits openly on the canvas, with a warm top glow that starts at the very edge of the viewport so the page feels spacious and calm on laptop screens instead of boxed in. The public-facing surfaces should always feel understandable within seconds. The more task-oriented workspace can be denser, but it still inherits the same calm support, the same clear wording, and the same refusal to sound bureaucratic.",
+    "keyCharacteristics": [
+      "Large, plainspoken headlines that reduce stress instead of selling aspiration.",
+      "An open, frameless hero that blends directly into the page instead of sitting inside a bordered shell.",
+      "White canvas first, with warm cream cards used as supportive containers rather than decorative blocks.",
+      "Dark green as the single action color, reserved for trust, progress, and decisive next steps.",
+      "Human warmth through copy, spacing, a visible warm top glow, and one restrained signature flourish, never through municipal styling or compliance-heavy framing.",
+      "Responsive behavior that simplifies the chrome on smaller screens by removing secondary elements before the message."
+    ],
+    "rules": [
+      {
+        "name": "The White-First Rule",
+        "body": "The page background stays white. Warmth lives in cards, glow layers, and supportive surfaces, not in a cream body wash.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reassurance Scale Rule",
+        "body": "Headlines may be large, but the language must stay plain. If the typography is loud and the wording is also formal, the interface stops helping and starts lecturing.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-At-Rest Rule",
+        "body": "Public guidance surfaces stay visually calm at rest. If a homepage card needs a shadow to feel important, the hierarchy is wrong.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the body background white and let #fefaef carry the supportive card system.",
+      "Do keep the hero frameless and let the top glow carry the atmosphere instead of reintroducing a boxed container.",
+      "Do use dark green for decisive actions only. The primary CTA should feel singular, not repeated as decoration.",
+      "Do write headings in plain Dutch that reduce stress before they explain complexity.",
+      "Do remove secondary interface pieces on smaller screens before the hero message starts competing for space.",
+      "Do keep borders light and shadows quiet so the product feels calm, not theatrical."
+    ],
+    "donts": [
+      "Don't let the product feel gemeentelijk, formal, or dependent on institutional language for authority.",
+      "Don't reduce the experience to numbers, compliance checklists, or cold procedural steps.",
+      "Don't make users feel like they are being left alone in a swamp of regulations.",
+      "Don't make the interface feel like a rigid system that assumes prior knowledge.",
+      "Don't replace clarity with decorative SaaS landing-page behavior, generic AI-tool polish, or multiple competing accent colors.",
+      "Don't put the homepage hero back inside a rounded bordered frame or let the top glow fade out before it reaches the page edge on desktop."
+    ]
+  }
+}

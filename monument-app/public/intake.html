@@ -3,234 +3,199 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monumentenverkenner | Intake</title>
+  <title>Monument Gids | Intake</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
-<body class="app-body">
-  <header class="app-topbar">
-    <div class="brand">
-      <div class="brand-mark">
-        <span class="material-symbols-outlined">chat</span>
-      </div>
-      <div>
-        <p class="eyebrow">Intakeflow</p>
-        <h1>Monumentenverkenner</h1>
-      </div>
-    </div>
-    <div class="topbar-actions">
-      <div class="mode-switch" aria-label="Chatmodus kiezen" role="group">
-        <span class="mode-switch-label">Chatmodus</span>
-        <div class="mode-switch-buttons">
-          <button class="mode-switch-button is-active" id="mode-guided-free" type="button" data-chat-mode="guided-free">
-            Vrije intake
-          </button>
-          <button class="mode-switch-button" id="mode-strict" type="button" data-chat-mode="strict">
-            Strakke intake
-          </button>
-        </div>
-      </div>
-      <div class="hero-actions">
-      <a class="button button-ghost" href="/">
-        <span class="material-symbols-outlined">arrow_back</span>
-        Homescreen
-      </a>
-      <button class="button button-secondary" id="reset-dossier" type="button">
-        <span class="material-symbols-outlined">restart_alt</span>
-        Reset dossier
-      </button>
-      </div>
-    </div>
-  </header>
+<body class="app-body app-shell-page">
+  <main class="app-shell app-shell-redesign">
+    <aside class="app-sidebar app-sidebar-redesign">
+      <div class="app-sidebar-inner">
+        <a class="app-sidebar-brand" href="/">
+          <span class="app-sidebar-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.75 10.5 12 4.75l7.25 5.75v8.75a1 1 0 0 1-1 1h-3.5v-5.25h-5.5V20h-3.5a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
+            </svg>
+          </span>
+          <span>Monument Gids</span>
+        </a>
 
-  <main class="workspace-shell">
-    <section class="dashboard-column">
-      <div class="dashboard-sticky">
-        <article class="panel dashboard-status">
-          <p class="eyebrow">Dashboard</p>
-          <h2>Het dossier bouwt zichzelf op.</h2>
-          <p class="card-text">
-            De chat blijft leidend. Links zie je live welke basis al klopt, wat nog ontbreekt en welke vervolgstap nodig is.
-          </p>
-          <div class="status-stage">
-            <span class="stage-pill" id="stage-label">Basischeck</span>
-            <strong id="next-step">We starten met het adres van het pand.</strong>
-          </div>
-          <div class="progress-track">
-            <span id="progress-bar"></span>
-          </div>
-          <div class="progress-meta">
-            <strong id="progress-count">0 / 8 kernvelden</strong>
-            <span id="api-status">Server wordt gecontroleerd...</span>
-          </div>
-        </article>
+        <nav class="app-sidebar-nav" aria-label="Submenu">
+          <a class="app-sidebar-link" href="/thuis">
+            <span class="material-symbols-outlined">home</span>
+            Thuis
+          </a>
+          <a class="app-sidebar-link is-active" href="/intake" aria-current="page">
+            <span class="material-symbols-outlined">chat</span>
+            Intakechat
+          </a>
+          <a class="app-sidebar-link" href="/glasisolatie-demo">
+            <span class="app-window-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="4.5" y="4.5" width="15" height="15" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M12 4.5v15M4.5 12h15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                <path d="M7.75 7.75h2.25M14 7.75h2.25M7.75 14h2.25M14 14h2.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Glaswizard
+          </a>
+        </nav>
 
-        <article class="panel dashboard-fields">
-          <div class="section-header">
-            <p class="eyebrow">Benodigde informatie</p>
-            <h3 class="card-title">Projectgegevens</h3>
-          </div>
-          <div class="field-list">
-            <div class="field-row">
-              <span class="field-label">Straat</span>
-              <strong id="field-street">Nog niet ingevuld</strong>
+        <div class="app-sidebar-status">
+          <p class="app-sidebar-label">Modus</p>
+          <div class="mode-switch" aria-label="Chatmodus kiezen" role="group">
+            <div class="mode-switch-buttons">
+              <button class="mode-switch-button is-active" id="mode-guided-free" type="button" data-chat-mode="guided-free">
+                Vrije intake
+              </button>
+              <button class="mode-switch-button" id="mode-strict" type="button" data-chat-mode="strict">
+                Strakke intake
+              </button>
             </div>
-            <div class="field-row">
-              <span class="field-label">Huisnummer</span>
-              <strong id="field-houseNumber">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Postcode</span>
-              <strong id="field-postcode">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Plaats</span>
-              <strong id="field-city">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Gemeente</span>
-              <strong id="field-municipality">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Leeftijd gebouw</span>
-              <strong id="field-buildingAge">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Monumentenstatus</span>
-              <strong id="field-monumentStatus">Nog niet ingevuld</strong>
-            </div>
-          </div>
-        </article>
-
-        <article class="panel dashboard-fields">
-          <div class="section-header">
-            <p class="eyebrow">Pandcontext</p>
-            <h3 class="card-title">Monument en gebruik</h3>
-          </div>
-          <div class="field-list">
-            <div class="field-row field-row-wide">
-              <span class="field-label">Beschermd gezicht</span>
-              <strong id="field-protectedView">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row field-row-wide">
-              <span class="field-label">Beschermde waarden</span>
-              <strong id="field-protectedValues">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Huidig gebruik</span>
-              <strong id="field-currentUse">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Gebouwtype</span>
-              <strong id="field-buildingType">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Rol aanvrager</span>
-              <strong id="field-ownershipRole">Nog niet ingevuld</strong>
-            </div>
-          </div>
-        </article>
-
-        <article class="panel dashboard-measures">
-          <div class="section-header">
-            <p class="eyebrow">Maatregelen</p>
-            <h3 class="card-title">Aanvraagfocus</h3>
-          </div>
-          <div class="measure-pills" id="measure-pills"></div>
-          <div class="field-list compact-list">
-            <div class="field-row field-row-wide">
-              <span class="field-label">Maatregelomschrijving</span>
-              <strong id="field-measureDescription">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Locatie ingreep</span>
-              <strong id="field-measureLocation">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Doel maatregel</span>
-              <strong id="field-measureGoal">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row field-row-wide">
-              <span class="field-label">Beschikbare stukken</span>
-              <strong id="field-documentsAvailable">Nog niet ingevuld</strong>
-            </div>
-            <div class="field-row">
-              <span class="field-label">Vergunningsignaal</span>
-              <strong id="risk-signal">Nog niet bepaald</strong>
-            </div>
-          </div>
-          <p class="card-text">
-            Een klik op een maatregel zet die keuze meteen als bericht in de chat, zodat het gesprek de bron van
-            waarheid blijft.
-          </p>
-        </article>
-
-        <article class="panel dashboard-summary">
-          <div class="section-header">
-            <p class="eyebrow">Samenvatting</p>
-            <h3 class="card-title">Wat nu bekend is</h3>
-          </div>
-          <p class="card-text" id="dossier-summary">
-            Nog geen samenvatting beschikbaar. Start het gesprek rechts om gegevens op te bouwen.
-          </p>
-        </article>
-
-        <article class="panel dashboard-summary">
-          <div class="section-header">
-            <p class="eyebrow">Nog nodig</p>
-            <h3 class="card-title">Ontbrekende punten</h3>
-          </div>
-          <div class="stack-list" id="missing-items"></div>
-        </article>
-
-        <article class="panel dashboard-summary">
-          <div class="section-header">
-            <p class="eyebrow">Actielijst</p>
-            <h3 class="card-title">Projectbegeleiding</h3>
-          </div>
-          <div class="check-list" id="action-list"></div>
-        </article>
-
-        <article class="panel dashboard-summary">
-          <div class="section-header">
-            <p class="eyebrow">Stukken</p>
-            <h3 class="card-title">Documentencheck</h3>
-          </div>
-          <div class="check-list" id="document-list"></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="chat-column">
-      <article class="chat-shell">
-        <div class="chat-head">
-          <div>
-            <p class="eyebrow">Assistent</p>
-            <h2>Verzamel intake via chat</h2>
-          </div>
-          <div class="chat-head-note" id="chat-head-note">
-            Vrij gesprek actief<br />
-            ik denk mee vanuit jouw situatie
           </div>
         </div>
 
-        <div class="message-list" id="message-list" aria-live="polite"></div>
-
-        <form class="composer" id="chat-form">
-          <input
-            id="chat-input"
-            type="text"
-            placeholder="Typ hier je antwoord, bijvoorbeeld: Oude Gracht 120 in Utrecht"
-            autocomplete="off"
-          />
-          <button class="button button-primary composer-button" type="submit" id="send-button">
-            <span class="material-symbols-outlined">send</span>
+        <div class="app-sidebar-footer">
+          <button class="button button-secondary" id="reset-dossier" type="button">
+            <span class="material-symbols-outlined">restart_alt</span>
+            Reset
           </button>
-        </form>
-      </article>
+        </div>
+      </div>
+    </aside>
+
+    <section class="app-main app-main-redesign">
+      <header class="app-main-header">
+        <div>
+          <h1>Vertel wat er speelt met het pand</h1>
+          <p class="app-page-lead">We bouwen rustig het dossier op, zonder je vast te zetten in een formulier.</p>
+        </div>
+        <div class="app-main-actions">
+          <span class="app-status-chip" id="chat-head-note">Vrij gesprek actief</span>
+          <a class="button button-ghost" href="/glasisolatie-demo">
+            <span class="material-symbols-outlined">arrow_forward</span>
+            Naar glaswizard
+          </a>
+        </div>
+      </header>
+
+      <section class="app-main-grid app-main-grid-chat app-main-grid-chat-redesign">
+        <article class="chat-shell chat-shell-open">
+          <div class="chat-head">
+            <div>
+              <h2>Intakechat</h2>
+              <p class="chat-subtitle">Begin gewoon in je eigen woorden. Ik haal onderweg alleen op wat echt nodig is.</p>
+            </div>
+          </div>
+
+          <div class="message-list" id="message-list" aria-live="polite"></div>
+
+          <form class="composer" id="chat-form">
+            <input
+              id="chat-input"
+              type="text"
+              placeholder="Typ je vraag of situatie"
+              autocomplete="off"
+            />
+            <button class="button button-primary composer-button" type="submit" id="send-button" aria-label="Versturen">
+              <span class="material-symbols-outlined">send</span>
+            </button>
+          </form>
+        </article>
+
+        <aside class="app-rail">
+          <article class="app-side-sheet">
+            <div class="app-side-sheet-block dashboard-status">
+              <div class="app-side-sheet-head">
+                <h3>Waar we nu zijn</h3>
+                <span class="stage-pill" id="stage-label">Basischeck</span>
+              </div>
+              <p class="app-side-sheet-lead" id="next-step">We starten met het adres van het pand.</p>
+              <div class="progress-track">
+                <span id="progress-bar"></span>
+              </div>
+              <div class="progress-meta">
+                <strong id="progress-count">0 / 8 kernvelden</strong>
+                <span id="api-status">Server wordt gecontroleerd...</span>
+              </div>
+            </div>
+
+            <div class="app-side-sheet-block dashboard-summary">
+              <div class="section-header">
+                <h3 class="card-title">Wat we al weten</h3>
+              </div>
+              <p class="card-text" id="dossier-summary">
+                Nog geen samenvatting beschikbaar. Start het gesprek om gegevens op te bouwen.
+              </p>
+            </div>
+
+            <div class="app-side-sheet-block dashboard-fields">
+              <div class="section-header">
+                <h3 class="card-title">Kernvelden</h3>
+              </div>
+              <div class="field-list">
+                <div class="field-row">
+                  <span class="field-label">Straat</span>
+                  <strong id="field-street">Nog niet ingevuld</strong>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Huisnummer</span>
+                  <strong id="field-houseNumber">Nog niet ingevuld</strong>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Postcode</span>
+                  <strong id="field-postcode">Nog niet ingevuld</strong>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Plaats</span>
+                  <strong id="field-city">Nog niet ingevuld</strong>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Monumentenstatus</span>
+                  <strong id="field-monumentStatus">Nog niet ingevuld</strong>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Maatregel</span>
+                  <strong id="field-measureDescription">Nog niet ingevuld</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-side-sheet-block dashboard-summary">
+              <div class="section-header">
+                <h3 class="card-title">Nog open</h3>
+              </div>
+              <div class="stack-list" id="missing-items"></div>
+            </div>
+
+            <div class="app-side-sheet-block dashboard-summary">
+              <div class="section-header">
+                <h3 class="card-title">Checklist</h3>
+              </div>
+              <div class="check-list" id="action-list"></div>
+            </div>
+          </article>
+
+          <div hidden>
+            <div id="measure-pills"></div>
+            <strong id="field-municipality"></strong>
+            <strong id="field-buildingAge"></strong>
+            <strong id="field-protectedView"></strong>
+            <strong id="field-protectedValues"></strong>
+            <strong id="field-currentUse"></strong>
+            <strong id="field-buildingType"></strong>
+            <strong id="field-ownershipRole"></strong>
+            <strong id="field-measureLocation"></strong>
+            <strong id="field-measureGoal"></strong>
+            <strong id="field-documentsAvailable"></strong>
+            <strong id="risk-signal"></strong>
+            <div id="document-list"></div>
+          </div>
+        </aside>
+      </section>
     </section>
   </main>
 

@@ -54,6 +54,8 @@ Use a restrained palette. Keep the existing warm parchment, deep forest, and mut
 - bronze only as a subtle accent;
 - avoid making the page feel sepia, antique, or ceremonial.
 
+The `DESIGN(2).md` reference adds an important refinement here: the page should behave more like a flat, disciplined ink-on-paper interface than a lush heritage landing page. Color should be rationed, not spread across multiple decorative surfaces.
+
 ### Theme Scene Sentence
 
 A homeowner opens the site in daylight at their kitchen table, trying to make sense of a confusing sustainability or permit situation, and needs calm modern clarity rather than institutional formality.
@@ -65,6 +67,23 @@ A homeowner opens the site in daylight at their kitchen table, trying to make se
 - `Pirsch`: restrained modern layout and disciplined simplicity
 
 These are directional references only. The product should not inherit generic SaaS tropes, startup gradients, or tech-company slickness.
+
+### Imported Inspiration From `DESIGN(2).md`
+
+The Pirsch reference is useful as a systems influence, not as a literal aesthetic copy. The parts worth carrying into the homescreen are:
+
+- single-family sans typography for a more contemporary, less romantic voice;
+- warm paper-like background instead of bright white;
+- flat surfaces with hairline borders rather than soft shadows;
+- one clearly rationed accent color per view;
+- strong typographic hierarchy driven by spacing and scale instead of decorative framing.
+
+The parts we should not import directly are:
+
+- the notebook or sticky-note metaphor;
+- oversized rounded card language as the dominant motif;
+- highly centered editorial section stacking everywhere;
+- a visual mood that feels tactile, printed, or retro by default.
 
 ## Scope
 
@@ -156,6 +175,15 @@ The layout should be hero-first and disciplined.
 - Avoid over-relying on same-sized cards.
 - Prefer a cleaner page rhythm over heavily panelized layouts.
 
+### Composition Adjustment From `DESIGN(2).md`
+
+Borrow the discipline, not the exact composition. For this homescreen, that means:
+
+- fewer containers, but more deliberate ones;
+- cleaner horizontal alignment and less ornamental framing;
+- more dependence on type, spacing, and borders for structure;
+- less reliance on gradients, layered panels, and “preview card” storytelling blocks.
+
 ## Key States
 
 ### Default
@@ -199,6 +227,19 @@ The page should not behave like a brochure with many competing routes. It should
 - Use sharper typographic hierarchy and less ornamental atmosphere.
 - Preserve trust through clarity, not through institutional styling.
 - Make the surface feel like a current digital product for people, not a heritage campaign.
+- Favor flat surfaces and 1px structural lines over soft shadows.
+- Use one dominant accent action per viewport, not multiple competing emphasis colors.
+- Prefer a single contemporary sans voice on this page over a serif-led editorial tone.
+
+## Suggested Visual System Overrides For The Homescreen
+
+These are surface-level overrides for this specific page, not a full product-wide redesign mandate:
+
+- Typography can shift from serif-plus-sans toward a stronger sans-led hierarchy for the homescreen.
+- The page background can stay warm, but should be flatter and cleaner than the current atmospheric treatment.
+- Borders should do more structural work than shadows.
+- Buttons should feel current and confident, not ornamental or civic.
+- The hero should feel modern and direct, not like a monument brochure cover.
 
 ## Recommended Implementation References
 
@@ -216,11 +257,11 @@ The page should not behave like a brochure with many competing routes. It should
 
 ## Recommended Approach
 
-### Recommended: Warm Modern Guide
+### Recommended: Warm Modern Guide With Pirsch Discipline
 
 This is the preferred direction.
 
-It keeps the product's warm identity, but updates the visual tone toward a cleaner, more current interface. It balances reassurance with clarity and is least likely to become either too old-fashioned or too generic.
+It keeps the product's warm identity, but updates the visual tone toward a cleaner, more current interface. It borrows Pirsch's flat discipline, single-accent restraint, and sans-led clarity without inheriting its retro notebook mood. This balances reassurance with clarity and is least likely to become either too old-fashioned or too generic.
 
 ### Alternative: Product-Led Concierge
 
@@ -240,7 +281,8 @@ This redesign should not:
 - feel municipal or bureaucratic;
 - rely on heritage mood as the main source of trust;
 - bury login behind too much explanation;
-- imitate startup SaaS aesthetics.
+- imitate startup SaaS aesthetics;
+- mimic Pirsch so literally that the page loses its own product identity.
 
 ## Success Criteria
 
