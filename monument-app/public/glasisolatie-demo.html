@@ -55,9 +55,18 @@
         </div>
 
         <div class="app-sidebar-footer">
+          <div class="app-auth-card">
+            <p class="app-sidebar-label">Account</p>
+            <strong id="auth-display-name">Laden...</strong>
+            <small id="auth-email">Je account wordt geladen.</small>
+          </div>
           <button class="button button-primary" id="export-dossier" type="button">
             <span class="material-symbols-outlined">print</span>
             Exporteer
+          </button>
+          <button class="button button-secondary" id="logout-button" type="button">
+            <span class="material-symbols-outlined">logout</span>
+            Uitloggen
           </button>
         </div>
       </div>
@@ -222,31 +231,24 @@
                       </select>
                     </label>
                     <label class="glass-field">
-                      <span>Aantal</span>
-                      <input type="number" min="1" name="windowCount" />
+                      <span>Hoeveel unieke kozijnparen heb je?</span>
+                      <input type="number" min="1" max="12" name="uniquePairCount" />
                     </label>
-                    <label class="glass-field">
-                      <span>Bijzonderheden</span>
-                      <input type="text" name="windowCharacter" placeholder="Bijvoorbeeld roeden of luiken" />
-                    </label>
+                    <div class="glass-support-note glass-field-wide">
+                      <strong>Werk per uniek paar</strong>
+                      <p>Geef hier niet het totaal aantal ramen op, maar het aantal verschillende kozijnparen. Per paar kun je daarna aangeven hoeveel identieke exemplaren je hebt.</p>
+                    </div>
                   </div>
-                  <div class="glass-upload-grid">
-                    <label class="glass-upload">
-                      <span>Overzichtsfoto</span>
-                      <input type="file" name="facadePhoto" accept="image/*" />
-                      <small class="file-meta" data-file-meta="facadePhoto">Nog geen bestand gekozen</small>
-                    </label>
-                    <label class="glass-check">
-                      <input type="checkbox" name="facadePhotoReady" />
-                      <span>Foto staat klaar</span>
-                    </label>
-                  </div>
+                  <div class="glass-pair-list" id="window-pair-list"></div>
                 </section>
 
                 <section class="glass-step-panel" data-step-panel="condition">
                   <div class="glass-step-copy">
                     <h3>Bestaande toestand</h3>
                     <p>Beschrijf kort hoe het venster nu functioneert en wat je al ziet aan tocht, ventilatie en staat.</p>
+                    <div class="glass-step-copy-tools">
+                      <button class="glass-inline-info" type="button" data-tooltip-key="window-age">Toelichting ouderdom venster</button>
+                    </div>
                   </div>
                   <div class="glass-field-grid two-up">
                     <label class="glass-field">
@@ -259,7 +261,7 @@
                       </select>
                     </label>
                     <label class="glass-field">
-                      <span>Tochtwering</span>
+                      <span>Tochtwering <button class="glass-info-button" type="button" aria-label="Meer uitleg" data-tooltip-key="ventilation-draught">i</button></span>
                       <select name="draughtCurrent">
                         <option value="">Kies</option>
                         <option value="geen">Geen</option>
@@ -268,7 +270,7 @@
                       </select>
                     </label>
                     <label class="glass-field">
-                      <span>Ventilatie</span>
+                      <span>Ventilatie <button class="glass-info-button" type="button" aria-label="Meer uitleg" data-tooltip-key="ventilation-draught">i</button></span>
                       <select name="ventilationCurrent">
                         <option value="">Kies</option>
                         <option value="voldoende">Voldoende</option>
@@ -285,7 +287,7 @@
                       </select>
                     </label>
                     <label class="glass-field">
-                      <span>Technische staat</span>
+                      <span>Technische staat <button class="glass-info-button" type="button" aria-label="Meer uitleg" data-tooltip-key="window-condition">i</button></span>
                       <textarea name="technicalState" rows="3"></textarea>
                     </label>
                     <label class="glass-field">
@@ -295,12 +297,12 @@
                   </div>
                   <div class="glass-upload-grid">
                     <label class="glass-upload">
-                      <span>Buitenfoto's</span>
+                      <span>Buitenfoto's <button class="glass-info-button" type="button" aria-label="Meer uitleg" data-tooltip-key="outside-photos">i</button></span>
                       <input type="file" name="outsidePhotos" accept="image/*" multiple />
                       <small class="file-meta" data-file-meta="outsidePhotos">Nog geen bestand gekozen</small>
                     </label>
                     <label class="glass-upload">
-                      <span>Binnenfoto's</span>
+                      <span>Binnenfoto's <button class="glass-info-button" type="button" aria-label="Meer uitleg" data-tooltip-key="inside-photos">i</button></span>
                       <input type="file" name="insidePhotos" accept="image/*" multiple />
                       <small class="file-meta" data-file-meta="insidePhotos">Nog geen bestand gekozen</small>
                     </label>
@@ -322,7 +324,7 @@
                   </div>
                   <div class="glass-field-grid two-up">
                     <label class="glass-field">
-                      <span>Huidig glas</span>
+                      <span>Huidig glas <button class="glass-info-button" type="button" aria-label="Meer uitleg" data-tooltip-key="glass-type">i</button></span>
                       <select name="glassTypeCurrent">
                         <option value="">Kies</option>
                         <option value="enkel-glas">Enkel glas</option>
@@ -351,104 +353,11 @@
                     <h3>Techniek glas vervangen</h3>
                     <p>Alleen de technische uitwerking voor glasvervanging blijft hier in beeld.</p>
                   </div>
-                  <div class="glass-field-grid three-up">
-                    <label class="glass-field">
-                      <span>Glasbreedte</span>
-                      <input type="number" min="0" name="glassWidth" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Glashoogte</span>
-                      <input type="number" min="0" name="glassHeight" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Roedebreedte</span>
-                      <input type="number" min="0" name="muntinWidth" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Maat T</span>
-                      <input type="number" min="0" name="measureT" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Maat R</span>
-                      <input type="number" min="0" name="measureR" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Maat P</span>
-                      <input type="number" min="0" name="measureP" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Maat B</span>
-                      <input type="number" min="0" name="measureB" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Maat S</span>
-                      <input type="number" min="0" name="measureS" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Diepte D</span>
-                      <input type="number" min="0" name="measureD" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Uitfrezen</span>
-                      <select name="millingPossible">
-                        <option value="">Kies</option>
-                        <option value="ja">Ja</option>
-                        <option value="nee">Nee</option>
-                        <option value="nog-onbekend">Nog onbekend</option>
-                      </select>
-                    </label>
-                    <label class="glass-field">
-                      <span>Technische optie</span>
-                      <select name="technicalOption">
-                        <option value="">Kies</option>
-                        <option value="gelaagd">Isolerend enkel glas</option>
-                        <option value="dun-dubbel">Dun dubbelglas</option>
-                        <option value="vacuum">Vacuumglas</option>
-                        <option value="folie">Raamfolie</option>
-                        <option value="nog-open">Nog open</option>
-                      </select>
-                    </label>
-                    <label class="glass-field">
-                      <span>Gekozen verbetering</span>
-                      <input type="text" name="chosenGlassUpgrade" />
-                    </label>
-                    <label class="glass-field">
-                      <span>Openen nieuw</span>
-                      <select name="openingTypeNew">
-                        <option value="">Kies</option>
-                        <option value="wel-open">Blijft openend</option>
-                        <option value="niet-open">Niet meer openend</option>
-                      </select>
-                    </label>
-                    <label class="glass-field glass-field-wide">
-                      <span>Nieuwe tochtwering</span>
-                      <textarea name="draughtNew" rows="3"></textarea>
-                    </label>
-                    <label class="glass-field glass-field-wide">
-                      <span>Offerte of uitvoerder</span>
-                      <textarea name="quoteInfo" rows="3"></textarea>
-                    </label>
+                  <div class="glass-support-note">
+                    <strong>Meet elk uniek paar apart op</strong>
+                    <p>Gebruik de tekening per paar en vul de maten in waar de letters staan. Klik op het ronde <em>i</em>-icoon als je extra uitleg of een voorbeeldbeeld wilt zien.</p>
                   </div>
-                  <div class="glass-upload-grid">
-                    <label class="glass-upload">
-                      <span>Schets bestaand</span>
-                      <input type="file" name="existingSketch" accept="image/*,.pdf" />
-                      <small class="file-meta" data-file-meta="existingSketch">Nog geen bestand gekozen</small>
-                    </label>
-                    <label class="glass-upload">
-                      <span>Schets nieuw</span>
-                      <input type="file" name="newSketch" accept="image/*,.pdf" />
-                      <small class="file-meta" data-file-meta="newSketch">Nog geen bestand gekozen</small>
-                    </label>
-                    <label class="glass-check">
-                      <input type="checkbox" name="existingSketchReady" />
-                      <span>Schets bestaand klaar</span>
-                    </label>
-                    <label class="glass-check">
-                      <input type="checkbox" name="newSketchReady" />
-                      <span>Schets nieuw klaar</span>
-                    </label>
-                  </div>
+                  <div class="glass-pair-list glass-measure-pair-list" id="replace-pair-list"></div>
                 </section>
 
                 <section class="glass-step-panel" data-step-panel="secondary">
@@ -538,6 +447,21 @@
                 </div>
               </div>
             </form>
+
+            <dialog class="glass-help-dialog" id="glass-help-dialog" aria-labelledby="glass-help-title">
+              <div class="glass-help-dialog-inner">
+                <div class="glass-help-dialog-head">
+                  <div>
+                    <p class="app-kicker">Toelichting</p>
+                    <h3 id="glass-help-title">Extra uitleg</h3>
+                  </div>
+                  <button class="glass-help-close" id="glass-help-close" type="button" aria-label="Sluiten">
+                    <span class="material-symbols-outlined">close</span>
+                  </button>
+                </div>
+                <div class="glass-help-dialog-body" id="glass-help-body"></div>
+              </div>
+            </dialog>
 
             <div class="glass-wizard-actions">
               <button class="button button-ghost" id="prev-step" type="button">

@@ -187,6 +187,25 @@
   gap: 12px;
 }
 
+.glass-support-note {
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(74, 100, 88, 0.14);
+  background: rgba(238, 245, 236, 0.76);
+}
+
+.glass-support-note strong {
+  color: var(--ink-strong);
+}
+
+.glass-support-note p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .glass-eligibility-result,
 .glass-step-alert,
 .glass-step-prefill {
@@ -587,6 +606,361 @@
   gap: 10px;
 }
 
+.glass-pair-list {
+  display: grid;
+  gap: 16px;
+}
+
+.glass-pair-card {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 250, 247, 0.94));
+}
+
+.glass-pair-card.is-invalid {
+  border-color: rgba(167, 103, 53, 0.38);
+  box-shadow: inset 0 0 0 1px rgba(167, 103, 53, 0.14);
+}
+
+.glass-pair-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.glass-pair-card-head h4 {
+  margin: 6px 0 0;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--ink-strong);
+}
+
+.glass-pair-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(243, 237, 229, 0.95);
+  color: var(--forest);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.glass-measure-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.05fr) minmax(280px, 0.95fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.glass-measure-figure,
+.glass-measure-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.glass-measure-figure-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.glass-measure-figure-head strong {
+  color: var(--ink-strong);
+}
+
+.glass-measure-figure-canvas {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #f9fbf8;
+  overflow: hidden;
+  padding: 18px 18px 40px;
+  min-height: 560px;
+}
+
+.glass-measure-figure-canvas img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.glass-overlay-input {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 82px;
+}
+
+.glass-overlay-chip {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(23, 56, 40, 0.12);
+  color: var(--forest);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.glass-overlay-chip-button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.glass-overlay-input input {
+  width: 100%;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 18px 10px 10px;
+  text-align: center;
+  color: var(--ink-strong);
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  outline: none;
+}
+
+.glass-overlay-input input:focus {
+  border-color: rgba(23, 56, 40, 0.28);
+  box-shadow: 0 0 0 4px rgba(23, 56, 40, 0.08);
+}
+
+.glass-measure-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.glass-measure-meta span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.glass-assessment {
+  display: grid;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #fff;
+}
+
+.glass-assessment-pass {
+  border-color: rgba(74, 100, 88, 0.22);
+  background: rgba(238, 245, 236, 0.7);
+}
+
+.glass-assessment-warning {
+  border-color: rgba(167, 103, 53, 0.24);
+  background: rgba(248, 242, 231, 0.82);
+}
+
+.glass-assessment-fail {
+  border-color: rgba(167, 103, 53, 0.32);
+  background: rgba(250, 235, 228, 0.88);
+}
+
+.glass-assessment-pending {
+  border-color: rgba(17, 17, 17, 0.08);
+  background: rgba(252, 250, 247, 0.96);
+}
+
+.glass-assessment-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.glass-assessment-head h5 {
+  margin: 6px 0 0;
+  color: var(--ink-strong);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.glass-assessment-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--forest);
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.glass-assessment-summary,
+.glass-assessment-note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.glass-assessment-list {
+  display: grid;
+  gap: 8px;
+}
+
+.glass-assessment-item {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.glass-assessment-item strong {
+  color: var(--forest);
+}
+
+.glass-assessment-item span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.glass-assessment-item.is-fail {
+  border-color: rgba(167, 103, 53, 0.28);
+}
+
+.glass-assessment-item.is-warning {
+  border-color: rgba(167, 140, 53, 0.24);
+}
+
+.glass-info-button,
+.glass-inline-info,
+.glass-help-close {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.glass-info-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(23, 56, 40, 0.12);
+  color: var(--forest);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.glass-inline-info {
+  justify-self: start;
+  padding: 0;
+  color: var(--forest);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.glass-help-dialog {
+  width: min(720px, calc(100vw - 32px));
+  padding: 0;
+  border: 0;
+  border-radius: 22px;
+  background: transparent;
+}
+
+.glass-help-dialog::backdrop {
+  background: rgba(11, 31, 21, 0.38);
+}
+
+.glass-help-dialog-inner {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 24px 48px rgba(11, 31, 21, 0.18);
+}
+
+.glass-help-dialog-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+}
+
+.glass-help-dialog-head h3 {
+  margin: 6px 0 0;
+  color: var(--ink-strong);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.glass-help-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(243, 237, 229, 0.95);
+  color: var(--forest);
+}
+
+.glass-help-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.glass-help-copy p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.glass-help-figure {
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #f8faf7;
+}
+
+.glass-help-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .glass-summary-row {
   display: flex;
   justify-content: space-between;
@@ -672,7 +1046,9 @@
   .glass-field-grid.two-up,
   .glass-field-grid.three-up,
   .glass-upload-grid,
-  .glass-review-grid {
+  .glass-review-grid,
+  .glass-measure-layout,
+  .glass-measure-fields {
     grid-template-columns: 1fr;
   }
 
@@ -724,6 +1100,29 @@
 
   .glass-nav-note {
     text-align: left;
+  }
+
+  .glass-pair-card,
+  .glass-help-dialog-inner {
+    padding: 16px;
+  }
+
+  .glass-pair-card-head {
+    grid-template-columns: 1fr;
+  }
+
+  .glass-measure-figure-canvas {
+    min-height: 420px;
+    padding: 12px 12px 28px;
+  }
+
+  .glass-overlay-input {
+    width: 70px;
+  }
+
+  .glass-overlay-input input {
+    padding: 16px 8px 8px;
+    font-size: 0.82rem;
   }
 }
 
