@@ -1,37 +1,59 @@
 const storageKey = "glasisolatie-demo-state-v2";
 
 const stepMeta = {
+  eligibility: {
+    label: "Geschiktheidscheck",
+    railLabel: "Check",
+    subtitle: "We controleren eerst of deze demo-route past bij jouw pand en maatregel.",
+  },
   project: {
     label: "Pand en aanvrager",
+    railLabel: "Pand en\naanvrager",
     subtitle: "We leggen eerst de basis van het pand en de contactgegevens vast.",
   },
   windows: {
     label: "Vensters",
+    railLabel: "Vensters",
     subtitle: "Nu gaat het alleen om de plek, gevel en foto's van de relevante vensters.",
   },
   condition: {
     label: "Bestaande toestand",
+    railLabel: "Bestaande\nsituatie",
     subtitle: "Hier kijken we naar ventilatie, onderhoud en de huidige staat van het venster.",
   },
   choice: {
     label: "Glas en route",
+    railLabel: "Glas en\nroute",
     subtitle: "In deze stap kies je de oplossingsrichting die de rest van het dossier bepaalt.",
   },
   replace: {
     label: "Techniek glas vervangen",
+    railLabel: "Glas\nvervangen",
     subtitle: "Alleen de technische uitwerking voor glasvervanging blijft nu in beeld.",
   },
   secondary: {
     label: "Techniek achterzetramen",
+    railLabel: "Achterzet-\nramen",
     subtitle: "Alleen de technische uitwerking voor achterzetramen blijft nu in beeld.",
   },
   review: {
     label: "Controle en dossier",
+    railLabel: "Controle",
     subtitle: "Hier zie je wat al compleet is en wat nog openstaat voordat je exporteert.",
+  },
+  submit: {
+    label: "Verzoek indienen",
+    railLabel: "Verzoek\nindienen",
+    subtitle: "Deze laatste stap is alvast voorbereid voor een latere koppeling met de Omgevingswet API.",
   },
 };
 
 const requiredFields = {
+  eligibility: [
+    { name: "inZeist", label: "Ligging in Zeist" },
+    { name: "heritageScope", label: "Bescherming" },
+    { name: "measureScope", label: "Glasisolatie" },
+  ],
   project: [
     { name: "applicantName", label: "Naam aanvrager" },
     { name: "propertyAddress", label: "Adres van het pand" },
@@ -76,6 +98,7 @@ const requiredFields = {
     { name: "secondaryVentilation", label: "Ventilatie van de luchtspouw" },
   ],
   review: [],
+  submit: [],
 };
 
 const attachmentMeta = [
@@ -157,18 +180,45 @@ const demoHouseProfiles = [
   },
 ];
 
+const houseProfileRepository = {
+  // This local data source mirrors the future Supabase integration point.
+  async findByAddress(normalizedAddress) {
+    if (!normalizedAddress) {
+      return null;
+    }
+
+    const profile = demoHouseProfiles.find((candidate) =>
+      candidate.addressTokens.every((token) => normalizedAddress.includes(token)),
+    );
+
+    return profile ? cloneValue(profile) : null;
+  },
+};
+
+const futureSubmissionApi = {
+  enabled: false,
+  documentationUrl: "https://developer.omgevingswet.overheid.nl/api-register/api/verzoek-indienen/",
+  version: "v5",
+  environments: {
+    preProduction: "https://service.pre.omgevingswet.overheid.nl/publiek/verzoeken/api/indienen/v5/",
+    production: "https://service.omgevingswet.overheid.nl/publiek/verzoeken/api/indienen/v5/",
+  },
+  auth: {
+    type: "access-token",
+    flow: "OpenID Connect 2.0 Authorization Code Flow",
+    provider: "DSO Identity Server",
+  },
+  processSteps: ["initieren", "documenten-toevoegen", "indienen"],
+};
+
 const elements = {
-  attachmentList: document.querySelector("#attachment-list"),
   demoProgressBar: document.querySelector("#demo-progress-bar"),
-  demoProgressText: document.querySelector("#demo-progress-text"),
   demoStage: document.querySelector("#demo-stage"),
   eligibilityInputs: [...document.querySelectorAll("[data-eligibility]")],
   eligibilityResult: document.querySelector("#eligibility-result"),
   exportButton: document.querySelector("#export-dossier"),
   form: document.querySelector("#glass-demo-form"),
-  houseProfileCard: document.querySelector("#house-profile-card"),
   loadDemoHouseProfileButton: document.querySelector("#load-demo-house-profile"),
-  missingList: document.querySelector("#missing-list"),
   navNote: document.querySelector("#nav-note"),
   nextButton: document.querySelector("#next-step"),
   prevButton: document.querySelector("#prev-step"),
@@ -181,12 +231,16 @@ const elements = {
   routeChoice: document.querySelector("#route-choice"),
   saveButton: document.querySelector("#save-progress"),
   saveStatus: document.querySelector("#save-status"),
+  submitSummary: document.querySelector("#submit-summary"),
+  submitTechPlan: document.querySelector("#submit-tech-plan"),
   stepAlert: document.querySelector("#step-alert"),
   stepCounter: document.querySelector("#step-counter"),
   stepList: document.querySelector("#step-list"),
   stepPanels: [...document.querySelectorAll("[data-step-panel]")],
   stepPrefill: document.querySelector("#step-prefill"),
+  stepStatus: document.querySelector(".glass-step-status"),
   stepStage: document.querySelector("#step-stage"),
+  stepViewport: document.querySelector("#step-viewport"),
   wizardPanel: document.querySelector("#wizard-panel"),
 };
 
@@ -197,6 +251,8 @@ const state = loadState();
 
 applyStateToForm();
 render();
+
+window.addEventListener("resize", syncCarouselHeight);
 
 for (const input of elements.eligibilityInputs) {
   input.addEventListener("change", handleEligibilityChange);
@@ -212,16 +268,32 @@ elements.stepList.addEventListener("click", handleStepJump);
 elements.loadDemoHouseProfileButton.addEventListener("click", loadDemoHouseProfile);
 
 function handleEligibilityChange() {
+  const wasEligible = isEligible(state.eligibility);
   state.eligibility = readEligibility();
-  if (!isEligible(state.eligibility)) {
-    state.currentStep = "project";
+  const nowEligible = isEligible(state.eligibility);
+
+  if (nowEligible) {
+    state.currentStep = state.currentStep === "eligibility" ? "project" : state.currentStep;
+    state.touchedSteps.eligibility = true;
+  } else {
+    state.currentStep = "eligibility";
   }
+
   persistState();
   render();
+
+  if (!wasEligible && nowEligible) {
+    requestAnimationFrame(() => {
+      elements.wizardPanel?.scrollIntoView({
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+        block: "start",
+      });
+    });
+  }
 }
 
 function handleFormMutation(event) {
-  if (event.target.type === "file") {
+  if (event.target.type === "file" || event.target.dataset.eligibility !== undefined) {
     return;
   }
 
@@ -232,6 +304,10 @@ function handleFormMutation(event) {
 
 function handleFormChange(event) {
   const { target } = event;
+
+  if (target.dataset.eligibility !== undefined) {
+    return;
+  }
 
   if (target.type === "file") {
     state.files[target.name] = [...target.files].map((file) => file.name);
@@ -254,7 +330,7 @@ function syncFieldsFromForm(target) {
     syncFieldOwnership(target.name);
   }
   syncCurrentStepWithRoute();
-  maybeLoadHouseProfileFromAddress();
+  void maybeLoadHouseProfileFromAddress();
 }
 
 function goNext() {
@@ -310,24 +386,33 @@ function transitionToStep(nextStep) {
 
   window.clearTimeout(transitionTimer);
 
-  if (prefersReducedMotion.matches) {
+  const commitStepChange = () => {
     state.currentStep = nextStep;
     persistState();
     render();
-    elements.wizardPanel?.scrollIntoView({ behavior: "auto", block: "start" });
+    focusActiveStep();
+  };
+
+  if (prefersReducedMotion.matches) {
+    commitStepChange();
     return;
   }
 
   elements.stepStage.classList.add("is-transitioning");
-  transitionTimer = window.setTimeout(() => {
-    state.currentStep = nextStep;
-    persistState();
-    render();
-    requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    commitStepChange();
+    transitionTimer = window.setTimeout(() => {
       elements.stepStage.classList.remove("is-transitioning");
-      elements.wizardPanel?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }, 90);
+    }, 180);
+  });
+}
+
+function focusActiveStep() {
+  elements.stepViewport?.focus?.();
+  elements.wizardPanel?.scrollIntoView({
+    behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+    block: "start",
+  });
 }
 
 function loadDemoHouseProfile() {
@@ -339,7 +424,7 @@ function loadDemoHouseProfile() {
   render();
 }
 
-function maybeLoadHouseProfileFromAddress() {
+async function maybeLoadHouseProfileFromAddress() {
   const normalizedAddress = normalizeValue(state.fields.propertyAddress);
 
   if (normalizedAddress === state.lastProfileQuery) {
@@ -347,16 +432,27 @@ function maybeLoadHouseProfileFromAddress() {
   }
 
   state.lastProfileQuery = normalizedAddress;
-  const profile = lookupHouseProfile(normalizedAddress);
+  const requestId = (state.houseProfileRequestId || 0) + 1;
+  state.houseProfileRequestId = requestId;
+  const profile = await houseProfileRepository.findByAddress(normalizedAddress);
+
+  if (state.houseProfileRequestId !== requestId) {
+    return;
+  }
 
   if (!profile) {
     if (state.houseProfile?.mode === "address") {
       clearHouseProfileState();
+      persistState();
+      render();
     }
     return;
   }
 
   applyHouseProfile(profile, "address");
+  applyStateToForm();
+  persistState("Huisdossier geladen");
+  render();
 }
 
 function applyHouseProfile(profile, mode) {
@@ -431,13 +527,11 @@ function render() {
   renderStepPanels();
   renderProgress();
   renderStepStatus();
-  renderMissing();
-  renderAttachmentList();
   renderFileMeta();
   renderReview();
+  renderFutureSubmission();
   renderNav();
   renderSaveStatus();
-  renderHouseProfileCard();
   renderFieldSources();
 }
 
@@ -455,8 +549,8 @@ function renderEligibility() {
   if (resolved === "pass") {
     elements.eligibilityResult.classList.add("is-pass");
     elements.eligibilityResult.innerHTML = `
-      <strong>Je valt binnen de scope van deze demo.</strong>
-      <p class="card-text">Je kunt nu vrij door de stappen bewegen en later terugkomen op technische details.</p>
+      <strong>Je komt in aanmerking voor deze route.</strong>
+      <p class="card-text">Dit geldt voor glasisolatie in Zeist bij een rijksmonument, gemeentelijk monument of pand in beschermd gezicht. Je kunt nu door naar <em>Pand en aanvrager</em>.</p>
     `;
     return;
   }
@@ -465,33 +559,71 @@ function renderEligibility() {
     elements.eligibilityResult.classList.add("is-fail");
     elements.eligibilityResult.innerHTML = `
       <strong>Deze demo is nu niet de juiste route.</strong>
-      <p class="card-text">De huidige demonstratie is alleen bedoeld voor glasisolatie in Zeist bij een monument of pand in beschermd gezicht. De inhoud hieronder blijft zichtbaar als voorbeeld, maar de wizard wordt niet actief.</p>
+      <p class="card-text">De huidige demonstratie is alleen bedoeld voor glasisolatie in Zeist bij een rijksmonument, gemeentelijk monument of pand in beschermd gezicht. Kies je daarbuiten, dan blijft de wizard geblokkeerd.</p>
     `;
     return;
   }
 
   elements.eligibilityResult.innerHTML = `
-    <p class="card-text">Beantwoord eerst deze drie vragen. Daarna kun je de wizard vrij gebruiken.</p>
+    <p class="card-text">Beantwoord eerst deze drie vragen. Deze route is bedoeld voor glasisolatie in Zeist bij een rijksmonument, gemeentelijk monument of pand in beschermd gezicht.</p>
   `;
 }
 
 function renderStepPanels() {
+  const steps = getVisibleSteps();
+  const currentIndex = Math.max(steps.indexOf(state.currentStep), 0);
+  let activePanel = null;
+
   for (const panel of elements.stepPanels) {
-    panel.classList.toggle("is-active", panel.dataset.stepPanel === state.currentStep);
+    const stepId = panel.dataset.stepPanel;
+    const visible = steps.includes(stepId);
+    const active = stepId === state.currentStep;
+    panel.hidden = !visible;
+    panel.classList.toggle("is-active", active);
+    panel.setAttribute("aria-hidden", visible && active ? "false" : "true");
+    panel.inert = !active;
+
+    if (active) {
+      activePanel = panel;
+    }
   }
+
+  elements.stepStage.style.transform = `translateX(-${currentIndex * 100}%)`;
+  elements.stepViewport?.setAttribute("aria-label", `${stepLabel(state.currentStep)} in beeld`);
+  syncCarouselHeight(activePanel);
+}
+
+function syncCarouselHeight(activePanel = elements.stepStage?.querySelector(".glass-step-panel.is-active")) {
+  if (!elements.stepViewport || !activePanel) {
+    return;
+  }
+
+  const nextHeight = Math.ceil(activePanel.getBoundingClientRect().height);
+  elements.stepViewport.style.height = `${nextHeight}px`;
+}
+
+function getConnectorStatus(step, index, currentIndex) {
+  if (isStepComplete(step)) {
+    return "done";
+  }
+
+  if (index < currentIndex) {
+    return "open";
+  }
+
+  return "future";
 }
 
 function renderProgress() {
   const steps = getVisibleSteps();
   const completed = steps.filter((step) => isStepComplete(step)).length;
   const currentIndex = Math.max(steps.indexOf(state.currentStep), 0);
-  const fillRatio = steps.length > 1 ? completed / (steps.length - 1) : 1;
-  const currentMeta = stepMeta[state.currentStep] || stepMeta.project;
+  const fillRatio = steps.length > 1 ? currentIndex / (steps.length - 1) : 1;
+  const currentMeta = stepMeta[state.currentStep] || stepMeta.eligibility;
 
   elements.demoProgressBar.style.width = `${Math.max(0, Math.min(fillRatio, 1)) * 100}%`;
-  elements.demoProgressText.textContent = `${completed} / ${steps.length} stappen voltooid`;
   elements.progressCountText.textContent = `${completed} / ${steps.length} klaar`;
-  elements.demoStage.textContent = isEligible(state.eligibility) ? currentMeta.label : "Geschiktheidscheck";
+  elements.demoStage.textContent = currentMeta.label;
   elements.progressTitle.textContent = currentMeta.label;
   elements.progressSubtitle.textContent = currentMeta.subtitle;
   elements.routeChip.textContent = routeLabel(state.fields.routeChoice) || "Route nog niet gekozen";
@@ -506,20 +638,26 @@ function renderProgress() {
     button.dataset.stepTarget = step;
     button.className = `glass-step-node is-${status}`;
     button.setAttribute("aria-current", status === "active" ? "step" : "false");
+    const fullLabel = stepLabel(step);
+    const railLabel = stepRailLabel(step);
+    button.setAttribute("aria-label", `${fullLabel}${status === "done" ? ", afgerond" : status === "active" ? ", huidige stap" : ""}`);
+    button.title = fullLabel;
     button.innerHTML = `
       <span class="glass-step-bullet">
-        <span class="material-symbols-outlined">${status === "done" ? "check" : index + 1}</span>
+        ${
+          status === "done"
+            ? '<span class="material-symbols-outlined">check</span>'
+            : `<span class="glass-step-number">${index + 1}</span>`
+        }
       </span>
-      <span class="glass-step-text">
-        <strong>${escapeHtml(stepLabel(step))}</strong>
-        <small>${stepStatusText(step, status)}</small>
-      </span>
+      <span class="glass-step-text">${escapeHtml(railLabel)}</span>
     `;
     elements.stepList.appendChild(button);
 
     if (index < steps.length - 1) {
+      const connectorStatus = getConnectorStatus(step, index, currentIndex);
       const arrow = document.createElement("span");
-      arrow.className = `glass-step-arrow${isStepComplete(step) ? " is-done" : ""}`;
+      arrow.className = `glass-step-arrow is-${connectorStatus}`;
       arrow.innerHTML = `<span class="material-symbols-outlined">east</span>`;
       elements.stepList.appendChild(arrow);
     }
@@ -552,63 +690,10 @@ function renderStepStatus() {
     elements.stepPrefill.hidden = true;
     elements.stepPrefill.innerHTML = "";
   }
-}
 
-function renderMissing() {
-  if (!isEligible(state.eligibility)) {
-    renderSimpleList(
-      elements.missingList,
-      [],
-      "De compleetheidscheck verschijnt zodra de geschiktheidscheck binnen scope uitkomt.",
-    );
-    return;
+  if (elements.stepStatus) {
+    elements.stepStatus.hidden = elements.stepAlert.hidden && elements.stepPrefill.hidden;
   }
-
-  const items = getMissingItems();
-  renderSimpleList(elements.missingList, items, "Nog geen open punten. Zodra je invult, verschijnen ontbrekende onderdelen hier.");
-}
-
-function renderAttachmentList() {
-  if (!isEligible(state.eligibility)) {
-    renderCheckList(
-      elements.attachmentList,
-      [],
-      "Na een positieve doelgroepcheck verschijnt hier welke foto's en schetsen je voor jouw route nodig hebt.",
-    );
-    return;
-  }
-
-  const items = attachmentMeta
-    .filter((item) => !item.branch || item.branch === state.fields.routeChoice)
-    .map((item) => ({
-      done: Boolean(state.fields[item.key]),
-      label: formatAttachmentLabel(item),
-    }));
-
-  renderCheckList(elements.attachmentList, items, "Bijlagen verschijnen hier zodra je route en stappen invult.");
-}
-
-function renderHouseProfileCard() {
-  if (!state.houseProfile) {
-    elements.houseProfileCard.textContent =
-      "Nog geen huisprofiel geladen. Gebruik in stap 1 een demo-huisdossier of vul een bekend demo-adres in.";
-    return;
-  }
-
-  const appliedFields = getAppliedHouseProfileFields();
-  const sourceLine = state.houseProfile.mode === "manual" ? "Handmatig demo-profiel geladen." : "Automatisch gevonden op basis van het adres.";
-
-  elements.houseProfileCard.innerHTML = `
-    <div class="glass-house-card-head">
-      <strong>${escapeHtml(state.houseProfile.title)}</strong>
-      <span>${escapeHtml(sourceLine)}</span>
-    </div>
-    <p>${escapeHtml(state.houseProfile.source)}</p>
-    <div class="glass-house-summary">
-      ${state.houseProfile.summary.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
-    </div>
-    <small>${appliedFields.length} velden zijn nu zichtbaar als voorinvulling.</small>
-  `;
 }
 
 function renderFieldSources() {
@@ -674,6 +759,26 @@ function renderReview() {
   );
 }
 
+function renderFutureSubmission() {
+  const draft = buildFutureSubmissionDraft();
+
+  renderSummaryRows(elements.submitSummary, [
+    { label: "Status", value: draft.enabled ? "Live koppeling actief" : "Voorbereid, nog niet live" },
+    { label: "Verzoektype", value: draft.requestType },
+    { label: "Aanvrager", value: draft.applicantName || "Wordt overgenomen uit het dossier" },
+    { label: "Locatie", value: draft.propertyAddress || "Wordt overgenomen uit het dossier" },
+    { label: "Bijlagen", value: draft.attachmentCount ? `${draft.attachmentCount} voorbereid` : "Nog geen voorbereide bijlagen" },
+  ]);
+
+  renderSummaryRows(elements.submitTechPlan, [
+    { label: "Authenticatie", value: `${futureSubmissionApi.auth.provider}, ${futureSubmissionApi.auth.flow}` },
+    { label: "Endpoint", value: futureSubmissionApi.version },
+    { label: "Proces", value: "Initieren, documenten toevoegen, indienen" },
+    { label: "Conceptstatus", value: draft.isReadyForSubmission ? "Dossier is klaar voor een toekomstige submitflow" : "Werk eerst verplichte onderdelen af" },
+    { label: "Payload", value: "Conceptpayload en veldmapping zijn lokaal voorbereid" },
+  ]);
+}
+
 function renderNav() {
   const steps = getVisibleSteps();
   const currentIndex = steps.indexOf(state.currentStep);
@@ -681,10 +786,10 @@ function renderNav() {
   const currentMissing = getStepMissingItems(state.currentStep);
   const globalMissing = getMissingItems();
 
-  elements.prevButton.disabled = !eligible || currentIndex <= 0;
-  elements.nextButton.disabled = !eligible || currentIndex === steps.length - 1;
+  elements.prevButton.disabled = currentIndex <= 0;
+  elements.nextButton.disabled = (!eligible && state.currentStep === "eligibility") || currentIndex === steps.length - 1;
 
-  if (!eligible) {
+  if (state.currentStep === "eligibility" && !eligible) {
     elements.navNote.textContent = "Beantwoord eerst de geschiktheidscheck om de wizard te activeren.";
     return;
   }
@@ -693,6 +798,13 @@ function renderNav() {
     elements.navNote.textContent = globalMissing.length
       ? "Je kunt nu terugspringen naar open punten. Exporteren blijft geblokkeerd totdat de verplichte onderdelen rond zijn."
       : "Je dossier is compleet genoeg voor een concept-export.";
+    return;
+  }
+
+  if (state.currentStep === "submit") {
+    elements.navNote.textContent = futureSubmissionApi.enabled
+      ? "Deze stap kan straks het verzoek digitaal versturen."
+      : "Deze stap is alvast voorbereid voor de toekomstige Omgevingswet-koppeling.";
     return;
   }
 
@@ -718,6 +830,10 @@ function renderSaveStatus() {
 }
 
 function validateStep(stepId, showErrors = false) {
+  if (stepId === "eligibility") {
+    return isEligible(state.eligibility);
+  }
+
   clearInvalid(stepId);
   let valid = true;
 
@@ -734,14 +850,22 @@ function validateStep(stepId, showErrors = false) {
 }
 
 function isStepComplete(stepId) {
+  if (stepId === "eligibility") {
+    return isEligible(state.eligibility);
+  }
+
   if (!isEligible(state.eligibility)) {
     return false;
   }
 
   if (stepId === "review") {
     return getVisibleSteps()
-      .filter((step) => step !== "review")
+      .filter((step) => !["review", "submit"].includes(step))
       .every((step) => isStepComplete(step));
+  }
+
+  if (stepId === "submit") {
+    return isEligible(state.eligibility) && getMissingItems().length === 0;
   }
 
   return (requiredFields[stepId] || []).every((requirement) => hasValue(requirement.name));
@@ -770,13 +894,18 @@ function getStepMissingItems(stepId) {
 function getVisibleSteps() {
   const route = state.fields.routeChoice;
   const branchStep = route === "secondary" ? "secondary" : "replace";
-  return ["project", "windows", "condition", "choice", branchStep, "review"];
+  return ["eligibility", "project", "windows", "condition", "choice", branchStep, "review", "submit"];
 }
 
 function syncCurrentStepWithRoute() {
   const steps = getVisibleSteps();
+  if (!isEligible(state.eligibility) && state.currentStep !== "eligibility") {
+    state.currentStep = "eligibility";
+    return;
+  }
+
   if (!steps.includes(state.currentStep)) {
-    state.currentStep = steps[Math.min(steps.length - 2, 4)] || "project";
+    state.currentStep = steps[steps.length - 2] || "project";
   }
 }
 
@@ -794,7 +923,7 @@ function readFields() {
 
   for (const [name, value] of formData.entries()) {
     const input = elements.form.elements.namedItem(name);
-    if (input?.type === "file") {
+    if (input?.type === "file" || input?.dataset?.eligibility !== undefined) {
       continue;
     }
     nextFields[name] = typeof value === "string" ? value.trim() : value;
@@ -840,7 +969,7 @@ function applyStateToForm() {
 function loadState() {
   const stored = localStorage.getItem(storageKey);
   const fallback = {
-    currentStep: "project",
+    currentStep: "eligibility",
     eligibility: {
       inZeist: "",
       heritageScope: "",
@@ -859,6 +988,7 @@ function loadState() {
     editedByUser: {},
     touchedSteps: {},
     houseProfile: null,
+    houseProfileRequestId: 0,
     lastProfileQuery: "",
     savedAt: 0,
     saveMessage: "",
@@ -886,6 +1016,7 @@ function loadState() {
       editedByUser: parsed.editedByUser && typeof parsed.editedByUser === "object" ? parsed.editedByUser : {},
       touchedSteps: parsed.touchedSteps && typeof parsed.touchedSteps === "object" ? parsed.touchedSteps : {},
       houseProfile: parsed.houseProfile || null,
+      houseProfileRequestId: 0,
       lastProfileQuery: parsed.lastProfileQuery || "",
     };
   } catch {
@@ -910,6 +1041,10 @@ function isEligible(eligibility) {
 }
 
 function hasValue(name) {
+  if (Object.hasOwn(state.eligibility, name)) {
+    return hasRawValue(state.eligibility[name]);
+  }
+
   return hasRawValue(state.fields[name]);
 }
 
@@ -984,14 +1119,6 @@ function renderSummaryRows(container, rows) {
     `;
     container.appendChild(item);
   }
-}
-
-function formatAttachmentLabel(item) {
-  const filenames = state.files[item.fileKey] || [];
-  if (!state.fields[item.key]) {
-    return item.label;
-  }
-  return filenames.length ? `${item.label} - ${filenames.join(", ")}` : `${item.label} - voorbereid`;
 }
 
 function exportDossier() {
@@ -1119,6 +1246,16 @@ function stepLabel(step) {
   return step === "replace" || step === "secondary" ? getBranchStepLabel() : stepMeta[step].label;
 }
 
+function stepRailLabel(step) {
+  if (step === "replace") {
+    return state.fields.routeChoice === "replace" ? "Glas\nvervangen" : "Techniek";
+  }
+  if (step === "secondary") {
+    return state.fields.routeChoice === "secondary" ? "Achterzet-\nramen" : "Techniek";
+  }
+  return stepMeta[step]?.railLabel || stepMeta[step]?.label || step;
+}
+
 function getBranchStepLabel() {
   if (state.fields.routeChoice === "replace") {
     return "Techniek glas vervangen";
@@ -1193,6 +1330,54 @@ function routeLabel(route) {
     return "Achterzetramen plaatsen";
   }
   return "";
+}
+
+function buildFutureSubmissionDraft() {
+  const attachmentCount = attachmentMeta
+    .filter((item) => !item.branch || item.branch === state.fields.routeChoice)
+    .filter((item) => state.fields[item.key])
+    .length;
+
+  return {
+    requestType: "Aanvraag vergunning",
+    applicantName: state.fields.applicantName,
+    propertyAddress: state.fields.propertyAddress,
+    route: routeLabel(state.fields.routeChoice) || "Nog niet gekozen",
+    attachmentCount,
+    isReadyForSubmission: isEligible(state.eligibility) && getMissingItems().length === 0,
+    payload: buildFutureSubmissionPayload(),
+  };
+}
+
+function buildFutureSubmissionPayload() {
+  return {
+    algemeneGegevens: {
+      verzoekType: "Aanvraag vergunning",
+      doel: "Initiëren",
+    },
+    aanvrager: {
+      naam: state.fields.applicantName || "",
+      email: state.fields.emailAddress || "",
+      telefoon: state.fields.phoneNumber || "",
+    },
+    locatie: {
+      adres: state.fields.propertyAddress || "",
+      geometrie: null,
+      bronlocatie: null,
+    },
+    activiteitContext: {
+      monumentType: state.fields.monumentType || "",
+      route: state.fields.routeChoice || "",
+      hoofdDoel: state.fields.mainGoal || "",
+    },
+    bijlagen: attachmentMeta
+      .filter((item) => !item.branch || item.branch === state.fields.routeChoice)
+      .filter((item) => state.fields[item.key])
+      .map((item) => ({
+        label: item.label,
+        files: state.files[item.fileKey] || [],
+      })),
+  };
 }
 
 function labelFromOption(name, value) {

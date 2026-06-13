@@ -77,48 +77,8 @@
         </div>
       </header>
 
-      <section class="app-main-grid app-main-grid-wizard app-main-grid-wizard-redesign">
+      <section class="app-main-grid app-main-grid-wizard app-main-grid-wizard-redesign app-main-grid-wizard-solo">
         <div class="glass-main-stack">
-          <article class="glass-check-surface glass-inline-surface" id="geschiktheidscheck">
-            <div class="glass-panel-head">
-              <div>
-                <h2>Past dit dossier hier?</h2>
-                <p class="glass-panel-lead">Met deze korte check weet je meteen of dit de juiste route is.</p>
-              </div>
-            </div>
-            <div class="glass-check-grid">
-              <label class="glass-field">
-                <span>Ligt het pand in Zeist?</span>
-                <select name="inZeist" data-eligibility>
-                  <option value="">Kies</option>
-                  <option value="ja">Ja</option>
-                  <option value="nee">Nee</option>
-                </select>
-              </label>
-              <label class="glass-field">
-                <span>Bescherming</span>
-                <select name="heritageScope" data-eligibility>
-                  <option value="">Kies</option>
-                  <option value="rijksmonument">Rijksmonument</option>
-                  <option value="gemeentelijk-monument">Gemeentelijk monument</option>
-                  <option value="beschermd-gezicht">Beschermd gezicht</option>
-                  <option value="anders">Anders</option>
-                </select>
-              </label>
-              <label class="glass-field">
-                <span>Glasisolatie?</span>
-                <select name="measureScope" data-eligibility>
-                  <option value="">Kies</option>
-                  <option value="ja">Ja</option>
-                  <option value="nee">Nee</option>
-                </select>
-              </label>
-            </div>
-            <div class="glass-eligibility-result" id="eligibility-result">
-              <p class="card-text">Controleer eerst deze drie punten.</p>
-            </div>
-          </article>
-
           <article class="glass-wizard-panel glass-inline-surface" id="wizard-panel">
             <div class="glass-panel-head">
               <div>
@@ -150,8 +110,48 @@
             </div>
 
             <form id="glass-demo-form" novalidate>
-              <div class="glass-step-stage" id="step-stage">
-                <section class="glass-step-panel is-active" data-step-panel="project">
+              <div class="glass-carousel-shell">
+                <div class="glass-carousel-viewport" id="step-viewport" aria-live="polite">
+                  <div class="glass-step-stage" id="step-stage">
+                <section class="glass-step-panel is-active" data-step-panel="eligibility">
+                  <div class="glass-step-copy">
+                    <h3>Geschiktheidscheck</h3>
+                    <p>Met deze korte check weet je meteen of dit de juiste route is.</p>
+                  </div>
+                  <div class="glass-check-grid">
+                    <label class="glass-field">
+                      <span>Ligt het pand in Zeist?</span>
+                      <select name="inZeist" data-eligibility>
+                        <option value="">Kies</option>
+                        <option value="ja">Ja</option>
+                        <option value="nee">Nee</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Bescherming</span>
+                      <select name="heritageScope" data-eligibility>
+                        <option value="">Kies</option>
+                        <option value="rijksmonument">Rijksmonument</option>
+                        <option value="gemeentelijk-monument">Gemeentelijk monument</option>
+                        <option value="beschermd-gezicht">Beschermd gezicht</option>
+                        <option value="anders">Anders</option>
+                      </select>
+                    </label>
+                    <label class="glass-field">
+                      <span>Glasisolatie?</span>
+                      <select name="measureScope" data-eligibility>
+                        <option value="">Kies</option>
+                        <option value="ja">Ja</option>
+                        <option value="nee">Nee</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="glass-eligibility-result" id="eligibility-result">
+                    <p class="card-text">Beantwoord eerst deze drie vragen.</p>
+                  </div>
+                </section>
+
+                <section class="glass-step-panel" data-step-panel="project">
                   <div class="glass-step-copy">
                     <h3>Pand en aanvrager</h3>
                     <p>We leggen eerst vast om welk pand het gaat en wie het dossier voorbereidt.</p>
@@ -513,6 +513,29 @@
                     </article>
                   </div>
                 </section>
+
+                <section class="glass-step-panel" data-step-panel="submit">
+                  <div class="glass-step-copy">
+                    <h3>Verzoek indienen</h3>
+                    <p>Deze stap is alvast voorbereid voor een latere koppeling met de Omgevingswet API. Er wordt nu nog niets verstuurd.</p>
+                  </div>
+                  <div class="glass-step-future-note">
+                    <strong>Nog niet actief</strong>
+                    <span>Straks kan hier een verzoek worden geinitieerd, kunnen bijlagen worden toegevoegd en kan het dossier digitaal worden ingediend.</span>
+                  </div>
+                  <div class="glass-review-grid">
+                    <article class="glass-review-card">
+                      <p class="app-kicker">Conceptverzoek</p>
+                      <div id="submit-summary" class="glass-summary-list"></div>
+                    </article>
+                    <article class="glass-review-card">
+                      <p class="app-kicker">Technische opzet</p>
+                      <div id="submit-tech-plan" class="glass-summary-list"></div>
+                    </article>
+                  </div>
+                </section>
+                  </div>
+                </div>
               </div>
             </form>
 
@@ -530,32 +553,6 @@
           </article>
         </div>
 
-        <aside class="app-rail">
-          <article class="app-side-sheet">
-            <div class="app-side-sheet-block glass-status-card">
-              <div class="section-header">
-                <h3 class="card-title">Voorinvulling</h3>
-              </div>
-              <div class="glass-house-card" id="house-profile-card">
-                Nog geen huisprofiel geladen. Gebruik een demo-huisdossier of vul een bekend demo-adres in.
-              </div>
-            </div>
-
-            <div class="app-side-sheet-block glass-status-card">
-              <div class="section-header">
-                <h3 class="card-title">Open punten</h3>
-              </div>
-              <div class="stack-list" id="missing-list"></div>
-            </div>
-
-            <div class="app-side-sheet-block glass-status-card">
-              <div class="section-header">
-                <h3 class="card-title">Bijlagen</h3>
-              </div>
-              <div class="check-list" id="attachment-list"></div>
-            </div>
-          </article>
-        </aside>
       </section>
     </section>
   </main>

@@ -76,6 +76,11 @@ body.home-page::after {
   display: none;
 }
 
+.app-shell-page .app-sidebar-redesign,
+.app-shell-page .app-main-redesign {
+  font-family: "DM Sans", sans-serif;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -2583,6 +2588,7 @@ body.app-body::before {
 .app-main-redesign .app-main-header h1 {
   max-width: 12ch;
   margin: 0;
+  font-family: "DM Sans", sans-serif;
   font-size: clamp(2.7rem, 5vw, 4.1rem);
   line-height: 1.01;
   letter-spacing: -0.06em;
@@ -2595,8 +2601,10 @@ body.app-body::before {
 .app-home-lead {
   max-width: 42rem;
   margin: 14px 0 0;
+  font-family: "DM Sans", sans-serif;
   color: var(--muted);
   font-size: 1.02rem;
+  font-weight: 400;
   line-height: 1.65;
   text-wrap: pretty;
 }
@@ -2714,6 +2722,7 @@ body.app-body::before {
 .app-main-redesign .glass-panel-head h2,
 .app-main-redesign .chat-head h2 {
   margin: 0;
+  font-family: "DM Sans", sans-serif;
   font-size: 1.42rem;
   line-height: 1.08;
   letter-spacing: -0.04em;
@@ -2853,6 +2862,14 @@ body.app-body::before {
 .app-main-grid-wizard-redesign {
   grid-template-columns: minmax(0, 1.16fr) minmax(300px, 0.84fr);
   align-items: start;
+}
+
+.app-main-grid-wizard-solo {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.app-main-grid-wizard-solo .glass-main-stack {
+  max-width: 1040px;
 }
 
 .glass-inline-surface {
