@@ -2,7 +2,7 @@ import { createServer } from "node:http";
 import { readFileSync } from "node:fs";
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
@@ -232,152 +232,152 @@ Werk strak:
 `.trim(),
 };
 
-createServer(async (request, response) => {
+export async function handleHealthRequest() {
+  return {
+    addressLookup: true,
+    configured: Boolean(openai),
+    measures: measureCatalog,
+    ok: true,
+  };
+}
+
+export async function handleChatRequest(body = {}) {
+  const chatMode = normalizeChatMode(body.chatMode);
+  const messages = Array.isArray(body.messages) ? body.messages : [];
+  const profile = normalizeProfile(body.profile);
+  const selectedMeasures = normalizeMeasures(body.selectedMeasures);
+  const context = await prepareIntakeContext({
+    messages,
+    profile,
+    selectedMeasures,
+  });
+
+  if (!openai) {
+    return buildFallbackPayload({
+      addressLookup: context.addressLookup,
+      conversationState: context.conversationState,
+      lookupAnnouncementFields: context.lookupAnnouncementFields,
+      measureContext: context.measureContext,
+      chatMode,
+      profile: context.profile,
+      selectedMeasures: context.selectedMeasures,
+      warning: "Geen actieve API key gevonden. Lokale intakefallback gebruikt.",
+    });
+  }
+
+  try {
+    const parsedResponse = await openai.responses.parse({
+      model: "gpt-5.5",
+      store: false,
+      input: [
+        {
+          role: "system",
+          content: systemPrompt,
+        },
+        {
+          role: "system",
+          content: getModePrompt(chatMode),
+        },
+        {
+          role: "system",
+          content:
+            `Huidige dossierstatus:\n${JSON.stringify(context.profile, null, 2)}\n` +
+            `Reeds geselecteerde maatregelen: ${context.selectedMeasures.join(", ") || "geen"}\n` +
+            `Actieve maatregelcontext: ${JSON.stringify(context.measureContext, null, 2)}\n` +
+            `Beschikbare maatregelen: ${measureCatalog.join(", ")}`,
+        },
+        {
+          role: "system",
+          content: buildOfficialLookupContext(context.addressLookup),
+        },
+        {
+          role: "system",
+          content: buildConversationStatePrompt(context.conversationState),
+        },
+        ...messages
+          .map((message) => ({
+            role: message?.role === "assistant" ? "assistant" : "user",
+            content: getMessageText(message),
+          }))
+          .filter((message) => typeof message.content === "string" && message.content.trim()),
+      ],
+      text: {
+        format: zodTextFormat(intakeSchema, "monument_intake"),
+      },
+    });
+
+    const parsed = parsedResponse.output_parsed;
+    const nextProfile = mergeProfile(context.profile, parsed.extractedProfile);
+    const mergedMeasures = normalizeMeasures([
+      ...context.selectedMeasures,
+      ...(parsed.measureMentions || []),
+    ]);
+    const nextMissingField = resolveNextMissingField(
+      nextProfile,
+      mergedMeasures,
+      chatMode,
+      context.conversationState,
+    );
+    const guidance = alignGuidanceWithNextField(
+      buildGuidance(nextProfile, mergedMeasures, context.measureContext),
+      nextMissingField,
+      context.measureContext,
+    );
+    const reply =
+      context.addressLookup.status === "needs_confirmation"
+        ? buildAddressConfirmationReply(context.addressLookup)
+        : parsed.reply;
+    const quickReplies = buildQuickReplies(
+      context.addressLookup,
+      nextMissingField,
+      nextProfile,
+      mergedMeasures,
+      context.measureContext,
+      chatMode,
+    );
+
+    return {
+      chatMode,
+      guidance,
+      mode: "openai",
+      profile: nextProfile,
+      quickReplies,
+      reply,
+      selectedMeasures: mergedMeasures,
+      summary: parsed.dossierSummary || buildSummary(nextProfile, mergedMeasures, guidance),
+      nextMissingField,
+    };
+  } catch (error) {
+    console.error(error);
+    const warning =
+      error instanceof Error
+        ? `Live OpenAI-koppeling tijdelijk niet beschikbaar: ${error.message}`
+        : "Live OpenAI-koppeling tijdelijk niet beschikbaar.";
+
+    return buildFallbackPayload({
+      addressLookup: context.addressLookup,
+      conversationState: context.conversationState,
+      lookupAnnouncementFields: context.lookupAnnouncementFields,
+      measureContext: context.measureContext,
+      chatMode,
+      profile: context.profile,
+      selectedMeasures: context.selectedMeasures,
+      warning,
+    });
+  }
+}
+
+async function handleRequest(request, response) {
   try {
     const url = new URL(request.url || "/", `http://${request.headers.host}`);
 
     if (request.method === "GET" && url.pathname === "/api/health") {
-      return json(response, 200, {
-        addressLookup: true,
-        configured: Boolean(openai),
-        measures: measureCatalog,
-        ok: true,
-      });
+      return json(response, 200, await handleHealthRequest());
     }
 
     if (request.method === "POST" && url.pathname === "/api/chat") {
       const body = await readJsonBody(request);
-      const chatMode = normalizeChatMode(body.chatMode);
-      const messages = Array.isArray(body.messages) ? body.messages : [];
-      const profile = normalizeProfile(body.profile);
-      const selectedMeasures = normalizeMeasures(body.selectedMeasures);
-      const context = await prepareIntakeContext({
-        messages,
-        profile,
-        selectedMeasures,
-      });
-
-      if (!openai) {
-        return json(
-          response,
-          200,
-          buildFallbackPayload({
-            addressLookup: context.addressLookup,
-            conversationState: context.conversationState,
-            lookupAnnouncementFields: context.lookupAnnouncementFields,
-            measureContext: context.measureContext,
-            chatMode,
-            profile: context.profile,
-            selectedMeasures: context.selectedMeasures,
-            warning: "Geen actieve API key gevonden. Lokale intakefallback gebruikt.",
-          }),
-        );
-      }
-
-      try {
-        const parsedResponse = await openai.responses.parse({
-          model: "gpt-5.5",
-          store: false,
-          input: [
-            {
-              role: "system",
-              content: systemPrompt,
-            },
-            {
-              role: "system",
-              content: getModePrompt(chatMode),
-            },
-            {
-              role: "system",
-              content:
-                `Huidige dossierstatus:\n${JSON.stringify(context.profile, null, 2)}\n` +
-                `Reeds geselecteerde maatregelen: ${context.selectedMeasures.join(", ") || "geen"}\n` +
-                `Actieve maatregelcontext: ${JSON.stringify(context.measureContext, null, 2)}\n` +
-                `Beschikbare maatregelen: ${measureCatalog.join(", ")}`,
-            },
-            {
-              role: "system",
-              content: buildOfficialLookupContext(context.addressLookup),
-            },
-            {
-              role: "system",
-              content: buildConversationStatePrompt(context.conversationState),
-            },
-            ...messages
-              .map((message) => ({
-                role: message?.role === "assistant" ? "assistant" : "user",
-                content: getMessageText(message),
-              }))
-              .filter((message) => typeof message.content === "string" && message.content.trim()),
-          ],
-          text: {
-            format: zodTextFormat(intakeSchema, "monument_intake"),
-          },
-        });
-
-        const parsed = parsedResponse.output_parsed;
-        const nextProfile = mergeProfile(context.profile, parsed.extractedProfile);
-        const mergedMeasures = normalizeMeasures([
-          ...context.selectedMeasures,
-          ...(parsed.measureMentions || []),
-        ]);
-        const nextMissingField = resolveNextMissingField(
-          nextProfile,
-          mergedMeasures,
-          chatMode,
-          context.conversationState,
-        );
-        const guidance = alignGuidanceWithNextField(
-          buildGuidance(nextProfile, mergedMeasures, context.measureContext),
-          nextMissingField,
-          context.measureContext,
-        );
-        const reply =
-          context.addressLookup.status === "needs_confirmation"
-            ? buildAddressConfirmationReply(context.addressLookup)
-            : parsed.reply;
-        const quickReplies = buildQuickReplies(
-          context.addressLookup,
-          nextMissingField,
-          nextProfile,
-          mergedMeasures,
-          context.measureContext,
-          chatMode,
-        );
-
-        return json(response, 200, {
-          chatMode,
-          guidance,
-          mode: "openai",
-          profile: nextProfile,
-          quickReplies,
-          reply,
-          selectedMeasures: mergedMeasures,
-          summary: parsed.dossierSummary || buildSummary(nextProfile, mergedMeasures, guidance),
-          nextMissingField,
-        });
-      } catch (error) {
-        console.error(error);
-        const warning =
-          error instanceof Error
-            ? `Live OpenAI-koppeling tijdelijk niet beschikbaar: ${error.message}`
-            : "Live OpenAI-koppeling tijdelijk niet beschikbaar.";
-
-        return json(
-          response,
-          200,
-          buildFallbackPayload({
-            addressLookup: context.addressLookup,
-            conversationState: context.conversationState,
-            lookupAnnouncementFields: context.lookupAnnouncementFields,
-            measureContext: context.measureContext,
-            chatMode,
-            profile: context.profile,
-            selectedMeasures: context.selectedMeasures,
-            warning,
-          }),
-        );
-      }
+      return json(response, 200, await handleChatRequest(body));
     }
 
     if (request.method === "GET") {
@@ -393,9 +393,15 @@ createServer(async (request, response) => {
       error instanceof Error ? error.message : "Er ging iets mis op de server.";
     json(response, 500, { error: message });
   }
-}).listen(port, () => {
-  console.log(`Monument app draait op http://127.0.0.1:${port}`);
-});
+}
+
+const launchedFile = process.argv[1] ? pathToFileURL(path.resolve(process.argv[1])).href : "";
+
+if (launchedFile === import.meta.url) {
+  createServer(handleRequest).listen(port, () => {
+    console.log(`Monument app draait op http://127.0.0.1:${port}`);
+  });
+}
 
 function loadApiKey() {
   if (process.env.OPENAI_API_KEY) {
