@@ -1,0 +1,14 @@
+{
+  "name": "monument-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "qa:regression": "node scripts/regression-intake.mjs"
+  },
+  "dependencies": {
+    "openai": "^6.5.0",
+    "zod": "^4.1.5"
+  }
+}

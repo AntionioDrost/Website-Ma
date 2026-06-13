@@ -1,0 +1,8 @@
+node_modules/
+monument-app/node_modules/
+*.log
+.env
+.env.local
+monument-app/.env
+monument-app/.env.local
+monument-app/glasisolatie-demo-*.png

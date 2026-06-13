@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monumentenverkenner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="app-body">
+  <header class="app-topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <span class="material-symbols-outlined">account_balance</span>
+      </div>
+      <div>
+        <p class="eyebrow">Chat-first intake</p>
+        <h1>Monumentenverkenner</h1>
+      </div>
+    </div>
+    <a class="button button-secondary" href="/intake">
+      <span class="material-symbols-outlined">chat</span>
+      Open intake
+    </a>
+  </header>
+
+  <main class="home-shell">
+    <section class="home-hero panel">
+      <div class="hero-copy">
+        <p class="eyebrow">Nieuwe start</p>
+        <h2>Een homescreen en intakeflow waarin de chat echt het gesprek voert.</h2>
+        <p class="lead">
+          Geen Stitch-structuur meer. Wel dezelfde rustige monumentale design language: parchment, forest, bronze,
+          serif-koppen en een dossierervaring die vertrouwen geeft.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-secondary" href="/glasisolatie-demo">
+            <span class="material-symbols-outlined">glass</span>
+            Open glasdemo
+          </a>
+          <a class="button button-primary" href="/intake">
+            <span class="material-symbols-outlined">arrow_forward</span>
+            Start nieuw dossier
+          </a>
+          <a class="button button-ghost" href="#werkwijze">
+            <span class="material-symbols-outlined">south</span>
+            Bekijk werkwijze
+          </a>
+        </div>
+      </div>
+      <div class="hero-preview">
+        <div class="preview-card">
+          <div class="preview-badge">Chat gestuurd</div>
+          <div class="preview-line"></div>
+          <div class="preview-stack">
+            <div class="preview-panel">
+              <span>Adres en pandcontext</span>
+              <strong>via gesprek</strong>
+            </div>
+            <div class="preview-panel">
+              <span>Monumentstatus</span>
+              <strong>live in dashboard</strong>
+            </div>
+            <div class="preview-panel">
+              <span>Maatregelen</span>
+              <strong>klikbaar, maar chat blijft leidend</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-grid" id="werkwijze">
+      <article class="panel">
+        <p class="eyebrow">Stap 1</p>
+        <h3 class="card-title">Start op het homescreen</h3>
+        <p class="card-text">
+          De gebruiker begint vanuit een heldere entree met een korte uitleg van de flow en een duidelijke knop
+          richting intake.
+        </p>
+      </article>
+
+      <article class="panel">
+        <p class="eyebrow">Stap 2</p>
+        <h3 class="card-title">Rechts de chat</h3>
+        <p class="card-text">
+          De assistent stelt steeds een logische vervolgvraag in gewoon Nederlands en haalt daar de dossierdata uit.
+        </p>
+      </article>
+
+      <article class="panel">
+        <p class="eyebrow">Stap 3</p>
+        <h3 class="card-title">Links het dashboard</h3>
+        <p class="card-text">
+          Straat, huisnummer, postcode, gebouwleeftijd, monumentstatus en maatregelen bewegen live mee met het gesprek.
+        </p>
+      </article>
+
+      <article class="panel">
+        <p class="eyebrow">Demo</p>
+        <h3 class="card-title">Glasisolatie in Zeist</h3>
+        <p class="card-text">
+          Een aparte demonstratiepagina voor bewoners en eigenaren die het glasformulier stap voor stap online willen
+          voorbereiden, opslaan en als dossier willen exporteren.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-secondary" href="/glasisolatie-demo">
+            <span class="material-symbols-outlined">toolbar</span>
+            Bekijk demo
+          </a>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
