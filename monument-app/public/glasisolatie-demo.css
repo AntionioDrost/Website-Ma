@@ -10,11 +10,15 @@
   justify-content: space-between;
   gap: 16px;
   align-items: flex-start;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .glass-panel-head h2 {
-  font-size: 1.28rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
 }
 
 .glass-check-grid,
@@ -65,7 +69,34 @@
   background: rgba(252, 250, 247, 0.9);
   padding: 12px 14px;
   color: var(--ink-strong);
+  font-family: "DM Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
   outline: none;
+}
+
+.glass-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 44px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(17, 17, 17, 0.68) 50%),
+    linear-gradient(135deg, rgba(17, 17, 17, 0.68) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) calc(50% - 1px),
+    calc(100% - 14px) calc(50% - 1px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.glass-field select option {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink-strong);
+  background: #ffffff;
 }
 
 .glass-field input:focus,
@@ -201,17 +232,18 @@
 
 .glass-wizard-progress {
   display: grid;
-  gap: 18px;
-  padding: 18px;
-  border-radius: 14px;
+  gap: 12px;
+  padding: 16px 18px 14px;
+  border-radius: 18px;
   border: 1px solid rgba(17, 17, 17, 0.08);
-  background: rgba(255, 255, 255, 0.78);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 250, 247, 0.94));
 }
 
 .glass-progress-head {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
   align-items: flex-start;
 }
 
@@ -222,14 +254,21 @@
 }
 
 .glass-progress-head strong {
+  font-family: "DM Sans", sans-serif;
   color: var(--ink-strong);
-  font-size: 1rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
 }
 
 .glass-progress-head p {
   margin-top: 4px;
+  font-family: "DM Sans", sans-serif;
   color: var(--muted);
-  line-height: 1.5;
+  font-size: 1.02rem;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 .glass-progress-meta {
@@ -239,21 +278,24 @@
 .glass-progress-count {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
-  padding: 8px 12px;
+  min-height: 32px;
+  padding: 6px 10px;
   border-radius: 999px;
   background: rgba(243, 237, 229, 0.9);
   color: var(--forest);
-  font-size: 0.82rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.76rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .glass-progress-track {
+  position: relative;
   width: 100%;
-  height: 8px;
+  height: 6px;
   border-radius: 999px;
   overflow: hidden;
-  background: rgba(216, 208, 196, 0.7);
+  background: rgba(232, 223, 208, 0.92);
 }
 
 .glass-progress-track span {
@@ -267,25 +309,33 @@
 
 .glass-step-list {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 0 0 4px;
+  scrollbar-width: none;
+}
+
+.glass-step-list::-webkit-scrollbar {
+  display: none;
 }
 
 .glass-step-node {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 62px;
-  padding: 10px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  background: rgba(252, 250, 247, 0.96);
-  color: var(--forest);
+  display: grid;
+  justify-items: center;
+  flex: 1 1 0;
+  align-self: start;
+  gap: 7px;
+  min-width: 70px;
+  max-width: 96px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-body);
+  font-family: "DM Sans", sans-serif;
   cursor: pointer;
   transition:
-    background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
     transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -294,53 +344,73 @@
 }
 
 .glass-step-bullet {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 34px;
   border-radius: 999px;
-  background: rgba(243, 237, 229, 1);
-  color: var(--bronze);
+  border: 1px solid rgba(214, 201, 184, 1);
+  background: rgba(247, 241, 231, 1);
+  color: #8c765d;
+  transition:
+    background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.glass-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1ch;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.96rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
 }
 
 .glass-step-bullet .material-symbols-outlined {
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 700;
+  line-height: 1;
+  font-variation-settings: "FILL" 0, "wght" 700, "GRAD" 0, "opsz" 20;
 }
 
-.glass-step-text strong,
-.glass-step-text small {
-  display: block;
-}
-
-.glass-step-text strong {
-  color: var(--forest);
-  font-size: 0.92rem;
-}
-
-.glass-step-text small {
-  margin-top: 2px;
+.glass-step-text {
+  max-width: 8.5ch;
   color: var(--muted);
+  font-family: "DM Sans", sans-serif;
   font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-align: center;
+  white-space: pre-line;
+  text-wrap: pretty;
 }
 
-.glass-step-node.is-active {
-  border-color: rgba(74, 100, 88, 0.32);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(141, 158, 129, 0.14);
+.glass-step-node.is-open .glass-step-text,
+.glass-step-node.is-active .glass-step-text {
+  color: var(--forest);
 }
 
 .glass-step-node.is-active .glass-step-bullet {
+  border-color: rgba(74, 100, 88, 0.28);
+  background: rgba(231, 241, 228, 1);
   color: var(--forest);
-  box-shadow: 0 0 0 4px rgba(141, 158, 129, 0.16);
+  box-shadow: 0 0 0 5px rgba(141, 158, 129, 0.18);
 }
 
-.glass-step-node.is-done {
-  background: rgba(232, 242, 230, 0.88);
+.glass-step-node.is-done .glass-step-text {
+  color: var(--forest);
 }
 
 .glass-step-node.is-done .glass-step-bullet {
+  border-color: rgba(74, 100, 88, 0.96);
   background: rgba(74, 100, 88, 0.96);
   color: #fff;
 }
@@ -348,7 +418,22 @@
 .glass-step-arrow {
   display: inline-flex;
   align-items: center;
-  color: rgba(167, 103, 53, 0.46);
+  justify-content: center;
+  flex: 0 0 18px;
+  align-self: start;
+  min-width: 18px;
+  padding-top: 8px;
+  color: rgba(205, 188, 169, 1);
+}
+
+.glass-step-arrow .material-symbols-outlined {
+  font-size: 0.92rem;
+  line-height: 1;
+  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 20;
+}
+
+.glass-step-arrow.is-open {
+  color: rgba(146, 129, 111, 0.68);
 }
 
 .glass-step-arrow.is-done {
@@ -357,7 +442,16 @@
 
 .glass-step-status {
   display: grid;
-  gap: 10px;
+  gap: 8px;
+}
+
+.glass-step-status[hidden] {
+  display: none !important;
+}
+
+.glass-step-alert[hidden],
+.glass-step-prefill[hidden] {
+  display: none !important;
 }
 
 .glass-step-alert {
@@ -383,43 +477,109 @@
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 12px;
-  border: 1px solid rgba(74, 100, 88, 0.18);
-  background: rgba(232, 242, 230, 0.88);
+  padding: 12px 14px;
+  border: 1px solid rgba(74, 100, 88, 0.12);
+  background: rgba(238, 245, 236, 0.84);
   color: var(--forest);
 }
 
+.glass-step-future-note {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(74, 100, 88, 0.14);
+  background: rgba(238, 245, 236, 0.72);
+}
+
+.glass-step-future-note strong {
+  color: var(--ink-strong);
+}
+
+.glass-step-future-note span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.glass-wizard-panel form,
+.glass-carousel-shell {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.glass-carousel-viewport {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 250, 247, 0.96));
+  box-shadow: 0 18px 34px rgba(11, 31, 21, 0.05);
+  transition: height 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 .glass-step-stage {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 100%;
   transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
     opacity 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
     filter 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .glass-step-stage.is-transitioning {
   opacity: 0.74;
+  filter: saturate(0.95);
+}
+
+.glass-step-stage.is-transitioning .glass-step-panel.is-active {
   transform: translateY(6px);
   filter: blur(2px);
 }
 
 .glass-step-panel {
-  display: none;
-  gap: 18px;
+  display: grid;
+  flex: 0 0 100%;
+  min-width: 100%;
+  max-width: 100%;
+  gap: 20px;
+  padding: 22px;
 }
 
-.glass-step-panel.is-active {
-  display: grid;
+.glass-step-panel[hidden] {
+  display: none !important;
 }
 
 .glass-step-copy h3 {
   margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.04;
-  letter-spacing: -0.03em;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
   color: var(--ink-strong);
 }
 
 .glass-step-copy p {
-  display: none;
+  display: block;
+  margin: 10px 0 0;
+  max-width: 38rem;
+  font-family: "DM Sans", sans-serif;
+  color: var(--muted);
+  font-size: 1.02rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.glass-step-panel > .glass-field-grid,
+.glass-step-panel > .glass-check-grid,
+.glass-step-panel > .glass-upload-grid,
+.glass-step-panel > .glass-review-grid,
+.glass-step-panel > .glass-inline-actions {
+  max-width: 100%;
 }
 
 .glass-summary-list {
@@ -449,7 +609,7 @@
 .glass-review-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .glass-house-card {
@@ -498,6 +658,7 @@
   grid-template-columns: auto 1fr auto;
   gap: 14px;
   align-items: center;
+  padding-top: 2px;
 }
 
 .glass-nav-note {
@@ -516,13 +677,12 @@
   }
 
   .glass-step-list {
-    flex-direction: column;
-    align-items: stretch;
+    gap: 6px;
   }
 
   .glass-step-arrow {
-    padding-left: 8px;
-    transform: rotate(90deg);
+    flex-basis: 16px;
+    min-width: 16px;
   }
 }
 
@@ -534,8 +694,32 @@
     grid-template-columns: 1fr;
   }
 
+  .glass-wizard-progress,
+  .glass-step-panel {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .glass-step-list {
+    width: max-content;
+    min-width: 100%;
+    gap: 8px;
+    padding-bottom: 6px;
+  }
+
   .glass-step-node {
-    width: 100%;
+    flex: 0 0 68px;
+    min-width: 68px;
+  }
+
+  .glass-step-text {
+    max-width: 8ch;
+    font-size: 0.68rem;
+  }
+
+  .glass-step-arrow {
+    flex-basis: 18px;
+    min-width: 18px;
   }
 
   .glass-nav-note {
