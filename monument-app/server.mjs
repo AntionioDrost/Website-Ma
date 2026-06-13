@@ -38,6 +38,7 @@ const roadTypes = [
   "dijk",
 ];
 const roadTypePattern = roadTypes.join("|");
+const runtimeConfig = loadRuntimeConfig();
 
 const emptyProfile = {
   street: "",
@@ -149,8 +150,7 @@ const intakeSchema = z.object({
     .default("none"),
 });
 
-const openaiApiKey = loadApiKey();
-const openai = openaiApiKey ? new OpenAI({ apiKey: openaiApiKey }) : null;
+const openai = runtimeConfig.openaiApiKey ? new OpenAI({ apiKey: runtimeConfig.openaiApiKey }) : null;
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
@@ -234,10 +234,20 @@ Werk strak:
 
 export async function handleHealthRequest() {
   return {
+    authRequired: runtimeConfig.authRequired,
     addressLookup: true,
     configured: Boolean(openai),
     measures: measureCatalog,
     ok: true,
+    supabaseConfigured: Boolean(runtimeConfig.supabaseUrl && runtimeConfig.supabasePublishableKey),
+  };
+}
+
+export async function handleClientConfigRequest() {
+  return {
+    authRequired: runtimeConfig.authRequired,
+    supabasePublishableKey: runtimeConfig.supabasePublishableKey,
+    supabaseUrl: runtimeConfig.supabaseUrl,
   };
 }
 
@@ -371,11 +381,25 @@ async function handleRequest(request, response) {
   try {
     const url = new URL(request.url || "/", `http://${request.headers.host}`);
 
+    if (request.method === "GET" && url.pathname === "/api/client-config") {
+      return json(response, 200, await handleClientConfigRequest());
+    }
+
     if (request.method === "GET" && url.pathname === "/api/health") {
       return json(response, 200, await handleHealthRequest());
     }
 
     if (request.method === "POST" && url.pathname === "/api/chat") {
+      if (runtimeConfig.authRequired) {
+        try {
+          await verifySupabaseSession(request.headers.authorization);
+        } catch (error) {
+          return json(response, 401, {
+            error: error instanceof Error ? error.message : "Log eerst in om de chat te gebruiken.",
+          });
+        }
+      }
+
       const body = await readJsonBody(request);
       return json(response, 200, await handleChatRequest(body));
     }
@@ -403,13 +427,38 @@ if (launchedFile === import.meta.url) {
   });
 }
 
-function loadApiKey() {
-  if (process.env.OPENAI_API_KEY) {
-    return process.env.OPENAI_API_KEY;
-  }
+function loadRuntimeConfig() {
+  const env = tryReadEnvFile(path.join(__dirname, ".env"));
+  const localEnv = tryReadEnvFile(path.join(__dirname, ".env.local"));
 
-  const envPath = path.join(__dirname, ".env.local");
-  return tryReadEnvFile(envPath).OPENAI_API_KEY || "";
+  return {
+    openaiApiKey:
+      process.env.OPENAI_API_KEY || localEnv.OPENAI_API_KEY || env.OPENAI_API_KEY || "",
+    authRequired:
+      (process.env.AUTH_REQUIRED || localEnv.AUTH_REQUIRED || env.AUTH_REQUIRED || "false").toLowerCase() === "true",
+    supabasePublishableKey:
+      process.env.SUPABASE_PUBLISHABLE_KEY ||
+      process.env.SUPABASE_ANON_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+      localEnv.SUPABASE_PUBLISHABLE_KEY ||
+      localEnv.SUPABASE_ANON_KEY ||
+      localEnv.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+      localEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+      env.SUPABASE_PUBLISHABLE_KEY ||
+      env.SUPABASE_ANON_KEY ||
+      env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+      env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+      "",
+    supabaseUrl:
+      process.env.SUPABASE_URL ||
+      process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      localEnv.SUPABASE_URL ||
+      localEnv.NEXT_PUBLIC_SUPABASE_URL ||
+      env.SUPABASE_URL ||
+      env.NEXT_PUBLIC_SUPABASE_URL ||
+      "",
+  };
 }
 
 async function serveFile(response, filePath) {
@@ -467,6 +516,38 @@ function json(response, statusCode, payload) {
     "Content-Type": "application/json; charset=utf-8",
   });
   response.end(JSON.stringify(payload));
+}
+
+export async function verifySupabaseSession(authorizationHeader) {
+  const token = getBearerToken(authorizationHeader);
+
+  if (!token) {
+    throw new Error("Log eerst in om de chat te gebruiken.");
+  }
+
+  if (!runtimeConfig.supabaseUrl || !runtimeConfig.supabasePublishableKey) {
+    throw new Error("Supabase auth is nog niet volledig geconfigureerd.");
+  }
+
+  const response = await fetch(`${runtimeConfig.supabaseUrl}/auth/v1/user`, {
+    headers: {
+      Accept: "application/json",
+      apikey: runtimeConfig.supabasePublishableKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Je sessie is verlopen. Log opnieuw in.");
+  }
+
+  return response.json();
+}
+
+function getBearerToken(authorizationHeader) {
+  const value = String(authorizationHeader || "");
+  const match = value.match(/^Bearer\s+(.+)$/i);
+  return match ? match[1].trim() : "";
 }
 
 async function prepareIntakeContext({ messages, profile, selectedMeasures }) {

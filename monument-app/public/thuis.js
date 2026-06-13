@@ -1,3 +1,6 @@
+import { attachLogoutButton, requireAuthPage } from "./auth.js";
+import { hydrateDossier } from "./dossier-store.js";
+
 const intakeStorageKey = "monument-app-state-v2";
 const glassStorageKey = "glasisolatie-demo-state-v2";
 
@@ -12,7 +15,6 @@ const intakeProgressFields = [
   (profile) => Boolean(profile.measureDescription),
 ];
 
-const glassStepOrder = ["project", "windows", "condition", "choice", "replace", "secondary", "review"];
 const stepLabels = {
   project: "Pand en aanvrager",
   windows: "Vensters",
@@ -24,7 +26,10 @@ const stepLabels = {
 };
 
 const elements = {
+  authDisplayName: document.querySelector("#auth-display-name"),
+  authEmail: document.querySelector("#auth-email"),
   greeting: document.querySelector("#thuis-greeting"),
+  logoutButton: document.querySelector("#logout-button"),
   primaryTitle: document.querySelector("#thuis-primary-title"),
   primaryCopy: document.querySelector("#thuis-primary-copy"),
   primaryAction: document.querySelector("#thuis-primary-action"),
@@ -34,14 +39,54 @@ const elements = {
   statusList: document.querySelector("#thuis-status-list"),
 };
 
-const intakeState = readState(intakeStorageKey);
-const glassState = readState(glassStorageKey);
+let intakeState = createEmptyIntakeState();
+let glassState = createEmptyGlassState();
 
-render();
+initialize();
 
-function render() {
-  const name = getPreferredName();
-  elements.greeting.textContent = name ? `Welkom thuis, ${name}` : "Welkom thuis";
+async function initialize() {
+  try {
+    const auth = await requireAuthPage();
+    const [intakeResult, glassResult] = await Promise.all([
+      hydrateDossier({
+        dossierType: "intake",
+        emptyState: createEmptyIntakeState,
+        localKey: intakeStorageKey,
+        title: "Intakechat",
+      }),
+      hydrateDossier({
+        dossierType: "glass",
+        emptyState: createEmptyGlassState,
+        localKey: glassStorageKey,
+        title: "Glaswizard",
+      }),
+    ]);
+
+    intakeState = intakeResult.state;
+    glassState = glassResult.state;
+
+    const userLabel = auth.profile.display_name || auth.user?.email || "Gast";
+    elements.authDisplayName.textContent = userLabel;
+    elements.authEmail.textContent = auth.user?.email || "Gastmodus actief";
+
+    if (auth.supabase) {
+      attachLogoutButton(elements.logoutButton, elements.authEmail);
+    } else {
+      elements.logoutButton.hidden = true;
+    }
+
+    render(userLabel);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Je thuisomgeving kon niet worden geladen.";
+    elements.authDisplayName.textContent = "Fout bij laden";
+    elements.authEmail.textContent = message;
+  }
+}
+
+function render(name) {
+  const preferredName = firstName(name) || getPreferredName();
+  elements.greeting.textContent = preferredName ? `Welkom thuis, ${preferredName}` : "Welkom thuis";
 
   const routes = buildRoutes();
   const primaryRoute = routes[0];
@@ -107,9 +152,13 @@ function buildIntakeRoute() {
     icon: "chat",
     priority: hasProgress ? 2 : 0,
     stateLabel: hasProgress ? `${completed} / 8 velden` : "Nog niet gestart",
-    detail: hasProgress ? `${stage}. ${guidance.nextStep || "Ga verder met het dossier."}` : "Begin met een korte intake en verzamel eerst de basis.",
+    detail: hasProgress
+      ? `${stage}. ${guidance.nextStep || "Ga verder met het dossier."}`
+      : "Begin met een korte intake en verzamel eerst de basis.",
     headline: hasProgress ? "Ga verder met je intakechat" : "Start met je intakechat",
-    copy: hasProgress ? `${completed} van de 8 kernvelden zijn al vastgelegd. Je kunt direct verder waar je gebleven was.` : "Gebruik de chat om rustig de basis van het pand, de vraag en de maatregel op te bouwen.",
+    copy: hasProgress
+      ? `${completed} van de 8 kernvelden zijn al vastgelegd. Je kunt direct verder waar je gebleven was.`
+      : "Gebruik de chat om rustig de basis van het pand, de vraag en de maatregel op te bouwen.",
     cta: hasProgress ? "Ga verder met intakechat" : "Start intakechat",
     shortCta: "Open intakechat",
     sidebarTitle: hasProgress ? "Intakechat staat klaar" : "Kies je startroute",
@@ -136,7 +185,9 @@ function buildGlassRoute() {
     stateLabel: hasProgress ? `${completed} / ${visibleSteps.length} stappen` : "Nog niet gestart",
     detail: hasProgress ? `Nu bij ${stepLabel.toLowerCase()}.` : "Start een glasisolatieroute en werk per segment door het dossier.",
     headline: hasProgress ? "Ga verder met je glaswizard" : "Start met je glaswizard",
-    copy: hasProgress ? `${completed} stappen zijn al rond. De wizard bewaart je voortgang en laat je vrij terugscrollen.` : "Werk een glasisolatiedossier stap voor stap uit, met voorinvulling vanuit het huisdossier zodra die bron is gekoppeld.",
+    copy: hasProgress
+      ? `${completed} stappen zijn al rond. De wizard bewaart je voortgang en laat je vrij terugscrollen.`
+      : "Werk een glasisolatiedossier stap voor stap uit, met voorinvulling vanuit het huisdossier zodra die bron is gekoppeld.",
     cta: hasProgress ? "Ga verder met glaswizard" : "Start glaswizard",
     shortCta: "Open glaswizard",
     sidebarTitle: hasProgress ? "Glaswizard staat klaar" : "Kies je startroute",
@@ -197,7 +248,7 @@ function getPreferredName() {
 }
 
 function firstName(value) {
-  return value.split(/\s+/).filter(Boolean)[0] || "";
+  return String(value || "").split(/\s+/).filter(Boolean)[0] || "";
 }
 
 function routeIconMarkup(icon) {
@@ -216,13 +267,59 @@ function routeIconMarkup(icon) {
   return `<span class="material-symbols-outlined">${icon}</span>`;
 }
 
-function readState(key) {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
+function createEmptyIntakeState() {
+  return {
+    chatMode: "guided-free",
+    guidance: {
+      actionChecklist: [],
+      documentChecklist: [],
+      missingItems: [],
+      nextStep: "",
+      permitRisk: "",
+      stage: "Basischeck",
+    },
+    messages: [],
+    profile: {
+      street: "",
+      houseNumber: "",
+      postcode: "",
+      city: "",
+      municipality: "",
+      buildingAge: "",
+      buildingType: "",
+      currentUse: "",
+      ownershipRole: "",
+      monumentStatus: "",
+      protectedView: "",
+      protectedValues: "",
+      measureDescription: "",
+      measureLocation: "",
+      measureGoal: "",
+      supportFocus: "",
+      documentsAvailable: "",
+      notes: "",
+    },
+    selectedMeasures: [],
+    summary: "",
+  };
+}
+
+function createEmptyGlassState() {
+  return {
+    currentStep: "eligibility",
+    eligibility: {
+      heritageScope: "",
+      inZeist: "",
+      measureScope: "",
+    },
+    fieldSources: {},
+    fields: {},
+    files: {},
+    houseProfile: null,
+    saveMessage: "",
+    savedAt: 0,
+    touchedSteps: {},
+  };
 }
 
 function escapeHtml(value) {

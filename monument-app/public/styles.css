@@ -718,6 +718,29 @@ input {
   line-height: 1.45;
 }
 
+.login-page .login-status {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  background: rgba(252, 250, 247, 0.92);
+  color: var(--ink-strong);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.login-page .login-status.is-error {
+  border-color: rgba(167, 103, 53, 0.28);
+  background: rgba(250, 236, 225, 0.88);
+  color: #7d4217;
+}
+
+.login-page .login-status.is-success {
+  border-color: rgba(79, 111, 88, 0.18);
+  background: rgba(231, 239, 228, 0.82);
+  color: #31503d;
+}
+
 .login-page .login-helper {
   padding: 14px 16px;
   border: 1px solid rgba(79, 111, 88, 0.18);
@@ -1988,6 +2011,10 @@ body.app-body::after {
   gap: 12px;
 }
 
+.app-sidebar-footer .button {
+  width: 100%;
+}
+
 .app-sidebar-compact {
   display: grid;
   gap: 10px;
@@ -2004,6 +2031,26 @@ body.app-body::after {
 
 .app-sidebar-compact small {
   color: var(--muted);
+}
+
+.app-auth-card {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #ffffff;
+}
+
+.app-auth-card strong {
+  color: var(--ink-strong);
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.app-auth-card small {
+  color: var(--muted);
+  line-height: 1.45;
 }
 
 .app-main {

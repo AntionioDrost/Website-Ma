@@ -59,9 +59,18 @@
         </div>
 
         <div class="app-sidebar-footer">
+          <div class="app-auth-card">
+            <p class="app-sidebar-label">Account</p>
+            <strong id="auth-display-name">Laden...</strong>
+            <small id="auth-email">Je account wordt geladen.</small>
+          </div>
           <button class="button button-secondary" id="reset-dossier" type="button">
             <span class="material-symbols-outlined">restart_alt</span>
             Reset
+          </button>
+          <button class="button button-secondary" id="logout-button" type="button">
+            <span class="material-symbols-outlined">logout</span>
+            Uitloggen
           </button>
         </div>
       </div>
@@ -72,13 +81,6 @@
         <div>
           <h1>Vertel wat er speelt met het pand</h1>
           <p class="app-page-lead">We bouwen rustig het dossier op, zonder je vast te zetten in een formulier.</p>
-        </div>
-        <div class="app-main-actions">
-          <span class="app-status-chip" id="chat-head-note">Vrij gesprek actief</span>
-          <a class="button button-ghost" href="/glasisolatie-demo">
-            <span class="material-symbols-outlined">arrow_forward</span>
-            Naar glaswizard
-          </a>
         </div>
       </header>
 

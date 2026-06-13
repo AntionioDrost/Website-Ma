@@ -1,3 +1,6 @@
+import { attachLogoutButton, requireAuthPage } from "./auth.js";
+import { deleteRemoteDossier, hydrateDossier, saveRemoteDossier } from "./dossier-store.js";
+
 const measureCatalog = [
   "Glasvervanging",
   "Dakisolatie",
@@ -90,10 +93,14 @@ const displayFields = [
 ];
 
 const state = loadState();
+let authContext = null;
+let saveTimer = 0;
 
 const elements = {
   actionList: document.querySelector("#action-list"),
   apiStatus: document.querySelector("#api-status"),
+  authDisplayName: document.querySelector("#auth-display-name"),
+  authEmail: document.querySelector("#auth-email"),
   chatForm: document.querySelector("#chat-form"),
   chatHeadNote: document.querySelector("#chat-head-note"),
   chatInput: document.querySelector("#chat-input"),
@@ -108,6 +115,7 @@ const elements = {
   progressCount: document.querySelector("#progress-count"),
   resetButton: document.querySelector("#reset-dossier"),
   riskSignal: document.querySelector("#risk-signal"),
+  logoutButton: document.querySelector("#logout-button"),
   stageLabel: document.querySelector("#stage-label"),
 };
 
@@ -115,7 +123,8 @@ renderMeasures();
 renderChatMode();
 renderMessages();
 renderDashboard();
-checkHealth();
+elements.apiStatus.textContent = "Sessie controleren...";
+initializeApp();
 
 elements.chatForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -125,8 +134,16 @@ elements.chatForm.addEventListener("submit", async (event) => {
   await sendUserMessage(value);
 });
 
-elements.resetButton.addEventListener("click", () => {
+elements.resetButton.addEventListener("click", async () => {
   localStorage.removeItem(storageKey);
+
+  try {
+    await deleteRemoteDossier("intake");
+  } catch (error) {
+    elements.apiStatus.textContent =
+      error instanceof Error ? error.message : "Resetten in Supabase lukte niet.";
+  }
+
   window.location.reload();
 });
 
@@ -153,9 +170,13 @@ async function sendUserMessage(text) {
   toggleComposer(true);
 
   try {
+    const session = authContext
+      ? (await authContext.supabase.auth.getSession()).data.session
+      : null;
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
+        ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -204,7 +225,9 @@ async function sendUserMessage(text) {
 
 function renderChatMode() {
   const activeMode = getChatModeMeta(state.chatMode);
-  elements.chatHeadNote.innerHTML = activeMode.note;
+  if (elements.chatHeadNote) {
+    elements.chatHeadNote.innerHTML = activeMode.note;
+  }
 
   for (const button of elements.modeButtons) {
     button.classList.toggle("is-active", normalizeChatMode(button.dataset.chatMode) === state.chatMode);
@@ -452,6 +475,7 @@ function loadState() {
 
 function persistState() {
   localStorage.setItem(storageKey, JSON.stringify(state));
+  scheduleRemoteSave();
 }
 
 function sanitizeState(rawState) {
@@ -568,5 +592,80 @@ function createAssistantMessage(chatMode) {
   return {
     role: "assistant",
     text: getChatModeMeta(chatMode).openingMessage,
+  };
+}
+
+async function initializeApp() {
+  try {
+    authContext = await requireAuthPage();
+
+    const hydrated = await hydrateDossier({
+      dossierType: "intake",
+      emptyState: createEmptyState,
+      localKey: storageKey,
+      title: "Intakechat",
+    });
+
+    replaceStateContents(state, sanitizeState(hydrated.state));
+
+    elements.authDisplayName.textContent =
+      authContext.profile.display_name || authContext.user?.email || "Gast";
+    elements.authEmail.textContent = authContext.user?.email || "Gastmodus actief";
+    if (authContext.supabase) {
+      attachLogoutButton(elements.logoutButton, elements.authEmail);
+    } else {
+      elements.logoutButton.hidden = true;
+    }
+
+    renderMeasures();
+    renderChatMode();
+    renderMessages();
+    renderDashboard();
+    await checkHealth();
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "De intakeomgeving kon niet worden geladen.";
+    elements.apiStatus.textContent = message;
+    elements.authDisplayName.textContent = "Fout bij laden";
+    elements.authEmail.textContent = message;
+  }
+}
+
+function scheduleRemoteSave() {
+  if (!authContext?.supabase) {
+    return;
+  }
+
+  window.clearTimeout(saveTimer);
+  saveTimer = window.setTimeout(async () => {
+    try {
+      await saveRemoteDossier({
+        dossierType: "intake",
+        state: sanitizeState(state),
+        title: "Intakechat",
+      });
+    } catch (error) {
+      elements.apiStatus.textContent =
+        error instanceof Error ? error.message : "Opslaan in Supabase lukte niet.";
+    }
+  }, 350);
+}
+
+function replaceStateContents(target, source) {
+  for (const key of Object.keys(target)) {
+    delete target[key];
+  }
+
+  Object.assign(target, source);
+}
+
+function createEmptyState() {
+  return {
+    chatMode: defaultChatMode,
+    guidance: { ...emptyGuidance },
+    messages: [createAssistantMessage(defaultChatMode)],
+    profile: { ...emptyProfile },
+    selectedMeasures: [],
+    summary: "",
   };
 }

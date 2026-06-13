@@ -1,4 +1,9 @@
-import { handleChatRequest, handleHealthRequest } from "../../server.mjs";
+import {
+  handleChatRequest,
+  handleClientConfigRequest,
+  handleHealthRequest,
+  verifySupabaseSession,
+} from "../../server.mjs";
 
 function json(statusCode, payload) {
   return {
@@ -15,11 +20,27 @@ export default async function handler(event) {
   const normalizedRoute = `/${String(route).replace(/^\/+/, "")}`;
 
   try {
+    if (event.httpMethod === "GET" && normalizedRoute === "/client-config") {
+      return json(200, await handleClientConfigRequest());
+    }
+
     if (event.httpMethod === "GET" && normalizedRoute === "/health") {
       return json(200, await handleHealthRequest());
     }
 
     if (event.httpMethod === "POST" && normalizedRoute === "/chat") {
+      const config = await handleClientConfigRequest();
+
+      if (config.authRequired) {
+        try {
+          await verifySupabaseSession(event.headers?.authorization || event.headers?.Authorization);
+        } catch (error) {
+          return json(401, {
+            error: error instanceof Error ? error.message : "Log eerst in om de chat te gebruiken.",
+          });
+        }
+      }
+
       const payload = event.body ? JSON.parse(event.body) : {};
       return json(200, await handleChatRequest(payload));
     }
