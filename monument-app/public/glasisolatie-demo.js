@@ -126,7 +126,7 @@ const tooltipCatalog = {
   "measurement-overview": {
     title: "Sponning van het glas",
     text:
-      "De toelichting zegt hier: plaats een tekening van de opbouw van het raamkozijn en geef de maten aan in mm. In het PDF staat erbij: T is totale dikte raamhout, R is afstand tot glas, P is plat deel, B is sponninghoogte, S is stopverfdiepte en D is sponningdiepte. Er staat ook: als T niet te meten is, dan is D ongeveer S plus 3 a 4 millimeter vermoedelijke glasdikte plus 1, omdat het glas vastzit in de stopverf. Verder staat in de toelichting dat dit schema uit het afwegingskader van de Rijksdienst voor het Cultureel Erfgoed komt en dat je met deze maten kunt bepalen of isolerend, dus dikker, glas in het raam past.",
+      "Plaats hier een tekening van de opbouw van het raamkozijn en geef de maten aan in millimeters. T is de totale dikte van het raamhout, R de afstand tot het glas, P het platte deel, B de sponninghoogte, S de stopverfdiepte en D de sponningdiepte. Als T niet te meten is, geldt volgens de toelichting: D is ongeveer S plus 3 a 4 millimeter vermoedelijke glasdikte plus 1, omdat het glas vastzit in de stopverf. Dit schema komt uit het afwegingskader van de Rijksdienst voor het Cultureel Erfgoed. Aan de hand van deze maten kan worden bepaald of isolerend, dus dikker, glas in het raam past. Als er schuin gemeten wordt, kloppen de maten niet. Een profielkam of profielmeter is hierbij een handig hulpmiddel.",
     images: [
       {
         src: "/assets/glasformulier/idv-toelichting-extract/page-11-img-1.jpg",
@@ -136,20 +136,12 @@ const tooltipCatalog = {
         src: "/assets/glasformulier/idv-toelichting-extract/page-11-img-3.jpg",
         alt: "Voorbeeldfoto van meten aan het kozijn uit de toelichting",
       },
-      {
-        src: "/assets/glasformulier/idv-toelichting-extract/tooltip-afmetingen-ruiten.png",
-        alt: "Toelichting over afmetingen van ruiten bij het kiezen van glas",
-      },
-      {
-        src: "/assets/glasformulier/idv-toelichting-extract/tooltip-rce-schema-profielkam.png",
-        alt: "Toelichting over het RCE schema en gebruik van een profielkam",
-      },
     ],
   },
   "measurement-photo": {
     title: "Voorbeeld uit de toelichting",
     text:
-      "Bij deze stap laat de toelichting zowel de maattekening als een meetvoorbeeld zien. Gebruik die combinatie om te controleren of je de juiste maat op de juiste plek invult en of je de opbouw van het kozijn goed leest.",
+      "De toelichting laat hier zowel de maattekening als een meetvoorbeeld zien. Gebruik die combinatie om te controleren of je de juiste maat op de juiste plek invult. Meet niet schuin, want dan kloppen de maten niet.",
     images: [
       {
         src: "/assets/glasformulier/idv-toelichting-extract/page-11-img-1.jpg",
@@ -165,55 +157,27 @@ const tooltipCatalog = {
     title: "Toelichting bij B",
     text:
       "Fotografeer, indien mogelijk, de hele gevel. Geef op de foto duidelijk aan om welke vensters het gaat. Voorbeeld: wil je 3 van de 5 vensters in de voorgevel verduurzamen? Geef dan op de foto aan welke dat zijn. Noem ze bijvoorbeeld A, B en C. Gaat het om drie identieke vensters? Noem ze dan bijvoorbeeld A1, A2 en A3. Hier heb je geen fotoprogramma voor nodig. Dit kan eenvoudig in Word met Invoegen > Tekstvak en de tekst typen. Daarna rechter muisknop > Vorm opmaken > Geen opvulling en Tekstcontour > Geen lijn.",
-    images: [
-      {
-        src: "/assets/glasformulier/idv-toelichting-extract/measurement-b-toelichting.png",
-        alt: "Toelichtingstekst voor B uit het PDF",
-      },
-    ],
   },
   "window-age": {
     title: "Ouderdom van het venster",
     text:
       "Heb je informatie over de ouderdom van het venster? Vermeld dit dan hier. Denk aan een oude foto, een bouwtekening, of informatie over een restauratie waarbij het venster is aangepast. Ook een stukje tekst uit een bouwhistorisch onderzoek is bruikbaar. Is er niets bekend? Laat dit veld dan leeg.",
-    images: [
-      {
-        src: "/assets/glasformulier/idv-toelichting-extract/tooltip-ouderdom-venster.png",
-        alt: "Toelichting over de ouderdom van het venster",
-      },
-    ],
   },
   "ventilation-draught": {
     title: "Ventilatie en tochtwering",
     text:
-      "Tochtwering kan prettig zijn tegen koude luchtstromen, maar het kan ook de ventilatie in een kamer verminderen. Soms zelfs zoveel dat er te weinig frisse lucht binnenkomt. Goede ventilatie is regelbare tocht: genoeg frisse lucht voor een gezond binnenklimaat, maar niet zo veel dat het oncomfortabel wordt of extra energie kost. Twijfel je of je voldoende ventileert? Gebruik een CO2-meter om de luchtkwaliteit te meten.",
-    images: [
-      {
-        src: "/assets/glasformulier/idv-toelichting-extract/tooltip-ventilatie-tochtwering.png",
-        alt: "Toelichting over ventilatie en tochtwering",
-      },
-    ],
+      "Tochtwering kan prettig zijn tegen koude luchtstromen, maar het kan ook de ventilatie in een kamer verminderen. Soms zelfs zoveel dat er te weinig frisse lucht binnenkomt. Goede ventilatie is eigenlijk regelbare tocht: genoeg frisse lucht voor een gezond binnenklimaat, maar niet zo veel dat het oncomfortabel wordt of extra energie kost. In veel huizen gaat dit nog mis: ruimtes waar niemand is worden constant geventileerd, terwijl kamers waar mensen wel zijn te weinig frisse lucht krijgen. Twijfel je of je voldoende ventileert? Gebruik een CO2-meter om de luchtkwaliteit te meten.",
   },
   "window-condition": {
     title: "Staat van je raam",
     text:
-      "Isolerend glas is zwaarder dan oud enkel glas. Daarom moet het raam stevig genoeg zijn om het nieuwe glas veilig te dragen. De technische staat van het raam speelt dus een belangrijke rol bij de keuze voor isolatieglas. Twijfel je of je raam geschikt is? Vraag advies aan een deskundige en maak bij eventuele gebreken duidelijke foto's.",
-    images: [
-      {
-        src: "/assets/glasformulier/idv-toelichting-extract/tooltip-staat-raam-isolatieglas.png",
-        alt: "Toelichting over de staat van het raam bij isolatieglas",
-      },
-    ],
+      "Isolerend glas is zwaarder dan oud enkel glas. Daarom moet het raam stevig genoeg zijn om het nieuwe glas veilig te dragen. De technische staat van het raam speelt dus een belangrijke rol bij de keuze voor isolatieglas. Twijfel je of je raam geschikt is? Vraag advies aan een deskundige. Maak bij eventuele gebreken duidelijke foto's, zodat je goed kunt laten zien wat er aan de hand is. Heb je stalen ramen? Let extra goed op roestvorming. Bij ernstige roest kan het raam verzwakken en bestaat zelfs het risico dat het glas breekt.",
   },
   "outside-photos": {
     title: "Overzichts- en buitenfoto's",
     text:
-      "Voeg een overzichtsfoto toe van het hele venster en een detailfoto waarop is te zien hoe het glas in het raamhout zit.",
+      "Voeg foto's toe van het venster buiten en van dichtbij. Voeg een overzichtsfoto toe van het hele venster en een detailfoto waarop is te zien hoe het glas in het raamhout zit.",
     images: [
-      {
-        src: "/assets/glasformulier/idv-toelichting-extract/tooltip-overzichts-en-detailfoto.png",
-        alt: "Toelichting over overzichtsfoto en detailfoto van het venster",
-      },
       {
         src: "/assets/glasformulier/idv-toelichting-extract/page-4-img-1.jpg",
         alt: "Voorbeeld van buitenfoto van het venster",
@@ -227,12 +191,8 @@ const tooltipCatalog = {
   "inside-photos": {
     title: "Binnenfoto's en details",
     text:
-      "Maak ten minste een overzicht, een detail van raamhout of roede, lijstwerk en vensterbank. In het voorbeeld uit de toelichting werkt van origine een schuifraam met touwen en katrollen, waarmee het raam omhoog kan worden geschoven. In dit voorbeeld zijn de touwen en katrollen in 1985 vervangen door balansveren van het merk Avri. Vandaar de naam Avri-veren.",
+      "Voeg detailfoto's van binnen toe. Ten minste: een overzicht, een detail van raamhout of roede, lijstwerk en vensterbank. In het voorbeeld uit de toelichting werkt van origine een schuifraam met touwen en katrollen, waarmee het raam omhoog kan worden geschoven. In dit voorbeeld zijn de touwen en katrollen in 1985 vervangen door balansveren van het merk Avri. Vandaar de naam Avri-veren.",
     images: [
-      {
-        src: "/assets/glasformulier/idv-toelichting-extract/tooltip-minimale-fotos-avri.png",
-        alt: "Toelichting over minimale binnenfoto's en Avri-veren",
-      },
       {
         src: "/assets/glasformulier/idv-toelichting-extract/page-5-img-1.jpg",
         alt: "Voorbeeld van detailfoto binnen van vensterbank en onderdorpel",
@@ -250,18 +210,18 @@ const tooltipCatalog = {
   "glass-type": {
     title: "Huidig glas",
     text:
-      "Modern glas is helemaal vlak en wordt floatglas genoemd. Historisch glas is op een andere manier gemaakt en heeft vaak lichte of duidelijke welvingen. Dit noemen we getrokken glas. Glas-in-lood mag in principe niet ingepakt worden in dubbel glas. Overleg met jouw gemeente over wat de waarde van het glas-in-lood is en welke oplossingen er mogelijk zijn. Meestal is dit een achterzetraam aan de binnenzijde van het glas-in-lood.",
+      "Modern glas is helemaal vlak en wordt floatglas genoemd. Historisch glas is op een andere manier gemaakt en heeft vaak lichte of duidelijke welvingen. Dit noemen we getrokken glas. Een voorbeeld van getrokken glas zie je op de foto. Diverse fabrikanten hebben isolerend glas in de handel met een getrokken buitenruit. Overleg hierover met je glaszetter. Glas-in-lood mag in principe niet ingepakt worden in dubbel glas. Overleg met jouw gemeente over wat de waarde van het glas-in-lood is en welke oplossingen er mogelijk zijn. Meestal is dit een achterzetraam aan de binnenzijde van het glas-in-lood.",
     images: [
       {
-        src: "/assets/glasformulier/idv-toelichting-extract/tooltip-soort-glas.png",
-        alt: "Toelichting over modern glas, getrokken glas en glas-in-lood",
+        src: "/assets/glasformulier/idv-toelichting-extract/page-8-img-1.jpg",
+        alt: "Voorbeeld van getrokken glas uit de toelichting",
       },
     ],
   },
   "pair-photo": {
     title: "Foto per uniek paar",
     text:
-      "De toelichting bouwt dit stap voor stap op. Eerst: voeg een foto bij van de gevel met de vensters, zie het voorbeeld hieronder. Daarna vraagt het PDF ook om foto's van het venster buiten en van dichtbij. Op de volgende stap vraagt de toelichting vervolgens om detailfoto's van binnen, bijvoorbeeld van vensterbank, onderdorpel, wisseldorpel of roede.",
+      "Voeg hier een foto bij van de gevel met de vensters. Fotografeer, indien mogelijk, de hele gevel en geef op de foto duidelijk aan om welke vensters het gaat. Wil je bijvoorbeeld 3 van de 5 vensters verduurzamen, noem ze dan bijvoorbeeld A, B en C. Gaat het om identieke vensters, gebruik dan bijvoorbeeld A1, A2 en A3. Daarna voeg je ook foto's toe van het venster buiten, van dichtbij en van binnen.",
     images: [
       {
         src: "/assets/glasformulier/idv-toelichting-extract/page-3-img-1.jpg",

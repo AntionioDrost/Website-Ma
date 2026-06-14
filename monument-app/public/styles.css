@@ -344,6 +344,7 @@ input {
 }
 
 .home-page .home-nav a,
+.home-page .home-login-link,
 .home-page .home-footer a,
 .home-page .home-wide-link,
 .home-page .home-card a,
@@ -354,6 +355,7 @@ input {
 }
 
 .home-page .home-nav a:hover,
+.home-page .home-login-link:hover,
 .home-page .home-footer a:hover,
 .home-page .home-card a:hover,
 .home-page .home-wide-link:hover,
@@ -361,9 +363,19 @@ input {
   color: var(--ink-strong);
 }
 
-.home-page .home-login-button {
-  padding: 10px 16px;
-  background: #ffffff;
+.home-page .home-login-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  justify-self: end;
+}
+
+.home-page .home-login-link span {
+  transition: transform 180ms ease;
+}
+
+.home-page .home-login-link:hover span {
+  transform: translateX(2px);
 }
 
 .home-page .home-hero {
@@ -1776,7 +1788,7 @@ input {
     gap: 16px;
   }
 
-  .home-page .home-login-button {
+  .home-page .home-login-link {
     display: none;
   }
 
