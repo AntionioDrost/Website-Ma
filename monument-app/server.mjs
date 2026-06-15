@@ -138,6 +138,7 @@ const intakeSchema = z.object({
       "postcode",
       "municipality",
       "buildingAge",
+      "buildingType",
       "monumentStatus",
       "protectedValues",
       "currentUse",
@@ -248,6 +249,41 @@ export async function handleClientConfigRequest() {
     authRequired: runtimeConfig.authRequired,
     supabasePublishableKey: runtimeConfig.supabasePublishableKey,
     supabaseUrl: runtimeConfig.supabaseUrl,
+  };
+}
+
+export async function handleAddressLookupRequest(body = {}) {
+  const addressContext = {
+    city: String(body.city || "").trim(),
+    houseNumber: String(body.houseNumber || "").trim(),
+    postcode: normalizePostcode(body.postcode || ""),
+    street: String(body.street || "").trim(),
+  };
+
+  if (!addressContext.street || !addressContext.houseNumber || !addressContext.postcode) {
+    return {
+      error: "Vul straat, huisnummer en postcode in.",
+      status: "invalid",
+    };
+  }
+
+  const lookup = await enrichAddressFromOfficialSources(addressContext);
+  const profile = normalizeProfile(lookup.profile);
+  const suggestedProfile = lookup.suggestion
+    ? normalizeProfile({
+        city: lookup.suggestion.city || "",
+        houseNumber: lookup.suggestion.houseNumber || "",
+        postcode: lookup.suggestion.postcode || "",
+        street: lookup.suggestion.street || "",
+      })
+    : null;
+
+  return {
+    profile,
+    resolvedAddress: lookup.resolvedAddress || "",
+    status: lookup.status,
+    suggestion: lookup.suggestion,
+    suggestedProfile,
   };
 }
 
@@ -389,6 +425,11 @@ async function handleRequest(request, response) {
       return json(response, 200, await handleHealthRequest());
     }
 
+    if (request.method === "POST" && url.pathname === "/api/address-lookup") {
+      const body = await readJsonBody(request);
+      return json(response, 200, await handleAddressLookupRequest(body));
+    }
+
     if (request.method === "POST" && url.pathname === "/api/chat") {
       if (runtimeConfig.authRequired) {
         try {
@@ -504,8 +545,36 @@ function resolvePublicPath(pathname) {
     return path.join(publicDir, "login.html");
   }
 
+  if (pathname === "/over-ons" || pathname === "/over-ons.html") {
+    return path.join(publicDir, "over-ons.html");
+  }
+
+  if (pathname === "/privacy" || pathname === "/privacy.html") {
+    return path.join(publicDir, "privacy.html");
+  }
+
+  if (pathname === "/voorwaarden" || pathname === "/voorwaarden.html") {
+    return path.join(publicDir, "voorwaarden.html");
+  }
+
+  if (pathname === "/veelgestelde-vragen" || pathname === "/veelgestelde-vragen.html") {
+    return path.join(publicDir, "veelgestelde-vragen.html");
+  }
+
+  if (pathname === "/voor-wie" || pathname === "/voor-wie.html") {
+    return path.join(publicDir, "voor-wie.html");
+  }
+
+  if (pathname === "/dossier" || pathname === "/dossier.html") {
+    return path.join(publicDir, "dossier.html");
+  }
+
   if (pathname === "/glasisolatie-demo" || pathname === "/glasisolatie-demo.html") {
     return path.join(publicDir, "glasisolatie-demo.html");
+  }
+
+  if (pathname === "/mijn-dossier" || pathname === "/mijn-dossier.html") {
+    return path.join(publicDir, "mijn-dossier.html");
   }
 
   return filePath;
@@ -808,9 +877,13 @@ function detectMunicipality(text, fallbackCity = "") {
 
 function detectBuildingType(text) {
   const pairs = [
+    ["hallenhuisboerderij", "Hallenhuisboerderij"],
+    ["rijtjeshuis interbellum", "Rijtjeshuis interbellum"],
+    ["grachtenpand", "Grachtenpand"],
     ["boerderij", "Boerderij"],
     ["herenhuis", "Herenhuis"],
     ["villa", "Villa"],
+    ["bungalow", "Bungalow"],
     ["kerk", "Kerk"],
     ["winkelpand", "Winkelpand"],
     ["kantoor", "Kantoorpand"],
@@ -818,6 +891,7 @@ function detectBuildingType(text) {
     ["woonhuis", "Woonhuis"],
     ["schuur", "Schuur"],
     ["loods", "Loods"],
+    ["anders", "Anders"],
     ["pand", "Pand"],
     ["woning", "Woning"],
   ];
@@ -1624,6 +1698,7 @@ function findNextMissingField(profile, measures) {
     ["houseNumber", !normalizedProfile.houseNumber],
     ["postcode", !normalizedProfile.postcode],
     ["municipality", !(normalizedProfile.city || normalizedProfile.municipality)],
+    ["buildingType", !normalizedProfile.buildingType],
     ["monumentStatus", !normalizedProfile.monumentStatus],
     ["protectedValues", !normalizedProfile.protectedValues],
     ["currentUse", !normalizedProfile.currentUse],
@@ -1659,6 +1734,7 @@ function resolveNextMissingField(profile, measures, chatMode, conversationState)
     ["houseNumber", !normalizedProfile.houseNumber],
     ["postcode", !normalizedProfile.postcode],
     ["municipality", !(normalizedProfile.city || normalizedProfile.municipality)],
+    ["buildingType", !normalizedProfile.buildingType],
     ["monumentStatus", !normalizedProfile.monumentStatus],
     ["protectedValues", !normalizedProfile.protectedValues],
     ["currentUse", !normalizedProfile.currentUse],
@@ -1680,6 +1756,7 @@ function chooseGuidedFreeField(profile, measures, conversationState) {
     ["houseNumber", !normalizedProfile.houseNumber],
     ["postcode", !normalizedProfile.postcode],
     ["municipality", !(normalizedProfile.city || normalizedProfile.municipality)],
+    ["buildingType", !normalizedProfile.buildingType],
     ["measureDescription", !hasMeasure],
     ["measureGoal", hasMeasure && !normalizedProfile.measureGoal],
     ["measureLocation", hasMeasure && !normalizedProfile.measureLocation],
@@ -1791,6 +1868,10 @@ function buildFallbackReply(
       return isGuidedFree
         ? `${guidedPrefix}In welke plaats of gemeente staat het pand precies?`.trim()
         : `${lookupIntro}In welke plaats of gemeente staat het pand?`.trim();
+    case "buildingType":
+      return isGuidedFree
+        ? `${guidedPrefix}Ik heb het adres gevonden. Kies nu eerst welk type woning dit is.`.trim()
+        : `${lookupIntro}Ik heb het adres gevonden. Kies nu eerst welk type woning dit is.`.trim();
     case "monumentStatus":
       return isGuidedFree
         ? `${guidedPrefix}Ik mis nog vooral de monumentstatus. Weet je of dit een rijksmonument, gemeentelijk monument of beschermd stads- of dorpsgezicht is?`.trim()
@@ -1866,6 +1947,8 @@ function buildGuidedFreeReply(
       return `${textLead}Heb je ook de postcode erbij? Dan kan ik het pand beter plaatsen.`.trim();
     case "municipality":
       return `${textLead}In welke plaats of gemeente staat het pand precies?`.trim();
+    case "buildingType":
+      return `${textLead}Ik heb het adres gevonden. Kies nu eerst welk type woning dit is.`.trim();
     case "measureDescription":
       return `${textLead}Waar wil je precies naartoe met dit pand of deze aanvraag? Je mag het gewoon in je eigen woorden schetsen.`.trim();
     case "measureGoal":
@@ -2108,6 +2191,10 @@ function buildQuickReplies(addressLookup, nextMissingField, profile, measures, m
   }
 
   if (isGuidedFree) {
+    if (nextMissingField === "buildingType") {
+      return ["Villa", "Hallenhuisboerderij", "Bungalow", "Grachtenpand", "Rijtjeshuis interbellum", "Anders"];
+    }
+
     if (nextMissingField !== "none") {
       return [];
     }
@@ -2127,6 +2214,8 @@ function buildQuickReplies(addressLookup, nextMissingField, profile, measures, m
   }
 
   switch (nextMissingField) {
+    case "buildingType":
+      return ["Villa", "Hallenhuisboerderij", "Bungalow", "Grachtenpand", "Rijtjeshuis interbellum", "Anders"];
     case "monumentStatus":
       return ["Rijksmonument", "Gemeentelijk monument", "Onbekend"];
     case "currentUse":
@@ -2267,6 +2356,9 @@ function buildMissingItems(profile, measures) {
   if (!(profile.city || profile.municipality)) {
     items.push("Plaats of gemeente vastleggen");
   }
+  if (!profile.buildingType) {
+    items.push("Woningtype kiezen");
+  }
   if (!profile.monumentStatus) {
     items.push("Monumentstatus controleren");
   }
@@ -2304,6 +2396,7 @@ function buildActionChecklist(profile, measures) {
       "Adres en pandbasis bevestigd",
       Boolean(profile.street && profile.houseNumber && profile.postcode && (profile.city || profile.municipality)),
     ),
+    buildChecklistItem("Woningtype gekozen", Boolean(profile.buildingType)),
     buildChecklistItem("Monumentstatus vastgelegd", Boolean(profile.monumentStatus)),
     buildChecklistItem("Beschermde waarden beschreven", Boolean(profile.protectedValues)),
     buildChecklistItem("Huidig gebruik vastgelegd", Boolean(profile.currentUse)),
@@ -2384,6 +2477,8 @@ function buildNextStepLabelFromField(nextMissingField, measureContext) {
       return "Postcode vastleggen";
     case "municipality":
       return "Plaats of gemeente toevoegen";
+    case "buildingType":
+      return "Woningtype kiezen";
     case "monumentStatus":
       return "Monumentstatus controleren";
     case "protectedValues":
@@ -2413,7 +2508,7 @@ function determineStageFromField(nextMissingField) {
   if (["street", "houseNumber", "postcode", "municipality"].includes(nextMissingField)) {
     return "Basischeck";
   }
-  if (["monumentStatus", "protectedValues", "currentUse"].includes(nextMissingField)) {
+  if (["buildingType", "monumentStatus", "protectedValues", "currentUse"].includes(nextMissingField)) {
     return "Monumentanalyse";
   }
   if (["measureDescription", "measureLocation", "measureGoal"].includes(nextMissingField)) {
@@ -2567,6 +2662,9 @@ function inferAskedFieldFromAssistantMessage(message) {
   }
   if (normalized.includes("plaats of gemeente")) {
     return "municipality";
+  }
+  if (normalized.includes("welk type woning")) {
+    return "buildingType";
   }
   if (normalized.includes("rijksmonument") || normalized.includes("gemeentelijk monument")) {
     return "monumentStatus";

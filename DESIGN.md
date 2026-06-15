@@ -180,9 +180,9 @@ This system is flat by default. The homepage relies on atmosphere, cream surface
 - **Error / Disabled:** Disabled states stay readable. Error states should feel corrective, not punitive.
 
 ### Navigation
-- **Style:** Compact DM Sans labels with restrained weight, centered link group, and a white bordered login action on larger screens.
+- **Style:** Compact DM Sans labels with restrained weight, a centered link group, and extra breathing room above the header so the page opens calmly instead of pressed against the viewport edge.
 - **States:** Default nav links are slightly softened. Hover sharpens to Primary Ink (`#111111`).
-- **Mobile treatment:** Secondary chrome disappears first. The topbar login button is removed on narrower screens to protect the central message.
+- **Responsive treatment:** The homepage topbar should compress in stages, not jump straight from desktop to a stacked mobile header. On mid-width screens the logo and login stay on the first row while the navigation drops to its own centered row. Only on narrower mobile widths does the login disappear to protect the message.
 
 ### Signature Component
 - **Hero Reassurance Mark:** The animated underline beneath "Zonder stress." is the only intentionally human flourish on the homepage. It should use the chosen SVG stroke language, draw once from left to right on load, stay tucked beneath the headline, and never collide with the supporting copy beneath it.

@@ -1,0 +1,450 @@
+<style>
+  .page {
+    display: grid;
+    gap: 22px;
+  }
+
+  .intro {
+    max-width: 72ch;
+  }
+
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .card {
+    border-radius: 22px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .shell {
+    background:
+      radial-gradient(circle at top center, rgba(232, 225, 207, 0.72), transparent 34%),
+      radial-gradient(circle at top center, rgba(244, 239, 226, 0.42), transparent 52%),
+      #ffffff;
+    padding: 18px;
+    min-height: 640px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: rgba(17, 17, 17, 0.88);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .mark {
+    width: 26px;
+    height: 26px;
+    border: 1px solid rgba(17, 17, 17, 0.14);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    font-size: 12px;
+  }
+
+  .login-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 28px 70px rgba(11, 31, 21, 0.1);
+  }
+
+  .panel {
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 250, 247, 0.98));
+    border: 0;
+    box-shadow: none;
+  }
+
+  .panel::before {
+    display: none;
+  }
+
+  .media {
+    padding: 24px 20px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(252, 250, 247, 0.38)),
+      #fefaef;
+    border-left: 1px solid rgba(17, 17, 17, 0.08);
+    display: grid;
+    align-content: space-between;
+    gap: 18px;
+  }
+
+  .kicker {
+    margin: 0;
+    color: #4f6f58;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .title {
+    margin: 10px 0 0;
+    color: #111111;
+    font-size: 30px;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+  }
+
+  .body {
+    margin: 14px 0 0;
+    color: rgba(17, 17, 17, 0.72);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 22px;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: rgba(17, 17, 17, 0.16);
+  }
+
+  .dot.active {
+    width: 28px;
+    background: #173828;
+  }
+
+  .question {
+    padding: 18px;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 16px;
+    background: #ffffff;
+    margin-bottom: 14px;
+  }
+
+  .question strong {
+    display: block;
+    font-size: 18px;
+    color: #111111;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  .answer {
+    padding: 14px 16px;
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.96);
+    color: rgba(17, 17, 17, 0.84);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .answer + .answer {
+    margin-top: 10px;
+  }
+
+  .answer.primary {
+    border-color: rgba(23, 56, 40, 0.18);
+    background: rgba(231, 239, 228, 0.82);
+    color: #173828;
+    font-weight: 600;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    gap: 12px;
+  }
+
+  .link {
+    color: rgba(17, 17, 17, 0.74);
+    font-size: 14px;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 18px;
+    border-radius: 10px;
+    background: #173828;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .mini-steps {
+    display: grid;
+    gap: 10px;
+  }
+
+  .mini-step {
+    padding-top: 10px;
+    border-top: 1px solid rgba(17, 17, 17, 0.08);
+  }
+
+  .mini-step:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .mini-step strong {
+    display: block;
+    color: #111111;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .mini-step span {
+    color: rgba(17, 17, 17, 0.68);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .badge {
+    display: inline-flex;
+    width: fit-content;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(215, 228, 213, 0.72);
+    color: #173828;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .card-body {
+    padding: 18px 20px 20px;
+  }
+
+  .card-body h3 {
+    margin: 0;
+    color: #111111;
+    font-size: 21px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .card-body p {
+    margin: 10px 0 0;
+    color: rgba(17, 17, 17, 0.72);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .card-body ul {
+    margin: 14px 0 0;
+    padding-left: 18px;
+    color: rgba(17, 17, 17, 0.78);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .recommend {
+    outline: 2px solid rgba(23, 56, 40, 0.18);
+    box-shadow: 0 12px 34px rgba(23, 56, 40, 0.08);
+  }
+
+  @media (max-width: 1200px) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="page">
+  <div class="intro">
+    <h2>Mid-fi richtingen voor de onboarding</h2>
+    <p class="subtitle">Alle drie gebruiken ze de rustige login-look, maar verschillen ze in hoeveel je per slide vraagt. Mijn aanbeveling is optie A: hetzelfde carousel-ritme als de glaswizard, met één vriendelijke vraag per scherm.</p>
+  </div>
+
+  <div class="cards">
+    <div class="card recommend" data-choice="a" onclick="toggleSelect(this)">
+      <div class="shell">
+        <div class="header">
+          <div class="mark">MG</div>
+          <span>Monument Gids</span>
+        </div>
+        <div class="login-card">
+          <div class="panel">
+            <p class="kicker">Aanbevolen</p>
+            <div class="title">Fijn dat je er bent. Ben je hier al eerder geweest?</div>
+            <p class="body">Carousel met één vraag per scherm. Rustig, licht en heel begeleidend. Sluit het best aan op de glaswizard.</p>
+            <div class="progress">
+              <div class="dot active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <div class="question">
+              <strong>Ben je hier al eerder geweest?</strong>
+              <div class="answer primary">Nee, ik heb nog geen account</div>
+              <div class="answer">Ja, ik heb al een account</div>
+            </div>
+            <div class="footer">
+              <span class="link">Later terugkomen kan altijd</span>
+              <span class="cta">Volgende</span>
+            </div>
+          </div>
+          <div class="media">
+            <div>
+              <div class="badge">6 korte stappen</div>
+              <div class="mini-steps">
+                <div class="mini-step">
+                  <strong>1. Eerder hier geweest?</strong>
+                  <span>Split tussen nieuw account en bestaande login.</span>
+                </div>
+                <div class="mini-step">
+                  <strong>2. Wat is je naam?</strong>
+                  <span>Persoonlijke toon zonder al inhoudelijk te worden.</span>
+                </div>
+                <div class="mini-step">
+                  <strong>3. Waar woon je?</strong>
+                  <span>Alleen woonplaats, nog geen volledig adres.</span>
+                </div>
+                <div class="mini-step">
+                  <strong>4. E-mail</strong>
+                  <span>Hiermee maken we je account aan.</span>
+                </div>
+                <div class="mini-step">
+                  <strong>5. Wachtwoord</strong>
+                  <span>Eigen slide voor minder spanning en minder fouten.</span>
+                </div>
+                <div class="mini-step">
+                  <strong>6. Mailcode</strong>
+                  <span>Valideren en daarna rondleiding starten.</span>
+                </div>
+              </div>
+            </div>
+            <span class="link">Na stap 6: rustige producttour</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Optie A, conciërge-carousel</h3>
+        <p>Voelt het meest ontzorgend. Elke slide heeft één taak, één geruststellende zin en één duidelijke knop.</p>
+        <ul>
+          <li>Best voor onzekere of eerste gebruikers</li>
+          <li>Meest consistent met de glaswizard</li>
+          <li>Iets meer klikken, maar minder cognitieve druk</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" data-choice="b" onclick="toggleSelect(this)">
+      <div class="shell">
+        <div class="header">
+          <div class="mark">MG</div>
+          <span>Monument Gids</span>
+        </div>
+        <div class="login-card">
+          <div class="panel">
+            <p class="kicker">Compacter</p>
+            <div class="title">Prettig kennis te maken. Hoe mogen we je noemen?</div>
+            <p class="body">Nog steeds carousel, maar met gecombineerde accountslides. Minder schermen, iets zakelijker.</p>
+            <div class="progress">
+              <div class="dot active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <div class="question">
+              <strong>Jouw gegevens</strong>
+              <div class="answer">Naam</div>
+              <div class="answer">Woonplaats</div>
+            </div>
+            <div class="question">
+              <strong>Je account</strong>
+              <div class="answer">E-mailadres</div>
+              <div class="answer">Wachtwoord</div>
+            </div>
+            <div class="footer">
+              <span class="link">4 stappen totaal</span>
+              <span class="cta">Volgende</span>
+            </div>
+          </div>
+          <div class="media">
+            <div class="badge">4 compacte stappen</div>
+            <div class="mini-steps">
+              <div class="mini-step"><strong>1. Eerder hier geweest?</strong><span>Nieuwe of bestaande gebruiker.</span></div>
+              <div class="mini-step"><strong>2. Naam + woonplaats</strong><span>Twee lichte velden samen.</span></div>
+              <div class="mini-step"><strong>3. E-mail + wachtwoord</strong><span>Compactere accountstap.</span></div>
+              <div class="mini-step"><strong>4. Mailcode</strong><span>Valideren en door naar de tour.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Optie B, compacte carousel</h3>
+        <p>Behoudt het wizardgevoel, maar verkort de flow. Minder zacht dan A, wel sneller.</p>
+        <ul>
+          <li>Best als snelheid belangrijker is dan begeleiding</li>
+          <li>Minder schermwissels</li>
+          <li>Iets meer formuliergevoel</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" data-choice="c" onclick="toggleSelect(this)">
+      <div class="shell">
+        <div class="header">
+          <div class="mark">MG</div>
+          <span>Monument Gids</span>
+        </div>
+        <div class="login-card">
+          <div class="panel">
+            <p class="kicker">Herstart-focus</p>
+            <div class="title">Log in en pak je monumentdossier weer op.</div>
+            <p class="body">Sterke nadruk op terugkerende gebruikers. Nieuwe gebruikers stappen via een secundaire route in.</p>
+            <div class="progress">
+              <div class="dot active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <div class="question">
+              <strong>Wat wil je vandaag doen?</strong>
+              <div class="answer primary">Mijn dossier hervatten</div>
+              <div class="answer">Nieuw account aanmaken</div>
+            </div>
+            <div class="footer">
+              <span class="link">Direct naar login voor bestaande gebruikers</span>
+              <span class="cta">Verder</span>
+            </div>
+          </div>
+          <div class="media">
+            <div class="badge">3 poort-stappen</div>
+            <div class="mini-steps">
+              <div class="mini-step"><strong>1. Hervatten of starten</strong><span>Dossier staat centraal.</span></div>
+              <div class="mini-step"><strong>2. Account aanmaken</strong><span>Alleen voor nieuwe mensen.</span></div>
+              <div class="mini-step"><strong>3. Mailcode</strong><span>Daarna meteen een tour.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Optie C, dossier-eerst</h3>
+        <p>Sterker voor terugkerende gebruikers, maar minder warm voor iemand die nog moet beginnen.</p>
+        <ul>
+          <li>Best als veel mensen terugkomen</li>
+          <li>Minder uitnodigend voor nieuwkomers</li>
+          <li>Voelt iets dichter bij gewone login</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

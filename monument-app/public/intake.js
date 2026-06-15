@@ -67,6 +67,7 @@ const progressFields = [
   { id: "houseNumber", done: (profile) => Boolean(profile.houseNumber) },
   { id: "postcode", done: (profile) => Boolean(profile.postcode) },
   { id: "municipality", done: (profile) => Boolean(profile.city || profile.municipality) },
+  { id: "buildingType", done: (profile) => Boolean(profile.buildingType) },
   { id: "monumentStatus", done: (profile) => Boolean(profile.monumentStatus) },
   { id: "protectedValues", done: (profile) => Boolean(profile.protectedValues) },
   { id: "currentUse", done: (profile) => Boolean(profile.currentUse) },
@@ -558,7 +559,7 @@ function normalizeQuickReplies(items) {
   return items
     .map((item) => String(item || "").trim())
     .filter(Boolean)
-    .slice(0, 3);
+    .slice(0, 6);
 }
 
 function normalizeMeasures(items) {

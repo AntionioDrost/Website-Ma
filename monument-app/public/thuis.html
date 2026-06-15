@@ -42,6 +42,10 @@
             </span>
             Glaswizard
           </a>
+          <a class="app-sidebar-link" href="/mijn-dossier">
+            <span class="material-symbols-outlined">folder_managed</span>
+            Mijn dossier
+          </a>
         </nav>
 
         <div class="app-sidebar-compact">
@@ -73,7 +77,7 @@
       </header>
 
       <section class="app-home-hero">
-        <article class="app-home-hero-panel">
+        <article class="app-home-hero-panel" id="tour-home-panel">
           <div class="app-home-hero-copy">
             <p class="app-kicker">Ga verder waar je gebleven bent</p>
             <h2 id="thuis-primary-title">Pak je laatste route weer op</h2>
@@ -110,12 +114,12 @@
             <h3 class="card-title">Kies een route</h3>
           </div>
           <div class="app-home-action-grid">
-            <a class="app-home-action-card" href="/intake">
+            <a class="app-home-action-card" id="tour-intake-card" href="/intake">
               <span class="material-symbols-outlined">chat</span>
               <strong>Start met intakechat</strong>
               <span>Voor als je nog wilt verkennen wat past.</span>
             </a>
-            <a class="app-home-action-card" href="/glasisolatie-demo">
+            <a class="app-home-action-card" id="tour-glass-card" href="/glasisolatie-demo">
               <span class="app-window-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <rect x="4.5" y="4.5" width="15" height="15" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
@@ -149,6 +153,23 @@
           </div>
         </article>
       </section>
+
+      <dialog class="welcome-tour" id="welcome-tour">
+        <div class="welcome-tour-card">
+          <p class="app-kicker" id="tour-kicker">Rondleiding</p>
+          <div class="welcome-tour-head">
+            <h2 id="tour-title">Welkom in je startscherm</h2>
+            <button class="welcome-tour-close" id="tour-close" type="button" aria-label="Rondleiding sluiten">Sluiten</button>
+          </div>
+          <p class="app-home-lead" id="tour-copy">Hier begint je dossier. Vanaf hier zie je wat je al hebt gedaan en wat een goede volgende stap is.</p>
+          <div class="welcome-tour-progress" id="tour-progress"></div>
+          <div class="welcome-tour-actions">
+            <button class="button button-ghost" id="tour-back" type="button">Vorige</button>
+            <button class="button button-secondary" id="tour-skip" type="button">Later bekijken</button>
+            <button class="button button-primary" id="tour-next" type="button">Volgende</button>
+          </div>
+        </div>
+      </dialog>
     </section>
   </main>
 

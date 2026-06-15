@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monument Gids | Mijn dossier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="app-body app-shell-page">
+  <main class="app-shell app-shell-redesign">
+    <aside class="app-sidebar app-sidebar-redesign">
+      <div class="app-sidebar-inner">
+        <a class="app-sidebar-brand" href="/">
+          <span class="app-sidebar-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.75 10.5 12 4.75l7.25 5.75v8.75a1 1 0 0 1-1 1h-3.5v-5.25h-5.5V20h-3.5a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
+            </svg>
+          </span>
+          <span>Monument Gids</span>
+        </a>
+
+        <nav class="app-sidebar-nav" aria-label="Submenu">
+          <a class="app-sidebar-link" href="/thuis">
+            <span class="material-symbols-outlined">home</span>
+            Thuis
+          </a>
+          <a class="app-sidebar-link" href="/intake">
+            <span class="material-symbols-outlined">chat</span>
+            Intakechat
+          </a>
+          <a class="app-sidebar-link" href="/glasisolatie-demo">
+            <span class="app-window-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="4.5" y="4.5" width="15" height="15" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M12 4.5v15M4.5 12h15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                <path d="M7.75 7.75h2.25M14 7.75h2.25M7.75 14h2.25M14 14h2.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Glaswizard
+          </a>
+          <a class="app-sidebar-link is-active" href="/mijn-dossier" aria-current="page">
+            <span class="material-symbols-outlined">folder_managed</span>
+            Mijn dossier
+          </a>
+        </nav>
+
+        <div class="app-sidebar-compact">
+          <p class="app-sidebar-label">Overzicht</p>
+          <strong id="dossier-sidebar-focus">Je dossier wordt geladen</strong>
+          <small id="dossier-sidebar-note">Even geduld, we halen je gegevens op.</small>
+        </div>
+
+        <div class="app-sidebar-footer">
+          <div class="app-auth-card">
+            <p class="app-sidebar-label">Account</p>
+            <strong id="auth-display-name">Laden...</strong>
+            <small id="auth-email">Je account wordt geladen.</small>
+          </div>
+          <button class="button button-secondary" id="logout-button" type="button">
+            <span class="material-symbols-outlined">logout</span>
+            Uitloggen
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="app-main app-main-redesign">
+      <header class="app-main-header">
+        <div>
+          <h1>Mijn dossier</h1>
+          <p class="app-page-lead">Hier zie je rustig wat al bekend is, wat nog openstaat en wat je direct kunt aanpassen.</p>
+        </div>
+      </header>
+
+      <div class="dossier-shell" id="dossier-shell">
+        <article class="dossier-loading app-side-sheet" id="dossier-loading">
+          <p class="card-text">Je dossier wordt geladen...</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="/mijn-dossier.js" type="module"></script>
+</body>
+</html>

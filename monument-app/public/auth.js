@@ -107,7 +107,7 @@ async function ensureProfile(supabase, user) {
   }
 
   const fallbackProfile = {
-    display_name: user.email?.split("@")[0] || "Gebruiker",
+    display_name: user.user_metadata?.display_name || user.email?.split("@")[0] || "Gebruiker",
     email: user.email || "",
     id: user.id,
   };

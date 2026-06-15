@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 const baseUrl = process.env.MONUMENT_BASE_URL || "http://127.0.0.1:4173";
+const directMode = process.env.MONUMENT_DIRECT === "1";
 
 const completeProfile = {
   street: "Utrechtseweg",
@@ -23,7 +24,22 @@ const completeProfile = {
   notes: "",
 };
 
+let directHandleChatRequest = null;
+
+if (directMode) {
+  ({ handleChatRequest: directHandleChatRequest } = await import("../server.mjs"));
+}
+
 async function postChat({ chatMode = "guided-free", messages, profile, selectedMeasures }) {
+  if (directMode && directHandleChatRequest) {
+    return directHandleChatRequest({
+      chatMode,
+      messages,
+      profile,
+      selectedMeasures,
+    });
+  }
+
   const response = await fetch(`${baseUrl}/api/chat`, {
     method: "POST",
     headers: {
@@ -73,6 +89,73 @@ await runScenario("Monumentstatus quick reply 'Onbekend' is accepted", async () 
 
   assert.equal(result.profile.monumentStatus, "Onbekend");
   assert.ok(!/rijksmonument|gemeentelijk monument|beschermd stads/i.test(result.reply));
+});
+
+await runScenario("Location check asks for woningtype before the rest of onboarding", async () => {
+  const result = await postChat({
+    chatMode: "strict",
+    messages: [
+      { role: "assistant", text: "Welkom. Ik help je dit monumentdossier stap voor stap opbouwen. Om te beginnen: wat is het adres van het pand?" },
+      { role: "user", text: "Prins Hendriklaan 26 in Zeist" },
+    ],
+    profile: {
+      ...completeProfile,
+      street: "",
+      houseNumber: "",
+      postcode: "",
+      city: "",
+      municipality: "",
+      buildingAge: "",
+      buildingType: "",
+      monumentStatus: "",
+      protectedView: "",
+      protectedValues: "",
+      currentUse: "",
+      measureDescription: "",
+      measureLocation: "",
+      measureGoal: "",
+      documentsAvailable: "",
+    },
+    selectedMeasures: [],
+  });
+
+  assert.equal(result.profile.buildingType, "");
+  assert.match(result.reply, /type woning/i);
+  assert.deepEqual(result.quickReplies, [
+    "Villa",
+    "Hallenhuisboerderij",
+    "Bungalow",
+    "Grachtenpand",
+    "Rijtjeshuis interbellum",
+    "Anders",
+  ]);
+});
+
+await runScenario("Building type quick reply is stored before onboarding continues", async () => {
+  const result = await postChat({
+    chatMode: "strict",
+    messages: [
+      { role: "assistant", text: "Ik heb het adres gevonden. Kies nu eerst welk type woning dit is." },
+      { role: "user", text: "Villa" },
+    ],
+    profile: {
+      ...completeProfile,
+      buildingType: "",
+      monumentStatus: "",
+      protectedView: "",
+      protectedValues: "",
+      currentUse: "",
+      measureDescription: "",
+      measureLocation: "",
+      measureGoal: "",
+      documentsAvailable: "",
+    },
+    selectedMeasures: [],
+  });
+
+  assert.equal(result.profile.buildingType, "Villa");
+  assert.ok(!/type woning/i.test(result.reply));
+  assert.match(result.reply, /rijksmonument|gemeentelijk monument|stads- of dorpsgezicht/i);
 });
 
 await runScenario("Warmtepomp docs quick reply 'Nog niets' advances the flow", async () => {

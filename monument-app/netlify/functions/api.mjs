@@ -2,6 +2,7 @@ import {
   handleChatRequest,
   handleClientConfigRequest,
   handleHealthRequest,
+  handleAddressLookupRequest,
   verifySupabaseSession,
 } from "../../server.mjs";
 
@@ -26,6 +27,11 @@ export default async function handler(event) {
 
     if (event.httpMethod === "GET" && normalizedRoute === "/health") {
       return json(200, await handleHealthRequest());
+    }
+
+    if (event.httpMethod === "POST" && normalizedRoute === "/address-lookup") {
+      const payload = event.body ? JSON.parse(event.body) : {};
+      return json(200, await handleAddressLookupRequest(payload));
     }
 
     if (event.httpMethod === "POST" && normalizedRoute === "/chat") {

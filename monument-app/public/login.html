@@ -20,15 +20,34 @@
         </span>
         <span>Monument Gids</span>
       </a>
+      <a class="button button-ghost login-header-home" href="/">
+        Terug naar home
+      </a>
     </header>
 
     <section class="login-stage" aria-labelledby="login-title">
       <div class="login-card">
         <div class="login-form-panel">
-          <p class="login-kicker">Welkom terug</p>
-          <h1 id="login-title">Log in en pak je monumentdossier weer op.</h1>
+          <p class="login-kicker" id="login-kicker">Welkom</p>
+          <h1 id="login-title">Fijn dat je er bent. Ben je hier al eerder geweest?</h1>
+          <p class="login-lead" id="login-lead">
+            Heb je al een account, dan kun je zo weer verder.
+          </p>
 
-          <form class="login-form" id="login-form">
+          <div class="login-panel-group" id="login-branch-panel">
+            <div class="login-choice-stack">
+              <button class="login-choice-button login-choice-button-primary" id="show-login" type="button">
+                <strong>Ja, ik ben hier al eerder geweest</strong>
+                <span>Log in en pak je monumentdossier weer op.</span>
+              </button>
+              <button class="login-choice-button" id="start-signup" type="button">
+                <strong>Nee, ik ben hier voor het eerst</strong>
+                <span>We maken in een paar korte stappen je account aan.</span>
+              </button>
+            </div>
+          </div>
+
+          <form class="login-form" id="login-form" hidden>
             <div class="login-field">
               <label for="email">E-mailadres</label>
               <input id="email" name="email" type="email" autocomplete="email" placeholder="naam@voorbeeld.nl" required />
@@ -42,23 +61,132 @@
               <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Voer je wachtwoord in" required />
             </div>
 
-            <button class="button button-primary login-submit" type="submit">Inloggen</button>
+            <div class="login-form-actions">
+              <button class="button button-primary login-submit" type="submit">Inloggen</button>
+              <button class="login-inline-link" id="back-to-branch-from-login" type="button">Terug</button>
+            </div>
 
-            <p class="login-status" id="login-status" hidden></p>
+            <button class="button button-secondary login-alt-route" id="login-to-signup" type="button">
+              Nog geen account? Laten we kennismaken
+            </button>
 
-            <p class="login-meta">
-              Accounts worden voorlopig handmatig voor testers aangemaakt in Supabase.
-            </p>
             <p class="login-helper" id="forgot-password-message" hidden>
               Wachtwoordherstel staat nog niet aan. Laat een nieuw testwachtwoord voorlopig handmatig aanmaken.
             </p>
           </form>
+
+          <form class="login-form" id="name-form" hidden>
+            <div class="login-field">
+              <label for="signup-name">Hoe mogen we je noemen?</label>
+              <input id="signup-name" name="name" type="text" autocomplete="name" placeholder="Bijvoorbeeld Anna" required />
+            </div>
+
+            <p class="login-meta">Dan spreken we je meteen wat persoonlijker aan.</p>
+
+            <div class="login-form-actions">
+              <button class="button button-primary login-submit" type="submit">Volgende</button>
+              <button class="login-inline-link" id="back-to-branch-from-name" type="button">Terug</button>
+            </div>
+          </form>
+
+          <form class="login-form" id="address-form" hidden>
+            <div class="login-address-stack">
+              <div class="login-input-card login-input-card-street">
+                <div class="login-field login-field-wide">
+                  <label for="signup-street">Straat</label>
+                  <input id="signup-street" name="street" type="text" autocomplete="street-address" placeholder="Bijvoorbeeld Slotlaan" required />
+                </div>
+              </div>
+              <div class="login-address-split">
+                <div class="login-input-card">
+                  <div class="login-field">
+                    <label for="signup-house-number">Huisnummer</label>
+                    <input id="signup-house-number" name="houseNumber" type="text" autocomplete="address-line2" placeholder="227" required />
+                  </div>
+                </div>
+                <div class="login-input-card">
+                  <div class="login-field">
+                    <label for="signup-postcode">Postcode</label>
+                    <input id="signup-postcode" name="postcode" type="text" autocomplete="postal-code" placeholder="3708 DC" required />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="login-meta">We zoeken het adres daarna voor je op en vragen nog even of het klopt.</p>
+
+            <div class="login-form-actions">
+              <button class="button button-primary login-submit" type="submit">Adres controleren</button>
+              <button class="login-inline-link" id="back-to-name" type="button">Terug</button>
+            </div>
+          </form>
+
+          <form class="login-form" id="address-confirm-form" hidden>
+            <div class="login-confirm-card">
+              <p class="login-confirm-label">Adrescontrole</p>
+              <strong id="address-confirm-title">Zijn we bij het juiste adres?</strong>
+              <p id="address-confirm-copy">Klopt dit met het pand waarvoor je begeleiding zoekt?</p>
+              <div class="login-confirm-address" id="address-confirm-address">Laden...</div>
+              <div class="login-property-summary" id="login-property-summary" hidden>
+                <p class="login-confirm-label">Wat we alvast vonden over het pand</p>
+                <div class="login-property-facts" id="login-property-facts"></div>
+              </div>
+            </div>
+
+            <div class="login-form-actions login-form-actions-stacked">
+              <button class="button button-primary login-submit" id="confirm-address" type="submit">Ja, dit klopt</button>
+              <button class="button button-ghost" id="edit-address" type="button">Nee, ik wil het aanpassen</button>
+            </div>
+          </form>
+
+          <form class="login-form" id="credentials-form" hidden>
+            <div class="login-field">
+              <label for="signup-email">E-mailadres</label>
+              <input id="signup-email" name="email" type="email" autocomplete="email" placeholder="naam@voorbeeld.nl" required />
+            </div>
+
+            <div class="login-field">
+              <label for="signup-password">Kies een wachtwoord</label>
+              <input id="signup-password" name="password" type="password" autocomplete="new-password" placeholder="Minimaal 8 tekens" required />
+            </div>
+
+            <p class="login-meta">Hier sturen we je code naartoe.</p>
+
+            <div class="login-form-actions">
+              <button class="button button-primary login-submit" type="submit">Maak account aan</button>
+              <button class="login-inline-link" id="back-to-address-confirm" type="button">Terug</button>
+            </div>
+          </form>
+
+          <form class="login-form" id="verify-form" hidden>
+            <div class="login-field">
+              <label for="verification-code">6-cijferige code</label>
+              <input id="verification-code" name="verificationCode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" maxlength="6" required />
+            </div>
+
+            <p class="login-meta" id="verify-helper">Bijna klaar. Daarmee bevestigen we dat dit jouw account is.</p>
+
+            <div class="login-form-actions">
+              <button class="button button-primary login-submit" id="verify-submit" type="submit">Account bevestigen</button>
+              <button class="login-inline-link" id="resend-code" type="button">Code opnieuw sturen</button>
+            </div>
+
+            <button class="login-inline-link login-inline-link-secondary" id="edit-credentials" type="button">
+              Ander e-mailadres of wachtwoord gebruiken
+            </button>
+          </form>
+
+          <p class="login-status" id="login-status" hidden></p>
         </div>
 
-        <aside class="login-media-panel" aria-label="Placeholder">
-          <div class="login-placeholder" aria-hidden="true">
-            <span class="login-placeholder-cross"></span>
+        <aside class="login-media-panel" aria-label="Onboarding voortgang">
+          <div class="login-media-copy">
+            <p class="login-media-kicker" id="login-media-kicker">Binnen een paar minuten binnen</p>
+            <h2 id="login-media-title">Rustig en duidelijk.</h2>
+            <p id="login-media-lead">Eerst je account, daarna kort zien waar je alles vindt.</p>
           </div>
+
+          <div class="login-step-list" id="login-step-list" aria-label="Voortgang"></div>
         </aside>
       </div>
     </section>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy | Monument Gids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="app-body home-page about-page legal-page">
+  <main class="home-shell about-shell">
+    <div class="home-frame about-frame legal-frame">
+      <header class="home-topbar">
+        <a class="home-logo" href="/">
+          <span class="home-logo-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.75 10.5 12 4.75l7.25 5.75v8.75a1 1 0 0 1-1 1h-3.5v-5.25h-5.5V20h-3.5a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
+            </svg>
+          </span>
+          <span>Monument Gids</span>
+        </a>
+
+        <nav class="home-nav" aria-label="Hoofdnavigatie">
+          <a href="/#hoe-het-werkt">Hoe het werkt</a>
+          <a href="/over-ons">Over ons</a>
+          <a href="/voor-wie">Voor wie</a>
+          <a href="/veelgestelde-vragen">Veelgestelde vragen</a>
+        </nav>
+
+        <a class="home-login-link about-return-link" href="/">
+          Terug naar home <span aria-hidden="true">&rarr;</span>
+        </a>
+      </header>
+
+      <section class="about-hero legal-hero">
+        <p class="about-kicker">Privacy</p>
+        <h1>We gaan zorgvuldig om met je gegevens.</h1>
+        <p class="about-lead">
+          Op deze pagina lees je welke persoonsgegevens Monument Gids gebruikt, waarom we dat doen,
+          met welke partijen we werken en welke rechten je hebt. Laatst bijgewerkt op 15 juni 2026.
+        </p>
+      </section>
+
+      <section class="legal-layout" aria-label="Privacyverklaring">
+        <article class="legal-card legal-card-accent">
+          <h2>Wie verantwoordelijk is</h2>
+          <p>
+            Monument Gids is een project vanuit het Duurzaam Monumenten Collectief. Voor het gebruik van deze
+            website en app is het collectief de verwerkingsverantwoordelijke voor de persoonsgegevens die via
+            Monument Gids worden verwerkt.
+          </p>
+          <p>
+            Vragen over privacy kun je op dit moment richten aan het projectteam via het
+            <a href="https://duurzaammonumentencollectief.nl/" target="_blank" rel="noreferrer">Duurzaam Monumenten Collectief</a>.
+            Zodra er een apart privacycontactadres is ingericht, plaatsen we dat ook hier.
+          </p>
+        </article>
+
+        <article class="legal-card">
+          <h2>Welke gegevens we verwerken</h2>
+          <ul class="legal-list">
+            <li>Accountgegevens, zoals naam, e-mailadres en versleuteld wachtwoord via Supabase Auth.</li>
+            <li>Adres- en pandgegevens, zoals straat, huisnummer, postcode, plaats en gevonden pandkenmerken.</li>
+            <li>Dossiergegevens die je zelf invult, zoals monumentstatus, maatregel, beschikbare stukken en notities.</li>
+            <li>Chatinhoud die je invoert in de intakechat om je dossier op te bouwen.</li>
+            <li>Technische sessiegegevens die nodig zijn om ingelogd te blijven en voortgang op te slaan.</li>
+            <li>Lokale browseropslag voor voortgang en gebruikersgemak, zoals opgeslagen conceptgegevens.</li>
+          </ul>
+        </article>
+
+        <article class="legal-card">
+          <h2>Waarom we die gegevens gebruiken</h2>
+          <div class="legal-table" role="table" aria-label="Doelen en grondslagen">
+            <div class="legal-table-row" role="row">
+              <strong role="cell">Account en inloggen</strong>
+              <span role="cell">Om je account te maken, je te laten inloggen en je dossier te beveiligen.</span>
+              <em role="cell">Grondslag: uitvoering van de dienst.</em>
+            </div>
+            <div class="legal-table-row" role="row">
+              <strong role="cell">Adrescontrole</strong>
+              <span role="cell">Om te controleren of we het juiste pand voor je dossier hebben gekoppeld.</span>
+              <em role="cell">Grondslag: uitvoering van de dienst.</em>
+            </div>
+            <div class="legal-table-row" role="row">
+              <strong role="cell">Dossieropbouw</strong>
+              <span role="cell">Om je voortgang, ingevulde velden en conceptdossiers te bewaren.</span>
+              <em role="cell">Grondslag: uitvoering van de dienst.</em>
+            </div>
+            <div class="legal-table-row" role="row">
+              <strong role="cell">Chatbegeleiding</strong>
+              <span role="cell">Om je intake te structureren en passende vervolgstappen te tonen.</span>
+              <em role="cell">Grondslag: uitvoering van de dienst.</em>
+            </div>
+            <div class="legal-table-row" role="row">
+              <strong role="cell">Beveiliging en beheer</strong>
+              <span role="cell">Om misbruik te voorkomen, fouten te onderzoeken en de app werkend te houden.</span>
+              <em role="cell">Grondslag: gerechtvaardigd belang.</em>
+            </div>
+          </div>
+        </article>
+
+        <article class="legal-card">
+          <h2>Met welke partijen we gegevens delen</h2>
+          <ul class="legal-list">
+            <li><strong>Supabase</strong> voor authenticatie, profielgegevens en opgeslagen dossiers.</li>
+            <li><strong>Netlify</strong> voor hosting en serverfuncties van de app.</li>
+            <li><strong>OpenAI</strong> voor de chatfunctionaliteit die je intake helpt structureren.</li>
+            <li><strong>PDOK, BAG en RCE-bronnen</strong> voor adrescontrole en openbare pand- en erfgoedinformatie.</li>
+          </ul>
+          <p>
+            We verkopen je persoonsgegevens niet. We delen alleen gegevens als dat nodig is voor de werking van
+            Monument Gids of als we daar wettelijk toe verplicht zijn.
+          </p>
+        </article>
+
+        <article class="legal-card">
+          <h2>Hoe lang we gegevens bewaren</h2>
+          <ul class="legal-list">
+            <li>Account- en profielgegevens bewaren we zolang je account actief is.</li>
+            <li>Dossiergegevens bewaren we zolang dat nodig is om je dossier beschikbaar te houden binnen de dienst.</li>
+            <li>Gegevens in lokale browseropslag blijven staan tot je uitlogt, je dossier reset, je browserdata wist of de opslag overschreven wordt.</li>
+            <li>Als je om verwijdering vraagt, beoordelen we welke gegevens direct weg kunnen en welke kort nodig blijven voor beveiliging of administratie.</li>
+          </ul>
+        </article>
+
+        <article class="legal-card">
+          <h2>Cookies en lokale opslag</h2>
+          <p>
+            Monument Gids gebruikt op dit moment geen advertentie- of marketingcookies. Wel gebruiken we functionele
+            opslag, zoals sessiegegevens en local storage, zodat inloggen en conceptvoortgang werken.
+          </p>
+          <p>
+            Voor zulke functionele cookies en vergelijkbare technieken is in de regel geen toestemming nodig, maar we
+            lichten je er wel over in. Als we later analytics of extra cookies toevoegen, werken we deze pagina en
+            zo nodig de cookiemelding bij.
+          </p>
+        </article>
+
+        <article class="legal-card">
+          <h2>Beveiliging</h2>
+          <p>
+            We nemen passende maatregelen om persoonsgegevens te beveiligen, zoals beveiligde verbindingen, afgeschermde
+            accounts en toegangscontrole op dossiergegevens. Toch is geen enkel systeem volledig risicoloos. Daarom
+            blijven we beveiliging en toegangen aanscherpen.
+          </p>
+        </article>
+
+        <article class="legal-card">
+          <h2>Jouw rechten</h2>
+          <p>Je hebt onder de AVG onder meer het recht om:</p>
+          <ul class="legal-list">
+            <li>je gegevens in te zien;</li>
+            <li>onjuiste gegevens te laten aanpassen;</li>
+            <li>je gegevens te laten verwijderen, als dat kan;</li>
+            <li>bezwaar te maken tegen bepaald gebruik van je gegevens;</li>
+            <li>je toestemming in te trekken, als verwerking op toestemming is gebaseerd;</li>
+            <li>een klacht in te dienen bij de Autoriteit Persoonsgegevens.</li>
+          </ul>
+          <p>
+            Een klacht kun je indienen via de
+            <a href="https://www.autoriteitpersoonsgegevens.nl/" target="_blank" rel="noreferrer">Autoriteit Persoonsgegevens</a>.
+          </p>
+        </article>
+
+        <article class="legal-card">
+          <h2>Wijzigingen</h2>
+          <p>
+            Als Monument Gids verandert, kunnen we ook deze privacyverklaring aanpassen. Bovenaan deze pagina staat
+            altijd de meest recente datum.
+          </p>
+        </article>
+      </section>
+
+      <footer class="legal-footer">
+        <a href="/voorwaarden">Lees ook de voorwaarden</a>
+        <a href="/veelgestelde-vragen">Bekijk de veelgestelde vragen</a>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>

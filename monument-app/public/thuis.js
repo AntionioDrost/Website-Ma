@@ -3,6 +3,7 @@ import { hydrateDossier } from "./dossier-store.js";
 
 const intakeStorageKey = "monument-app-state-v2";
 const glassStorageKey = "glasisolatie-demo-state-v2";
+const welcomeTourSeenKey = "monument-gids-welcome-tour-seen-v1";
 
 const intakeProgressFields = [
   (profile) => Boolean(profile.street),
@@ -28,7 +29,10 @@ const stepLabels = {
 const elements = {
   authDisplayName: document.querySelector("#auth-display-name"),
   authEmail: document.querySelector("#auth-email"),
+  glassTourCard: document.querySelector("#tour-glass-card"),
   greeting: document.querySelector("#thuis-greeting"),
+  homeTourPanel: document.querySelector("#tour-home-panel"),
+  intakeTourCard: document.querySelector("#tour-intake-card"),
   logoutButton: document.querySelector("#logout-button"),
   primaryTitle: document.querySelector("#thuis-primary-title"),
   primaryCopy: document.querySelector("#thuis-primary-copy"),
@@ -37,10 +41,41 @@ const elements = {
   sidebarFocus: document.querySelector("#thuis-sidebar-focus"),
   sidebarNote: document.querySelector("#thuis-sidebar-note"),
   statusList: document.querySelector("#thuis-status-list"),
+  tourBack: document.querySelector("#tour-back"),
+  tourClose: document.querySelector("#tour-close"),
+  tourCopy: document.querySelector("#tour-copy"),
+  tourDialog: document.querySelector("#welcome-tour"),
+  tourKicker: document.querySelector("#tour-kicker"),
+  tourNext: document.querySelector("#tour-next"),
+  tourProgress: document.querySelector("#tour-progress"),
+  tourSkip: document.querySelector("#tour-skip"),
+  tourTitle: document.querySelector("#tour-title"),
 };
 
 let intakeState = createEmptyIntakeState();
 let glassState = createEmptyGlassState();
+let activeTourStep = 0;
+
+const tourSteps = [
+  {
+    body: "Hier begint je dossier. Vanaf hier zie je wat je al hebt gedaan en wat een goede volgende stap is.",
+    kicker: "Rondleiding, stap 1 van 3",
+    target: () => elements.homeTourPanel,
+    title: "Welkom in je startscherm",
+  },
+  {
+    body: "Twijfel je ergens over? In de intakechat kun je gewoon in je eigen woorden vertellen wat er speelt. Wij helpen je daarna verder.",
+    kicker: "Rondleiding, stap 2 van 3",
+    target: () => elements.intakeTourCard,
+    title: "Hier kun je gewoon beginnen",
+  },
+  {
+    body: "Wil je iets rustig uitwerken, zoals glasisolatie? Dan helpt de wizard je stap voor stap door het proces heen.",
+    kicker: "Rondleiding, stap 3 van 3",
+    target: () => elements.glassTourCard,
+    title: "Stap voor stap verder",
+  },
+];
 
 initialize();
 
@@ -76,6 +111,7 @@ async function initialize() {
     }
 
     render(userLabel);
+    maybeStartWelcomeTour();
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Je thuisomgeving kon niet worden geladen.";
@@ -83,6 +119,38 @@ async function initialize() {
     elements.authEmail.textContent = message;
   }
 }
+
+elements.tourBack?.addEventListener("click", () => {
+  if (activeTourStep === 0) {
+    return;
+  }
+
+  activeTourStep -= 1;
+  renderTourStep();
+});
+
+elements.tourNext?.addEventListener("click", () => {
+  if (activeTourStep >= tourSteps.length - 1) {
+    closeWelcomeTour();
+    return;
+  }
+
+  activeTourStep += 1;
+  renderTourStep();
+});
+
+elements.tourSkip?.addEventListener("click", () => {
+  closeWelcomeTour();
+});
+
+elements.tourClose?.addEventListener("click", () => {
+  closeWelcomeTour();
+});
+
+elements.tourDialog?.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  closeWelcomeTour();
+});
 
 function render(name) {
   const preferredName = firstName(name) || getPreferredName();
@@ -329,4 +397,90 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function maybeStartWelcomeTour() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("tour") !== "welcome") {
+    return;
+  }
+
+  activeTourStep = 0;
+  renderTourStep();
+  elements.tourDialog?.showModal();
+  document.body.classList.add("tour-active");
+}
+
+function renderTourStep() {
+  const step = tourSteps[activeTourStep];
+  if (!step) {
+    return;
+  }
+
+  clearTourHighlights();
+  highlightTourTarget(step.target?.());
+
+  if (elements.tourKicker) {
+    elements.tourKicker.textContent = step.kicker;
+  }
+  if (elements.tourTitle) {
+    elements.tourTitle.textContent = step.title;
+  }
+  if (elements.tourCopy) {
+    elements.tourCopy.textContent = step.body;
+  }
+  if (elements.tourBack) {
+    elements.tourBack.disabled = activeTourStep === 0;
+  }
+  if (elements.tourNext) {
+    elements.tourNext.textContent = activeTourStep === tourSteps.length - 1 ? "Ga naar mijn startscherm" : "Volgende";
+  }
+  if (elements.tourProgress) {
+    elements.tourProgress.innerHTML = "";
+    for (const [index] of tourSteps.entries()) {
+      const dot = document.createElement("span");
+      dot.className = "welcome-tour-dot";
+      if (index === activeTourStep) {
+        dot.classList.add("is-active");
+      }
+      elements.tourProgress.appendChild(dot);
+    }
+  }
+}
+
+function highlightTourTarget(target) {
+  if (!target) {
+    return;
+  }
+
+  target.classList.add("is-tour-highlight");
+  target.scrollIntoView({
+    block: "nearest",
+    behavior: "smooth",
+  });
+}
+
+function clearTourHighlights() {
+  document.querySelectorAll(".is-tour-highlight").forEach((element) => {
+    element.classList.remove("is-tour-highlight");
+  });
+}
+
+function closeWelcomeTour() {
+  clearTourHighlights();
+  document.body.classList.remove("tour-active");
+  elements.tourDialog?.close();
+  localStorage.setItem(welcomeTourSeenKey, "true");
+  clearTourQueryParam();
+}
+
+function clearTourQueryParam() {
+  const url = new URL(window.location.href);
+  if (url.searchParams.get("tour") !== "welcome") {
+    return;
+  }
+
+  url.searchParams.delete("tour");
+  const nextUrl = `${url.pathname}${url.search ? `?${url.searchParams.toString()}` : ""}`;
+  window.history.replaceState({}, "", nextUrl);
 }

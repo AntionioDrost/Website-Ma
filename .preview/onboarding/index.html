@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monument Gids | Onboarding mid-fi</title>
+  <style>
+    :root {
+      --paper: #ffffff;
+      --paper-soft: #fcfaf7;
+      --paper-card: #fefaef;
+      --forest: #173828;
+      --forest-deep: #0b1f15;
+      --sage: #d7e4d5;
+      --sage-ink: #4f6f58;
+      --ink: #111111;
+      --muted: rgba(17, 17, 17, 0.72);
+      --line: rgba(17, 17, 17, 0.1);
+      --line-soft: rgba(17, 17, 17, 0.08);
+      --shadow: 0 28px 70px rgba(11, 31, 21, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top center, rgba(232, 225, 207, 0.72), transparent 34%),
+        radial-gradient(circle at top center, rgba(244, 239, 226, 0.42), transparent 52%),
+        var(--paper);
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .mark {
+      width: 26px;
+      height: 26px;
+      border: 1px solid rgba(17, 17, 17, 0.14);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #ffffff;
+      font-size: 0.72rem;
+    }
+
+    .intro {
+      max-width: 52rem;
+      margin-bottom: 26px;
+    }
+
+    .intro h1 {
+      margin: 0;
+      font-size: clamp(2.3rem, 5vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+    }
+
+    .intro p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      min-height: 680px;
+    }
+
+    .panel {
+      padding: 32px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 250, 247, 0.98));
+    }
+
+    .aside {
+      padding: 28px 24px;
+      border-left: 1px solid var(--line-soft);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(252, 250, 247, 0.38)),
+        var(--paper-card);
+      display: grid;
+      align-content: start;
+      gap: 20px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--sage-ink);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .question-title {
+      margin: 12px 0 0;
+      font-size: clamp(1.95rem, 3vw, 2.8rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      max-width: 12ch;
+    }
+
+    .lead {
+      margin: 16px 0 0;
+      max-width: 32rem;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+
+    .progress-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .progress-head strong {
+      font-size: 1rem;
+    }
+
+    .progress-count {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .progress-track {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .progress-step {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(17, 17, 17, 0.1);
+    }
+
+    .progress-step.active {
+      background: var(--forest);
+    }
+
+    .question-card {
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: #ffffff;
+    }
+
+    .question-card strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+      line-height: 1.3;
+    }
+
+    .choice,
+    .field {
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border: 1px solid rgba(17, 17, 17, 0.12);
+      border-radius: 12px;
+      background: #ffffff;
+      font-size: 0.96rem;
+    }
+
+    .choice + .choice,
+    .field + .field {
+      margin-top: 10px;
+    }
+
+    .choice.primary {
+      border-color: rgba(23, 56, 40, 0.18);
+      background: rgba(231, 239, 228, 0.82);
+      color: var(--forest);
+      font-weight: 600;
+    }
+
+    .choice.secondary {
+      color: rgba(17, 17, 17, 0.82);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .link {
+      color: rgba(17, 17, 17, 0.72);
+      font-size: 0.9rem;
+    }
+
+    .button {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 18px;
+      border-radius: 10px;
+      background: var(--forest);
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .badge {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(215, 228, 213, 0.72);
+      color: var(--forest);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .side-block + .side-block {
+      padding-top: 16px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .side-block h2 {
+      margin: 0;
+      font-size: 1.16rem;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .side-block p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .step-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .step {
+      padding-top: 10px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .step:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .step strong {
+      display: block;
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .flow-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .flow-card {
+      padding: 18px;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: var(--paper-card);
+    }
+
+    .flow-card h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .flow-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .screen-strip {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .screen {
+      padding: 14px 15px;
+      border-radius: 14px;
+      border: 1px solid var(--line-soft);
+      background: #ffffff;
+    }
+
+    .screen strong {
+      display: block;
+      font-size: 0.94rem;
+      margin-bottom: 4px;
+    }
+
+    .screen span {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 960px) {
+      .layout,
+      .stage {
+        grid-template-columns: 1fr;
+      }
+
+      .aside {
+        border-left: 0;
+        border-top: 1px solid var(--line-soft);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="header">
+      <div class="mark">MG</div>
+      <span>Monument Gids</span>
+    </div>
+
+    <section class="intro">
+      <h1>Mid-fi onboarding, login-look met carousel-ritme</h1>
+      <p>Dit voorbeeld gebruikt de rustige uitstraling van de huidige loginpagina, maar bouwt de accountaanmaak op als een lichte wizard. De gebruiker maakt eerst alleen een account aan en krijgt daarna een rondleiding door het programma.</p>
+    </section>
+
+    <section class="layout">
+      <article class="card">
+        <div class="stage">
+          <div class="panel">
+            <p class="eyebrow">Scherm 1 van 6</p>
+            <h2 class="question-title">Fijn dat je er bent. Ben je hier al eerder geweest?</h2>
+            <p class="lead">We helpen je in een paar korte stappen op weg. Heb je al een account, dan pak je je monumentdossier zo weer op.</p>
+
+            <div class="progress-head">
+              <strong>Account aanmaken</strong>
+              <span class="progress-count">1 / 6</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-step active"></div>
+              <div class="progress-step"></div>
+              <div class="progress-step"></div>
+              <div class="progress-step"></div>
+              <div class="progress-step"></div>
+              <div class="progress-step"></div>
+            </div>
+
+            <div class="question-card">
+              <strong>Ben je hier al eerder geweest?</strong>
+              <div class="choice primary">Nee, ik heb nog geen account</div>
+              <div class="choice secondary">Ja, ik heb al een account</div>
+            </div>
+
+            <div class="actions">
+              <span class="link">Bestaande gebruikers gaan direct naar de loginpagina</span>
+              <span class="button">Volgende</span>
+            </div>
+          </div>
+
+          <aside class="aside">
+            <div class="side-block">
+              <span class="badge">Aanbevolen richting</span>
+              <h2>Conciërge-carousel</h2>
+              <p>Eén vraag per scherm, net als de glaswizard. Dat houdt de flow licht en ontzorgend.</p>
+            </div>
+
+            <div class="side-block">
+              <h2>Waarom dit past</h2>
+              <div class="step-list">
+                <div class="step">
+                  <strong>Rustig</strong>
+                  <span>Elke slide heeft maar één beslissing of één veld.</span>
+                </div>
+                <div class="step">
+                  <strong>Vertrouwd</strong>
+                  <span>Zelfde ritme als de wizard, maar in de uitstraling van login.</span>
+                </div>
+                <div class="step">
+                  <strong>Doelgericht</strong>
+                  <span>Geen monumentvragen vooraf, alleen account maken en door naar de tour.</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <div class="flow-grid">
+        <article class="flow-card">
+          <h3>Uitgewerkte schermflow</h3>
+          <p>Na de home-knop `Ontdek nu` komt de gebruiker in deze reeks van zes vriendelijke accountstappen.</p>
+          <div class="screen-strip">
+            <div class="screen">
+              <strong>1. Ben je hier al eerder geweest?</strong>
+              <span>Lead: We helpen je in een paar korte stappen op weg. Knoppen: `Nee, ik heb nog geen account` en `Ja, ik heb al een account`.</span>
+            </div>
+            <div class="screen">
+              <strong>2. Prettig kennis te maken, wat is je naam?</strong>
+              <span>Lead: Dan spreken we je meteen wat persoonlijker aan. Veld: `Je naam`.</span>
+            </div>
+            <div class="screen">
+              <strong>3. Waar woon je?</strong>
+              <span>Lead: Zo stemmen we onze begeleiding straks beter af op jouw situatie. Veld: `Woonplaats`.</span>
+            </div>
+            <div class="screen">
+              <strong>4. Wat is je e-mailadres?</strong>
+              <span>Lead: Hier sturen we je bevestiging en later je toegangscode naartoe. Veld: `naam@voorbeeld.nl`.</span>
+            </div>
+            <div class="screen">
+              <strong>5. Kies een wachtwoord</strong>
+              <span>Lead: Dan staat je account veilig voor je klaar. Veld: `Wachtwoord` met helper `Minimaal 8 tekens`.</span>
+            </div>
+            <div class="screen">
+              <strong>6. Vul de code uit je mail in</strong>
+              <span>Lead: Bijna klaar. Daarmee bevestigen we dat dit jouw account is. Veld: `6-cijferige code`.</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="flow-card">
+          <h3>Knoppen en microcopy</h3>
+          <p>Het ritme blijft elke stap hetzelfde: geruststelling, één vraag, één primair antwoordpad.</p>
+          <div class="screen-strip">
+            <div class="screen">
+              <strong>Primaire knop</strong>
+              <span>Steeds `Volgende`, behalve bij stap 6: `Account bevestigen`.</span>
+            </div>
+            <div class="screen">
+              <strong>Secundaire link</strong>
+              <span>Klein en rustig, bijvoorbeeld `Ik log liever in` of `Code opnieuw sturen`.</span>
+            </div>
+            <div class="screen">
+              <strong>Fouttoon</strong>
+              <span>Nooit technisch. Bijvoorbeeld: `Deze code lijkt niet te kloppen. Kijk nog even in je mail of vraag een nieuwe aan.`</span>
+            </div>
+            <div class="screen">
+              <strong>Succesmoment</strong>
+              <span>Na validatie: `Je account staat klaar. We laten je even zien waar je alles vindt.`</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="flow-card">
+          <h3>Rondleiding na accountaanmaak</h3>
+          <p>De tour mag kort zijn, drie schermen is genoeg. Het doel is niet uitleggen hoe alles werkt, maar zorgen dat iemand zich niet verloren voelt.</p>
+          <div class="screen-strip">
+            <div class="screen">
+              <strong>Tour 1. Welkom thuis</strong>
+              <span>`Hier begint je dossier. Vanaf hier zie je wat je al hebt gedaan en wat een goede volgende stap is.`</span>
+            </div>
+            <div class="screen">
+              <strong>Tour 2. Intakechat</strong>
+              <span>`Twijfel je ergens over? In de intakechat kun je gewoon in je eigen woorden beginnen. Wij helpen je daarna verder.`</span>
+            </div>
+            <div class="screen">
+              <strong>Tour 3. Glaswizard</strong>
+              <span>`Wil je iets stap voor stap uitwerken, zoals glasisolatie? Dan helpt de wizard je rustig door het proces heen.`</span>
+            </div>
+            <div class="screen">
+              <strong>Afsluiter</strong>
+              <span>Knop: `Ga naar mijn startscherm`. Optioneel kleine link: `Bekijk de rondleiding later opnieuw`.</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

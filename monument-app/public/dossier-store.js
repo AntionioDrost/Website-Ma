@@ -34,6 +34,53 @@ export async function hydrateDossier({ dossierType, localKey, emptyState, title 
   };
 }
 
+export async function hydrateAllDossiers(definitions = []) {
+  const remoteRecords = await loadAllRemoteDossiers();
+  const remoteMap = new Map(remoteRecords.map((record) => [record.dossier_type, record]));
+  const results = {};
+
+  for (const definition of definitions) {
+    const { dossierType, emptyState, localKey, title } = definition;
+    const localState = readLocalState(localKey);
+    const remoteRecord = remoteMap.get(dossierType);
+
+    if (remoteRecord?.state && typeof remoteRecord.state === "object") {
+      writeLocalState(localKey, remoteRecord.state);
+      results[dossierType] = {
+        source: "remote",
+        state: remoteRecord.state,
+        title: remoteRecord.title || title,
+      };
+      continue;
+    }
+
+    if (localState) {
+      await saveRemoteDossier({
+        dossierType,
+        state: localState,
+        title,
+      });
+
+      results[dossierType] = {
+        source: "local-migrated",
+        state: localState,
+        title,
+      };
+      continue;
+    }
+
+    const fallbackState = emptyState();
+    writeLocalState(localKey, fallbackState);
+    results[dossierType] = {
+      source: "empty",
+      state: fallbackState,
+      title,
+    };
+  }
+
+  return results;
+}
+
 export async function saveRemoteDossier({ dossierType, state, title }) {
   const supabase = await getSupabase();
   const user = await getCurrentUser(supabase);
@@ -82,6 +129,22 @@ export function readLocalState(localKey) {
 
 export function writeLocalState(localKey, state) {
   localStorage.setItem(localKey, JSON.stringify(state));
+}
+
+export async function loadAllRemoteDossiers() {
+  const supabase = await getSupabase();
+  const user = await getCurrentUser(supabase);
+
+  const { data, error } = await supabase
+    .from("application_dossiers")
+    .select("dossier_type, state, title")
+    .eq("user_id", user.id);
+
+  if (error) {
+    throw error;
+  }
+
+  return Array.isArray(data) ? data : [];
 }
 
 async function loadRemoteDossier(dossierType) {
